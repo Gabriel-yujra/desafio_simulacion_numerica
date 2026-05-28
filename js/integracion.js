@@ -1,17 +1,3 @@
-/**
- * integracion.js
- *
- * Módulo: Integración numérica
- * Contexto: Cálculo del costo acumulado de una canasta básica
- *            y estimación de la pérdida de poder adquisitivo
- *            durante períodos de inflación.
- *
- * Métodos a implementar:
- *  - Regla del Trapecio compuesta
- *  - Regla de Simpson 1/3 compuesta
- *  - Regla de Simpson 3/8 compuesta
- */
-
 console.log('[SimNum] Módulo Integracion cargado correctamente.');
 
 const Integracion = (function () {
@@ -20,86 +6,52 @@ const Integracion = (function () {
      INICIALIZACIÓN
      ══════════════════════════════════════════════ */
   function init() {
-    dibujarGraficoEjemplo();
+    escenarioInflacion();
   }
 
   /* ══════════════════════════════════════════════
-     REGLA DEL TRAPECIO COMPUESTA
-     TODO: Implementar aquí el método completo.
+     ALGORITMOS PUROS
      ══════════════════════════════════════════════ */
+
   /**
-   * @param {Function} f   Función a integrar
-   * @param {number}   a   Límite inferior
-   * @param {number}   b   Límite superior
-   * @param {number}   n   Número de subintervalos (n par recomendado)
-   * @returns {{ valor: number, error: string }}
+   * Trapecio compuesto: (h/2)[f(a) + 2·Σᵢ₌₁ⁿ⁻¹ f(xᵢ) + f(b)]
+   * Error teórico: −(b−a)³/(12n²) · f''(ξ)
    */
   function trapecio(f, a, b, n) {
-    // TODO: Implementar regla del trapecio compuesta aquí.
-    //
-    // Algoritmo:
-    //   h = (b - a) / n
-    //   I ≈ (h/2) * [f(a) + 2*Σ_{i=1}^{n-1} f(a + i*h) + f(b)]
-    //
-    // Error estimado: -((b-a)^3 / (12*n^2)) * f''(ξ)
-    //
-    return {
-      valor: null,
-      error: '—',
-      mensaje: 'TODO: Trapecio pendiente de implementación.',
-    };
+    const h = (b - a) / n;
+    let suma = f(a) + f(b);
+    for (let i = 1; i < n; i++) suma += 2 * f(a + i * h);
+    return { valor: SimNum.redondear((h / 2) * suma, 8), nUsado: n };
   }
 
-  /* ══════════════════════════════════════════════
-     REGLA DE SIMPSON 1/3 COMPUESTA
-     TODO: Implementar aquí el método completo.
-     ══════════════════════════════════════════════ */
   /**
-   * @param {Function} f
-   * @param {number}   a
-   * @param {number}   b
-   * @param {number}   n  Debe ser número par
-   * @returns {{ valor: number, error: string }}
+   * Simpson 1/3 compuesto: (h/3)[f(a) + 4·Σ impares + 2·Σ pares + f(b)]
+   * Requiere n par; si es impar se incrementa en 1 automáticamente.
+   * Error teórico: −(b−a)⁵/(180n⁴) · f⁽⁴⁾(ξ)
    */
   function simpson13(f, a, b, n) {
-    // TODO: Implementar Simpson 1/3 compuesto aquí.
-    //
-    // Algoritmo:
-    //   h = (b - a) / n  (n debe ser par)
-    //   I ≈ (h/3) * [f(a) + 4*Σ impares + 2*Σ pares + f(b)]
-    //
-    // Error estimado: -((b-a)^5 / (180*n^4)) * f^(4)(ξ)
-    //
-    return {
-      valor: null,
-      error: '—',
-      mensaje: 'TODO: Simpson 1/3 pendiente de implementación.',
-    };
+    if (n % 2 !== 0) n++;
+    const h = (b - a) / n;
+    let suma = f(a) + f(b);
+    for (let i = 1; i < n; i++) {
+      suma += (i % 2 === 0 ? 2 : 4) * f(a + i * h);
+    }
+    return { valor: SimNum.redondear((h / 3) * suma, 8), nUsado: n };
   }
 
-  /* ══════════════════════════════════════════════
-     REGLA DE SIMPSON 3/8 COMPUESTA
-     TODO: Implementar aquí el método completo.
-     ══════════════════════════════════════════════ */
   /**
-   * @param {Function} f
-   * @param {number}   a
-   * @param {number}   b
-   * @param {number}   n  Debe ser múltiplo de 3
-   * @returns {{ valor: number, error: string }}
+   * Simpson 3/8 compuesto: (3h/8)[f(x₀) + 3·Σ(j≠múltiplo3) + 2·Σ(múltiplo3) + f(xₙ)]
+   * Requiere n múltiplo de 3; si no, se redondea al siguiente múltiplo.
    */
   function simpson38(f, a, b, n) {
-    // TODO: Implementar Simpson 3/8 compuesto aquí.
-    //
-    // Algoritmo:
-    //   h = (b - a) / n  (n múltiplo de 3)
-    //   I ≈ (3h/8) * [f(x_0) + 3*Σ_{j≠múltiplo3} f(x_j) + 2*Σ_{múltiplo3} f(x_j) + f(x_n)]
-    //
-    return {
-      valor: null,
-      error: '—',
-      mensaje: 'TODO: Simpson 3/8 pendiente de implementación.',
-    };
+    if (n % 3 !== 0) n = Math.ceil(n / 3) * 3;
+    const h = (b - a) / n;
+    let suma = f(a) + f(b);
+    for (let i = 1; i < n; i++) {
+      // índices múltiplos de 3 (interiores) → coef. 2; resto → coef. 3
+      suma += (i % 3 === 0 ? 2 : 3) * f(a + i * h);
+    }
+    return { valor: SimNum.redondear((3 * h / 8) * suma, 8), nUsado: n };
   }
 
   /* ══════════════════════════════════════════════
@@ -109,7 +61,7 @@ const Integracion = (function () {
     const exprF = document.getElementById('int-funcion')?.value?.trim();
     const a     = parseFloat(document.getElementById('int-a')?.value);
     const b     = parseFloat(document.getElementById('int-b')?.value);
-    let   n     = parseInt(document.getElementById('int-n')?.value) || 100;
+    const n     = parseInt(document.getElementById('int-n')?.value) || 24;
 
     const usaTrapecio  = document.getElementById('int-trapecio')?.checked;
     const usaSimpson13 = document.getElementById('int-simpson13')?.checked;
@@ -120,7 +72,11 @@ const Integracion = (function () {
       return;
     }
     if (isNaN(a) || isNaN(b) || a >= b) {
-      SimNum.mostrarMensaje('int-resultado', 'Los límites a y b deben ser válidos y a < b.', 'error');
+      SimNum.mostrarMensaje('int-resultado', 'Los límites a y b deben ser válidos con a < b.', 'error');
+      return;
+    }
+    if (n < 2) {
+      SimNum.mostrarMensaje('int-resultado', 'El número de subintervalos n debe ser ≥ 2.', 'error');
       return;
     }
     if (!usaTrapecio && !usaSimpson13 && !usaSimpson38) {
@@ -130,84 +86,263 @@ const Integracion = (function () {
 
     let f;
     try {
-      f = (x) => SimNum.evaluarFuncion(exprF, x);
-      f(a);
+      f = x => SimNum.evaluarFuncion(exprF, x);
+      f(a); // validar que la expresión es evaluable
     } catch (e) {
       SimNum.mostrarMensaje('int-resultado', `Error en la función: ${e.message}`, 'error');
       return;
     }
 
-    // Asegurar n par para Simpson 1/3
-    if (usaSimpson13 && n % 2 !== 0) n += 1;
-    // Asegurar n múltiplo de 3 para Simpson 3/8
-    // (si sólo se usa 3/8, ajustar)
-    if (usaSimpson38 && !usaSimpson13 && n % 3 !== 0) n = Math.ceil(n / 3) * 3;
-
     const resultados = [];
-    if (usaTrapecio)  resultados.push({ nombre: 'Trapecio',     ...trapecio(f, a, b, n) });
-    if (usaSimpson13) resultados.push({ nombre: 'Simpson 1/3',  ...simpson13(f, a, b, n) });
-    if (usaSimpson38) resultados.push({ nombre: 'Simpson 3/8',  ...simpson38(f, a, b, n) });
 
-    mostrarResultados(resultados, f, a, b, n);
+    if (usaTrapecio) {
+      const r = trapecio(f, a, b, n);
+      resultados.push({ nombre: 'Trapecio compuesto', valor: r.valor, nUsado: r.nUsado, nota: '' });
+    }
+    if (usaSimpson13) {
+      const r = simpson13(f, a, b, n);
+      resultados.push({
+        nombre: 'Simpson 1/3',
+        valor:  r.valor,
+        nUsado: r.nUsado,
+        nota:   r.nUsado !== n ? `n ajustado a ${r.nUsado} (requiere n par)` : '',
+      });
+    }
+    if (usaSimpson38) {
+      const r = simpson38(f, a, b, n);
+      resultados.push({
+        nombre: 'Simpson 3/8',
+        valor:  r.valor,
+        nUsado: r.nUsado,
+        nota:   r.nUsado !== n ? `n ajustado a ${r.nUsado} (requiere múltiplo de 3)` : '',
+      });
+    }
+
+    mostrarResultados(resultados, a, b, n);
+    dibujarGrafico(f, a, b, exprF);
+
+    // Limpiar tarjeta de comparación si venía de un escenario anterior
+    const comp = document.getElementById('int-comparacion');
+    if (comp) comp.innerHTML = '';
   }
 
   /* ══════════════════════════════════════════════
-     RENDERIZADO
+     ESCENARIOS CONTEXTUALIZADOS
      ══════════════════════════════════════════════ */
-  function mostrarResultados(resultados, f, a, b, n) {
+
+  /**
+   * Escenario D-a: precio de canasta básica con inflación mensual del 5 %.
+   * f(x) = 100·e^(0.05x), x ∈ [0, 12] meses.
+   * Valor analítico: (100/0.05)(e^0.6 − 1) ≈ 1 644.24 Bs
+   */
+  function escenarioInflacion() {
+    document.getElementById('int-funcion').value = '100 * Math.exp(0.05 * x)';
+    document.getElementById('int-a').value        = '0';
+    document.getElementById('int-b').value        = '12';
+    document.getElementById('int-n').value        = '24';
+    document.getElementById('int-trapecio').checked  = true;
+    document.getElementById('int-simpson13').checked = true;
+    document.getElementById('int-simpson38').checked = true;
+    calcular();
+  }
+
+  /**
+   * Escenario D-b: compara el costo acumulado con inflación vs sin inflación.
+   * Cuantifica la pérdida de poder adquisitivo familiar en Bs.
+   */
+  function escenarioSinInflacion() {
+    const a = 0, b = 12, n = 24;
+    const exprInf   = '100 * Math.exp(0.05 * x)';
+    const exprConst = '100';
+
+    const fInf   = x => SimNum.evaluarFuncion(exprInf,   x);
+    const fConst = x => SimNum.evaluarFuncion(exprConst, x);
+
+    // Usar Simpson 1/3 como referencia para la comparación
+    const rInf   = simpson13(fInf,   a, b, n);
+    const rConst = simpson13(fConst, a, b, n);
+    const dif    = SimNum.redondear(rInf.valor - rConst.valor, 2);
+    const pct    = SimNum.redondear((dif / rConst.valor) * 100, 1);
+
+    // Mostrar escenario inflación en formulario + gráfico comparativo
+    document.getElementById('int-funcion').value = exprInf;
+    document.getElementById('int-a').value        = String(a);
+    document.getElementById('int-b').value        = String(b);
+    document.getElementById('int-n').value        = String(n);
+    document.getElementById('int-trapecio').checked  = false;
+    document.getElementById('int-simpson13').checked = true;
+    document.getElementById('int-simpson38').checked = false;
+
+    mostrarResultados([
+      { nombre: 'Simpson 1/3 — con inflación',    valor: rInf.valor,   nUsado: rInf.nUsado,   nota: exprInf },
+      { nombre: 'Simpson 1/3 — sin inflación',    valor: rConst.valor, nUsado: rConst.nUsado, nota: exprConst },
+    ], a, b, n);
+
+    dibujarGraficoComparacion(fInf, fConst, a, b, exprInf, exprConst);
+
+    // Tarjeta de análisis de poder adquisitivo
+    const comp = document.getElementById('int-comparacion');
+    if (!comp) return;
+    comp.innerHTML = `
+      <div class="card border-warning shadow-sm mt-3">
+        <div class="card-header fw-semibold bg-warning-subtle">
+          Escenario D — Pérdida de poder adquisitivo familiar
+        </div>
+        <div class="card-body">
+          <div class="row text-center g-2 mb-3">
+            <div class="col-4">
+              <div class="p-2 rounded bg-danger-subtle">
+                <div class="small text-muted">Con inflación (5%/mes)</div>
+                <div class="fw-bold fs-5">${SimNum.redondear(rInf.valor, 2)} Bs</div>
+                <div class="small font-monospace text-muted">100·e^(0.05x)</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-2 rounded bg-success-subtle">
+                <div class="small text-muted">Sin inflación (precio fijo)</div>
+                <div class="fw-bold fs-5">${SimNum.redondear(rConst.valor, 2)} Bs</div>
+                <div class="small font-monospace text-muted">f(x) = 100</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-2 rounded bg-warning-subtle">
+                <div class="small text-muted">Pérdida acumulada</div>
+                <div class="fw-bold fs-5 text-danger">+${dif} Bs</div>
+                <div class="small text-muted">(+${pct}% sobre base)</div>
+              </div>
+            </div>
+          </div>
+          <p class="text-muted small mb-0">
+            Con un precio base de <strong>100 Bs/mes</strong> y una inflación del <strong>5% mensual</strong>,
+            la canasta básica anual cuesta <strong>${dif} Bs más</strong> de lo que costaría sin inflación
+            — un incremento del <strong>${pct}%</strong> en el gasto familiar acumulado.
+            Los intervalos de integración representan los 12 meses del año.
+          </p>
+        </div>
+      </div>`;
+  }
+
+  /* ══════════════════════════════════════════════
+     RENDERIZADO DE RESULTADOS
+     ══════════════════════════════════════════════ */
+  function mostrarResultados(resultados, a, b, n) {
     const contenedor = document.getElementById('int-resultado');
     if (!contenedor) return;
 
-    const headers = ['Método', 'Valor de la integral', 'Error estimado', 'Estado'];
+    const headers = ['Método', 'Integral ≈ (Bs)', 'n utilizado', 'Nota'];
     const rows = resultados.map(r => [
       r.nombre,
-      r.valor !== null ? SimNum.redondear(r.valor, 8) : '—',
-      r.error,
-      r.mensaje || (r.valor !== null ? '✓' : 'Pendiente'),
+      r.valor !== null ? r.valor : '—',
+      r.nUsado,
+      r.nota || '—',
     ]);
 
     contenedor.innerHTML =
       `<div class="alert-resultado info mb-2">
-         n = ${n} subintervalos · intervalo [${a}, ${b}]
+         Intervalo [${a}, ${b}] &middot; n solicitado = ${n}
        </div>` +
       SimNum.generarTablaHTML(headers, rows);
-
-    dibujarGrafico(f, a, b);
   }
 
   /* ══════════════════════════════════════════════
-     GRÁFICO
+     GRÁFICOS
      ══════════════════════════════════════════════ */
-  function dibujarGrafico(f, a, b) {
+
+  /** Curva única con área sombreada bajo la curva */
+  function dibujarGrafico(f, a, b, label) {
     const canvas = SimNum.prepararCanvas('integracion-chart');
     if (!canvas) return;
 
-    const puntos = 150;
-    const paso   = (b - a) / puntos;
-    const labels = [];
-    const data   = [];
-
-    for (let i = 0; i <= puntos; i++) {
-      const x = a + i * paso;
-      labels.push(SimNum.redondear(x, 3));
-      try { data.push(SimNum.redondear(f(x), 6)); }
-      catch { data.push(null); }
+    const N = 200;
+    const h = (b - a) / N;
+    const datos = [];
+    for (let i = 0; i <= N; i++) {
+      const x = a + i * h;
+      try { datos.push({ x, y: SimNum.redondear(f(x), 6) }); }
+      catch { datos.push({ x, y: null }); }
     }
 
     new Chart(canvas, {
       type: 'line',
       data: {
-        labels,
+        datasets: [{
+          label: label || 'f(x)',
+          data: datos,
+          borderColor: '#198754',
+          backgroundColor: 'rgba(25, 135, 84, 0.20)',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: 'origin',
+          tension: 0.3,
+          parsing: false,
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => `f(${SimNum.redondear(ctx.parsed.x, 3)}) = ${ctx.parsed.y}`,
+            },
+          },
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            title: { display: true, text: 'x (meses)' },
+            ticks: { font: { size: 10 } },
+          },
+          y: {
+            title: { display: true, text: 'f(x) (Bs)' },
+            ticks: { font: { size: 10 } },
+          },
+        },
+      },
+    });
+  }
+
+  /** Dos curvas superpuestas para comparación de escenarios */
+  function dibujarGraficoComparacion(fInf, fConst, a, b, labelInf, labelConst) {
+    const canvas = SimNum.prepararCanvas('integracion-chart');
+    if (!canvas) return;
+
+    const N = 200;
+    const h = (b - a) / N;
+    const datosInf = [], datosConst = [];
+    for (let i = 0; i <= N; i++) {
+      const x = a + i * h;
+      try { datosInf.push({ x, y: SimNum.redondear(fInf(x), 6) }); }
+      catch { datosInf.push({ x, y: null }); }
+      try { datosConst.push({ x, y: SimNum.redondear(fConst(x), 6) }); }
+      catch { datosConst.push({ x, y: null }); }
+    }
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
         datasets: [
           {
-            label: 'f(x)',
-            data,
+            label: 'Con inflación: ' + labelInf,
+            data: datosInf,
+            borderColor: '#dc3545',
+            backgroundColor: 'rgba(220, 53, 69, 0.15)',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: 'origin',
+            tension: 0.3,
+            parsing: false,
+          },
+          {
+            label: 'Sin inflación: ' + labelConst,
+            data: datosConst,
             borderColor: '#198754',
             backgroundColor: 'rgba(25, 135, 84, 0.15)',
             borderWidth: 2,
             pointRadius: 0,
-            fill: true,
-            tension: 0.3,
+            fill: 'origin',
+            tension: 0.1,
+            parsing: false,
           },
         ],
       },
@@ -217,34 +352,22 @@ const Integracion = (function () {
           legend: { position: 'top', labels: { font: { size: 11 } } },
           tooltip: {
             callbacks: {
-              label: ctx => `f(${ctx.label}) = ${ctx.parsed.y}`,
+              label: ctx => `${ctx.dataset.label.split(':')[0]}: ${ctx.parsed.y} Bs`,
             },
           },
         },
         scales: {
           x: {
-            title: { display: true, text: 'x (tiempo)' },
-            ticks: { maxTicksLimit: 10, font: { size: 10 } },
+            type: 'linear',
+            title: { display: true, text: 'x (meses)' },
+            ticks: { font: { size: 10 } },
           },
           y: {
-            title: { display: true, text: 'f(x) (precio)' },
+            title: { display: true, text: 'Precio mensual (Bs)' },
             ticks: { font: { size: 10 } },
           },
         },
       },
-    });
-  }
-
-  function dibujarGraficoEjemplo() {
-    const canvas = SimNum.prepararCanvas('integracion-chart');
-    if (!canvas) return;
-    new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{ label: 'Configure la función y presione "Calcular integral"', data: [] }],
-      },
-      options: { responsive: true },
     });
   }
 
@@ -253,8 +376,16 @@ const Integracion = (function () {
      ══════════════════════════════════════════════ */
   function limpiar() {
     SimNum.limpiarContenedor('int-resultado');
-    dibujarGraficoEjemplo();
+    const comp = document.getElementById('int-comparacion');
+    if (comp) comp.innerHTML = '';
+    const canvas = SimNum.prepararCanvas('integracion-chart');
+    if (!canvas) return;
+    new Chart(canvas, {
+      type: 'line',
+      data: { datasets: [{ label: 'Configure la función y presione "Calcular integral"', data: [] }] },
+      options: { responsive: true },
+    });
   }
 
-  return { init, calcular, limpiar };
+  return { init, calcular, escenarioInflacion, escenarioSinInflacion, limpiar };
 })();
