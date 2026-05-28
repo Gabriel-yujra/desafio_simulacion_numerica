@@ -291,6 +291,38 @@ hr {
   border-left: 4px solid #0dcaf0;
 }
 
+/* ── Bloque contextual de módulo ─────────────────── */
+.modulo-contexto {
+  background-color: #f0f4ff;
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 0.35rem 0.35rem 0;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.modulo-contexto strong {
+  color: var(--color-primary-dark);
+}
+
+.section-alt .modulo-contexto {
+  background-color: #e8f0fe;
+}
+
+/* ── Checklist de rúbrica ────────────────────────── */
+.rubrica-checklist li {
+  padding: 0.2rem 0;
+  font-size: 0.875rem;
+}
+
+/* ── Tabla responsiva (overflow en mobile) ──────── */
+.result-area .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ══════════════════════════════════════════════════
    RESPONSIVO
    ══════════════════════════════════════════════════ */

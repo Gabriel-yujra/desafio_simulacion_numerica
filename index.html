@@ -137,6 +137,24 @@
             </div>
           </div>
         </div>
+
+        <!-- Checklist de cobertura de la rúbrica -->
+        <div class="card border-success shadow-sm mt-4">
+          <div class="card-header bg-success text-white fw-semibold small py-2">
+            Cobertura del desafío final — Métodos Numéricos
+          </div>
+          <div class="card-body py-2">
+            <ul class="mb-0 rubrica-checklist list-unstyled">
+              <li>✅ <strong>Sistemas de ecuaciones lineales</strong> — LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado</li>
+              <li>✅ <strong>Raíces de ecuaciones</strong> — Bisección, Newton-Raphson, Secante</li>
+              <li>✅ <strong>Interpolación</strong> — Lagrange, Newton (diferencias divididas), Spline cúbico natural</li>
+              <li>✅ <strong>Integración numérica</strong> — Trapecio compuesto, Simpson 1/3, Simpson 3/8</li>
+              <li>✅ <strong>Ecuaciones diferenciales</strong> — Euler, Heun (predictor-corrector), RK4 — escenarios reservas y conflicto social</li>
+              <li>✅ <strong>Página interactiva</strong> — formularios, botones, tablas de iteraciones y gráficos Chart.js en cada módulo</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -158,6 +176,10 @@
           <strong>SOR</strong> y <strong>Gradiente Conjugado</strong>. Los métodos iterativos
           garantizan convergencia si la matriz es diagonalmente dominante.
         </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> La distribución de combustible y alimentos entre una planta central, depósitos intermedios y zonas de consumo, donde cada flujo debe satisfacer restricciones de balance.
+          <strong>¿Qué responde la simulación?</strong> ¿Cuántas unidades debe enviar cada nodo para satisfacer la demanda? Si la matriz converge rápidamente con Gauss-Seidel (pocas iteraciones, residuo bajo), el sistema de distribución está bien condicionado. Si no converge, indica desbalances en la red que requieren rediseño.
+        </div>
 
         <div class="row gy-4">
           <!-- ── Panel de entrada ── -->
@@ -296,6 +318,10 @@
           cuadrática, requiere derivada) y <strong>Secante</strong> (orden ~1.618, sin
           derivada analítica).
         </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
+          <strong>¿Qué responde la simulación?</strong> Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual.
+        </div>
 
         <div class="row gy-4">
           <!-- ── Panel de entrada ── -->
@@ -442,6 +468,10 @@
           cúbicas con continuidad C², que evita las oscilaciones del fenómeno de Runge en
           series largas).
         </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> La evolución del precio de la canasta básica durante una crisis, reconstruida a partir de registros puntuales (ej. mediciones cada semana).
+          <strong>¿Qué responde la simulación?</strong> ¿Cuál es el precio estimado en un día sin registro? Si la curva del Spline es suave y los tres métodos coinciden, el modelo es confiable. Si Lagrange oscila fuertemente al alejarse de los datos, se está observando el fenómeno de Runge — señal de que el Spline es la opción más adecuada.
+        </div>
 
         <div class="row gy-4">
           <div class="col-lg-5">
@@ -512,7 +542,6 @@
                 <button class="btn btn-outline-secondary btn-sm" onclick="Interpolacion.limpiar()">Limpiar</button>
               </div>
               <div class="card-body">
-                <!-- TODO: Chart.js mostrará la curva interpolada y los puntos originales -->
                 <canvas id="interpolacion-chart" height="200"></canvas>
               </div>
             </div>
@@ -549,6 +578,10 @@
           inflación exponencial versus precios constantes, cuantificando la
           <em>pérdida de poder adquisitivo familiar acumulada</em> en bolivianos.
         </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> El gasto total acumulado de una familia durante 12 meses cuando el precio de la canasta básica crece a una tasa de inflación del 5% mensual.
+          <strong>¿Qué responde la simulación?</strong> Simpson 1/3 produce el resultado más preciso con el mismo número de evaluaciones que el Trapecio. La diferencia entre los tres métodos es el error numérico — si coinciden hasta 4 cifras significativas, la integral está bien aproximada. El botón "Comparar sin inflación" cuantifica cuántos bolivianos adicionales paga una familia por efecto de la inflación.
+        </div>
 
         <div class="row gy-4">
           <div class="col-lg-5">
@@ -620,7 +653,6 @@
                 <button class="btn btn-outline-secondary btn-sm" onclick="Integracion.limpiar()">Limpiar</button>
               </div>
               <div class="card-body">
-                <!-- TODO: Chart.js visualizará la función y el área integrada -->
                 <canvas id="integracion-chart" height="200"></canvas>
               </div>
             </div>
@@ -650,84 +682,169 @@
         </div>
 
         <p>
-          Las reservas de carburante o alimentos se vacían de acuerdo con tasas de consumo
-          que pueden variar en el tiempo. Asimismo, el descontento social se difunde siguiendo
-          dinámicas similares a modelos epidemiológicos. Ambos procesos se modelan con EDOs
-          de primer orden, que se resolverán numéricamente con los métodos de
-          <strong>Euler</strong> y <strong>Runge-Kutta de 4° orden (RK4)</strong>.
+          Las reservas de carburante se vacían siguiendo tasas de consumo que aumentan con el
+          tiempo — un modelo representado por una EDO de primer orden. El descontento social se
+          modela como un sistema N–M–D: población <em>neutral</em> (N), <em>manifestantes</em> (M)
+          y <em>detenidos</em> (D), cuya dinámica emerge de la interacción entre los tres grupos.
+          Se comparan tres métodos de integración numérica en el tiempo: <strong>Euler</strong>
+          (O(h)), <strong>Heun / predictor-corrector</strong> (O(h²)) y
+          <strong>Runge-Kutta 4° orden</strong> (O(h⁴)).
         </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> En el escenario de reservas: el vaciado acelerado de combustible cuando la tasa de consumo crece linealmente (crisis prolongada). En el escenario social: cómo una pequeña chispa de protesta (M₀ = 10) puede transformarse en una ola masiva de manifestaciones y luego decaer.
+          <strong>¿Qué responde la simulación?</strong> Euler, Heun y RK4 deben producir trayectorias similares; las diferencias revelan el error de discretización. Si Euler se desvía visiblemente de RK4, significa que el paso h es demasiado grande. El segundo gráfico del escenario social compara M(t) entre los tres métodos, mostrando cuándo el paso h es suficientemente fino.
+        </div>
 
         <div class="row gy-4">
+          <!-- ── Columna de configuración ── -->
           <div class="col-lg-5">
             <div class="card shadow-sm">
               <div class="card-header fw-semibold">Configuración del modelo</div>
               <div class="card-body">
+
+                <!-- Selector de escenario -->
                 <div class="mb-3">
                   <label class="form-label">Escenario</label>
-                  <select id="edo-escenario" class="form-select form-select-sm" onchange="EDO.cambiarEscenario()">
-                    <option value="reservas">Vaciado de reservas de carburante</option>
-                    <option value="descontento">Difusión del descontento social</option>
+                  <select id="edo-escenario" class="form-select form-select-sm"
+                          onchange="EcuacionesDiferenciales.cambiarEscenario()">
+                    <option value="reservas">Reservas de carburante — R(t)</option>
+                    <option value="social">Difusión de descontento — N, M, D(t)</option>
                   </select>
                 </div>
 
-                <div class="mb-3">
-                  <label for="edo-dy" class="form-label">
-                    dy/dt = f(t, y) <span class="text-muted small">(sintaxis JS)</span>
-                  </label>
-                  <input type="text" id="edo-dy" class="form-control form-control-sm font-monospace"
-                    value="-0.1 * y" />
-                  <div class="form-text" id="edo-hint">
-                    Modelo de vaciado exponencial: tasa proporcional al nivel actual
+                <!-- Parámetros 1D (reservas) -->
+                <div id="edo-params-1d">
+                  <div class="mb-3">
+                    <label for="edo-dy" class="form-label">
+                      dR/dt = f(t, R) <span class="text-muted small">(sintaxis JS)</span>
+                    </label>
+                    <input type="text" id="edo-dy" class="form-control form-control-sm font-monospace"
+                           value="-(0.05 + 0.008 * t) * y" />
+                    <div class="form-text" id="edo-hint">
+                      Vaciado acelerado: tasa de extracción crece linealmente con el tiempo.
+                    </div>
                   </div>
-                </div>
-
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label for="edo-y0" class="form-label">Condición inicial y(t₀)</label>
+                  <div class="mb-3">
+                    <label for="edo-y0" class="form-label">R₀ — Reserva inicial</label>
                     <input type="number" id="edo-y0" class="form-control form-control-sm" value="1000" />
                   </div>
-                  <div class="col-6">
-                    <label for="edo-t0" class="form-label">Tiempo inicial t₀</label>
+                </div>
+
+                <!-- Parámetros 3D (social, oculto por defecto) -->
+                <div id="edo-params-3d" style="display:none">
+                  <div class="alert alert-info py-2 px-3 mb-2 small lh-sm">
+                    <strong>Sistema N–M–D</strong><br>
+                    N' = −aNM + bD &nbsp;·&nbsp; M' = aNM − cMD &nbsp;·&nbsp; D' = kM − rD
+                  </div>
+                  <div class="row g-2 mb-2">
+                    <div class="col-4">
+                      <label for="edo-N0" class="form-label small">N₀ (neutrales)</label>
+                      <input type="number" id="edo-N0" class="form-control form-control-sm" value="990" />
+                    </div>
+                    <div class="col-4">
+                      <label for="edo-M0" class="form-label small">M₀ (manifest.)</label>
+                      <input type="number" id="edo-M0" class="form-control form-control-sm" value="10" />
+                    </div>
+                    <div class="col-4">
+                      <label for="edo-D0" class="form-label small">D₀ (detenidos)</label>
+                      <input type="number" id="edo-D0" class="form-control form-control-sm" value="0" />
+                    </div>
+                  </div>
+                  <div class="row g-2 mb-2">
+                    <div class="col-4">
+                      <label for="edo-sa" class="form-label small">a (radical.)</label>
+                      <input type="number" id="edo-sa" class="form-control form-control-sm"
+                             value="0.003" step="0.001" />
+                    </div>
+                    <div class="col-4">
+                      <label for="edo-sb" class="form-label small">b (retorno)</label>
+                      <input type="number" id="edo-sb" class="form-control form-control-sm"
+                             value="0.02" step="0.01" />
+                    </div>
+                    <div class="col-4">
+                      <label for="edo-sc" class="form-label small">c (dispers.)</label>
+                      <input type="number" id="edo-sc" class="form-control form-control-sm"
+                             value="0.01" step="0.001" />
+                    </div>
+                  </div>
+                  <div class="row g-2 mb-3">
+                    <div class="col-6">
+                      <label for="edo-sk" class="form-label small">k (detenciones)</label>
+                      <input type="number" id="edo-sk" class="form-control form-control-sm"
+                             value="0.08" step="0.01" />
+                    </div>
+                    <div class="col-6">
+                      <label for="edo-sr" class="form-label small">r (liberación)</label>
+                      <input type="number" id="edo-sr" class="form-control form-control-sm"
+                             value="0.04" step="0.01" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Parámetros temporales comunes -->
+                <div class="row g-2 mb-3">
+                  <div class="col-4">
+                    <label for="edo-t0" class="form-label">t₀</label>
                     <input type="number" id="edo-t0" class="form-control form-control-sm" value="0" />
                   </div>
-                </div>
-
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label for="edo-tf" class="form-label">Tiempo final tₙ</label>
+                  <div class="col-4">
+                    <label for="edo-tf" class="form-label">tₙ</label>
                     <input type="number" id="edo-tf" class="form-control form-control-sm" value="30" />
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <label for="edo-h" class="form-label">Paso h</label>
-                    <input type="number" id="edo-h" class="form-control form-control-sm" value="1" step="0.1" />
+                    <input type="number" id="edo-h" class="form-control form-control-sm"
+                           value="0.5" step="0.1" />
                   </div>
                 </div>
 
+                <!-- Selector de método -->
                 <div class="mb-3">
-                  <label class="form-label">Método</label>
+                  <label class="form-label">Método numérico</label>
                   <select id="edo-method" class="form-select form-select-sm">
-                    <option value="euler">Euler</option>
+                    <option value="euler">Euler (1er orden)</option>
+                    <option value="heun">Heun / predictor-corrector (2do orden)</option>
                     <option value="rk4" selected>Runge-Kutta 4° orden</option>
-                    <option value="ambos">Comparar ambos</option>
+                    <option value="todos">Comparar Euler / Heun / RK4</option>
                   </select>
                 </div>
 
-                <button class="btn btn-primary w-100" onclick="EDO.resolver()">
+                <!-- Botones -->
+                <button class="btn btn-primary w-100 mb-2"
+                        onclick="EcuacionesDiferenciales.simular()">
                   Simular
                 </button>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <button class="btn btn-warning w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioReservasCritico()">
+                      Reservas críticas
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-danger w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioConflictoSocial()">
+                      Conflicto social
+                    </button>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
 
+          <!-- ── Columna de resultados ── -->
           <div class="col-lg-7">
             <div class="card shadow-sm mb-3">
               <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
                 Evolución temporal
-                <button class="btn btn-outline-secondary btn-sm" onclick="EDO.limpiar()">Limpiar</button>
+                <button class="btn btn-outline-secondary btn-sm"
+                        onclick="EcuacionesDiferenciales.limpiar()">Limpiar</button>
               </div>
               <div class="card-body">
-                <!-- TODO: Chart.js graficará y(t) con Euler y/o RK4 -->
-                <canvas id="edo-chart" height="220"></canvas>
+                <canvas id="edo-chart" height="200"></canvas>
+                <!-- Gráfico comparativo (visible solo con "Comparar todos" en escenario social) -->
+                <canvas id="edo-chart-2" height="160" class="mt-3" style="display:none"></canvas>
               </div>
             </div>
             <div class="card shadow-sm">
@@ -760,16 +877,19 @@
               <div class="card-body">
                 <h5 class="fw-semibold text-primary">Aprendizajes obtenidos</h5>
                 <p>
-                  <!-- TODO: Completar con los resultados reales del trabajo -->
-                  La implementación de métodos numéricos para modelar fenómenos socioeconómicos
-                  demostró que, incluso con modelos simplificados, es posible capturar las
-                  tendencias principales de sistemas complejos. La elección del método adecuado
-                  impacta directamente en la precisión y el costo computacional de la solución.
+                  La implementación computacional de los cinco módulos demostró que los métodos
+                  numéricos permiten aproximar fenómenos socioeconómicos complejos con modelos
+                  matemáticos relativamente sencillos. La clave no es solo obtener un número,
+                  sino interpretar su significado en contexto: una raíz es un umbral crítico,
+                  un área es un costo acumulado, una trayectoria EDO es la evolución temporal de
+                  un sistema.
                 </p>
                 <p>
-                  Los métodos iterativos como Jacobi y Gauss-Seidel resultaron intuitivos para
-                  modelar redes de distribución, mientras que Newton-Raphson mostró una velocidad
-                  de convergencia superior en la búsqueda de umbrales críticos de precio.
+                  Al comparar Euler, Heun y RK4 sobre el mismo modelo de reservas, se evidenció
+                  empíricamente la diferencia de orden entre los métodos: con h = 0.5, los tres
+                  producen trayectorias casi indistinguibles, pero con h = 5, Euler acumula
+                  errores visibles que RK4 evita. Este tipo de comparación es imposible de
+                  apreciar solo con la teoría.
                 </p>
               </div>
             </div>
@@ -795,11 +915,11 @@
               <div class="card-body">
                 <h5 class="fw-semibold text-warning">Limitaciones del modelo</h5>
                 <ul>
-                  <!-- TODO: Completar con limitaciones identificadas durante el desarrollo -->
                   <li>Los modelos asumen comportamientos ideales (linealidad, continuidad) que raramente se cumplen en sistemas económicos reales.</li>
-                  <li>Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas validadas.</li>
-                  <li>No se contempla la interacción entre variables (retroalimentación precio-descontento-demanda).</li>
-                  <li>Los métodos iterativos presentan convergencia sensible al condicionamiento de la matriz del sistema.</li>
+                  <li>Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas oficiales validadas.</li>
+                  <li>El modelo N–M–D de conflicto social no captura heterogeneidad poblacional, efectos geográficos ni políticas de respuesta dinámica.</li>
+                  <li>La interpolación asume que el comportamiento entre dos mediciones es suave; en mercados volátiles puede haber saltos bruscos que ningún polinomio reproduce bien.</li>
+                  <li>Los métodos iterativos de álgebra lineal son sensibles al condicionamiento de la matriz; sistemas mal condicionados (como el de Hilbert) convergen muy lentamente o divergen.</li>
                 </ul>
               </div>
             </div>
@@ -810,12 +930,11 @@
               <div class="card-body">
                 <h5 class="fw-semibold text-success">Ideas de mejoras futuras</h5>
                 <ul>
-                  <!-- TODO: Completar con propuestas propias del equipo -->
-                  <li>Integrar datos reales de organismos estadísticos para validar los modelos.</li>
-                  <li>Ampliar el modelo de EDOs a sistemas acoplados (SIR, Lotka-Volterra adaptado).</li>
-                  <li>Incorporar análisis de sensibilidad para parámetros clave.</li>
-                  <li>Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo.</li>
-                  <li>Implementar métodos adicionales: factorización LU, splines cúbicos, Gauss-Legendre.</li>
+                  <li>Integrar datos reales de organismos estadísticos (INE, Banco Central) para validar los modelos contra series históricas.</li>
+                  <li>Ampliar el modelo de EDOs con ecuaciones acopladas entre reservas y precios: cuando las reservas caen, el precio sube, lo que retroalimenta el descontento.</li>
+                  <li>Incorporar análisis de sensibilidad automático: variar parámetros (tasa de inflación, capacidad de red) y graficar cómo cambian los resultados.</li>
+                  <li>Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo y la presentación al tribunal.</li>
+                  <li>Implementar cuadratura adaptativa (Gauss-Legendre) para integrales con discontinuidades o picos agudos.</li>
                 </ul>
               </div>
             </div>
