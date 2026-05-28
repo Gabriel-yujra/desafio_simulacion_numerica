@@ -204,5 +204,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof Raices?.init === 'function')            Raices.init();
   if (typeof Interpolacion?.init === 'function')     Interpolacion.init();
   if (typeof Integracion?.init === 'function')       Integracion.init();
-  if (typeof EDO?.init === 'function')               EDO.init();
+  if (typeof EcuacionesDiferenciales?.init === 'function') EcuacionesDiferenciales.init();
 });
