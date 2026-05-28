@@ -12,6 +12,8 @@
  *  - Regla de Simpson 3/8 compuesta
  */
 
+console.log('[SimNum] Módulo Integracion cargado correctamente.');
+
 const Integracion = (function () {
 
   /* ══════════════════════════════════════════════

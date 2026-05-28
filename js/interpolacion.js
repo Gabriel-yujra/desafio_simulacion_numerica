@@ -10,6 +10,8 @@
  *  - Diferencias divididas de Newton (forma de Newton hacia adelante/general)
  */
 
+console.log('[SimNum] Módulo Interpolacion cargado correctamente.');
+
 const Interpolacion = (function () {
 
   /* ══════════════════════════════════════════════

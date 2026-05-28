@@ -152,74 +152,118 @@
         </div>
 
         <p>
-          Una red de distribución de bienes puede representarse como un sistema de ecuaciones
-          lineales donde cada ecuación expresa la restricción de flujo en un nodo. Dado un
-          conjunto de rutas, demandas y capacidades, la solución del sistema determina los
-          flujos óptimos en cada tramo. Se aplicarán los métodos de <strong>Jacobi</strong>
-          y <strong>Gauss-Seidel</strong> para resolver el sistema iterativamente.
+          Una red de distribución de bienes puede representarse como un sistema Ax = b donde
+          cada ecuación expresa la restricción de flujo en un nodo. Se implementan cinco métodos:
+          <strong>LU</strong> (directo), <strong>Jacobi</strong>, <strong>Gauss-Seidel</strong>,
+          <strong>SOR</strong> y <strong>Gradiente Conjugado</strong>. Los métodos iterativos
+          garantizan convergencia si la matriz es diagonalmente dominante.
         </p>
 
         <div class="row gy-4">
-          <!-- Panel de entrada -->
+          <!-- ── Panel de entrada ── -->
           <div class="col-lg-5">
             <div class="card shadow-sm">
               <div class="card-header fw-semibold">Parámetros del sistema</div>
               <div class="card-body">
+
+                <!-- Tamaño -->
                 <div class="mb-3">
                   <label for="sl-size" class="form-label">Tamaño del sistema (n × n)</label>
                   <select id="sl-size" class="form-select form-select-sm">
                     <option value="2">2 × 2</option>
                     <option value="3" selected>3 × 3</option>
                     <option value="4">4 × 4</option>
+                    <option value="5">5 × 5</option>
                   </select>
                 </div>
 
+                <!-- Método -->
                 <div class="mb-3">
-                  <label class="form-label">Método iterativo</label>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sl-method" id="sl-jacobi" value="jacobi" checked />
-                    <label class="form-check-label" for="sl-jacobi">Jacobi</label>
+                  <label for="sl-method" class="form-label">Método</label>
+                  <select id="sl-method" class="form-select form-select-sm">
+                    <option value="lu">LU (Factorización directa)</option>
+                    <option value="jacobi">Jacobi</option>
+                    <option value="gauss-seidel" selected>Gauss-Seidel</option>
+                    <option value="sor">SOR (sobre-relajación)</option>
+                    <option value="gradiente-conjugado">Gradiente Conjugado</option>
+                  </select>
+                  <div class="form-text">
+                    LU: exacto. Jacobi / GS / SOR: requieren dominancia diagonal.
+                    CG: para matrices simétricas definidas positivas.
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sl-method" id="sl-gauss" value="gauss-seidel" />
-                    <label class="form-check-label" for="sl-gauss">Gauss-Seidel</label>
-                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <label for="sl-tol" class="form-label">Tolerancia</label>
-                  <input type="number" id="sl-tol" class="form-control form-control-sm" value="0.0001" step="0.00001" min="0" />
-                </div>
-
-                <div class="mb-3">
-                  <label for="sl-maxiter" class="form-label">Iteraciones máximas</label>
-                  <input type="number" id="sl-maxiter" class="form-control form-control-sm" value="100" min="1" />
-                </div>
-
-                <!-- TODO: Reemplazar por matriz dinámica generada con JS -->
-                <div class="mb-3">
-                  <label class="form-label small text-muted">
-                    Matriz A y vector b (se generará dinámicamente)
+                <!-- ω para SOR (oculto por defecto) -->
+                <div id="sl-omega-container" class="mb-3" style="display:none">
+                  <label for="sl-omega" class="form-label">
+                    Parámetro ω <span class="text-muted small">(SOR, rango 0 – 2)</span>
                   </label>
-                  <div id="sl-matrix-container" class="matrix-placeholder text-center text-muted small py-3 border rounded">
-                    La matriz de entrada aparecerá aquí
+                  <input type="number" id="sl-omega" class="form-control form-control-sm"
+                         value="1.2" step="0.05" min="0.05" max="1.99" />
+                  <div class="form-text">ω = 1 → Gauss-Seidel. ω &gt; 1 → sobre-relajación (acelera).</div>
+                </div>
+
+                <!-- Tolerancia e iteraciones -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="sl-tol" class="form-label">Tolerancia</label>
+                    <input type="number" id="sl-tol" class="form-control form-control-sm"
+                           value="0.000001" step="0.000001" min="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="sl-maxiter" class="form-label">Iter. máximas</label>
+                    <input type="number" id="sl-maxiter" class="form-control form-control-sm"
+                           value="200" min="1" />
                   </div>
                 </div>
 
-                <button id="sl-btn-resolver" class="btn btn-primary w-100" onclick="SistemasLineales.resolver()">
+                <!-- Matriz dinámica -->
+                <div class="mb-3">
+                  <label class="form-label small text-muted">Matriz A y vector b</label>
+                  <div id="sl-matrix-container" class="text-center text-muted small py-3 border rounded">
+                    La matriz aparecerá aquí
+                  </div>
+                </div>
+
+                <!-- Botones de ejemplo -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-outline-success btn-sm w-100"
+                            onclick="SistemasLineales.cargarEjemploAbastecimiento()">
+                      Escenario abastecimiento
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-warning btn-sm w-100"
+                            onclick="SistemasLineales.cargarEjemploMalCondicionado()">
+                      Escenario mal condicionado
+                    </button>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="SistemasLineales.resolver()">
                   Resolver sistema
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Panel de resultados -->
+          <!-- ── Panel de resultados ── -->
           <div class="col-lg-7">
-            <div class="card shadow-sm h-100">
+            <!-- Gráfico residuo / solución -->
+            <div class="card shadow-sm mb-3">
               <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
-                Resultados
+                Convergencia del residuo
                 <button class="btn btn-outline-secondary btn-sm" onclick="SistemasLineales.limpiar()">Limpiar</button>
               </div>
+              <div class="card-body">
+                <canvas id="sl-chart" height="200"></canvas>
+              </div>
+            </div>
+
+            <!-- Resultados textuales -->
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Solución y resumen</div>
               <div class="card-body">
                 <div id="sl-resultado" class="result-area">
                   <p class="text-muted small">Los resultados del sistema se mostrarán aquí.</p>

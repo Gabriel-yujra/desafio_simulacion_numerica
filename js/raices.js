@@ -11,6 +11,8 @@
  *  - Secante
  */
 
+console.log('[SimNum] Módulo Raices cargado correctamente.');
+
 const Raices = (function () {
 
   let chartInstance = null; // Referencia al gráfico Chart.js activo
