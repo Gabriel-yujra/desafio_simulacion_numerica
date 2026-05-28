@@ -14,8 +14,8 @@ La aplicación es una SPA (Single Page Application) estática, sin framework ni 
 |---|---|
 | Sistemas de ecuaciones lineales | **Completamente implementado** |
 | Raíces de ecuaciones | **Completamente implementado** |
-| Interpolación | **UI lista — algoritmos pendientes (stubs)** |
-| Integración numérica | **UI lista — algoritmos pendientes (stubs)** |
+| Interpolación | **Completamente implementado** |
+| Integración numérica | **Completamente implementado** |
 | Ecuaciones diferenciales (EDO) | **UI lista — algoritmos pendientes (stubs)** |
 
 ---
@@ -152,31 +152,31 @@ Los **algoritmos numéricos están pendientes de implementación** (stubs con TO
 **Archivo:** `js/integracion.js`  
 **Contexto del problema:** Cálculo del costo acumulado de una canasta básica y estimación de la pérdida de poder adquisitivo durante períodos de inflación.
 
-### Estado actual
-Los **algoritmos numéricos están pendientes de implementación** (stubs con TODO). La UI, validaciones y renderizado están completos.
-
-### Métodos definidos (pendientes)
+### Métodos implementados
 
 #### Trapecio compuesto
-- Fórmula pendiente: `I ≈ (h/2) · [f(a) + 2·Σᵢ₌₁ⁿ⁻¹ f(a + i·h) + f(b)]`
-- Error teórico: `−((b−a)³ / (12n²)) · f''(ξ)`
+- `I ≈ (h/2) · [f(a) + 2·Σᵢ₌₁ⁿ⁻¹ f(a + i·h) + f(b)]`
+- Error teórico: `−(b−a)³ / (12n²) · f''(ξ)` — convergencia O(h²).
 
 #### Simpson 1/3 compuesto
-- Fórmula pendiente: `I ≈ (h/3) · [f(a) + 4·Σ impares + 2·Σ pares + f(b)]`
-- Requiere n par; el controlador lo ajusta automáticamente.
-- Error teórico: `−((b−a)⁵ / (180n⁴)) · f⁽⁴⁾(ξ)`
+- `I ≈ (h/3) · [f(a) + 4·Σ impares + 2·Σ pares + f(b)]`
+- Requiere n par; si el usuario ingresa n impar se incrementa en 1 automáticamente y se notifica.
+- Error teórico: `−(b−a)⁵ / (180n⁴) · f⁽⁴⁾(ξ)` — convergencia O(h⁴).
 
 #### Simpson 3/8 compuesto
-- Fórmula pendiente: `I ≈ (3h/8) · [f(x₀) + 3·Σⱼ≠múltiplo3 f(xⱼ) + 2·Σ múltiplos3 f(xⱼ) + f(xₙ)]`
-- Requiere n múltiplo de 3; el controlador lo ajusta automáticamente.
+- `I ≈ (3h/8) · [f(x₀) + 3·Σⱼ≠múltiplo3 f(xⱼ) + 2·Σ múltiplo3 f(xⱼ) + f(xₙ)]`
+- Requiere n múltiplo de 3; si no se cumple, n se redondea al siguiente múltiplo.
+- Mismo orden de convergencia O(h⁴) que Simpson 1/3.
 
 ### Lo que puede hacer ahora
 - Ingresar cualquier función f(x) como expresión JavaScript.
 - Configurar límites a, b y número de subintervalos n.
 - Seleccionar uno o más métodos simultáneamente (checkboxes independientes).
-- El controlador ajusta n automáticamente para cumplir los requisitos de cada método.
-- Ver la curva f(x) en el gráfico de área al calcular.
-- La tabla de resultados ya está wired; mostrará los valores reales cuando los algoritmos estén implementados.
+- Cada método informa el n realmente usado cuando aplica un ajuste automático.
+- Ver la curva de f(x) con área sombreada bajo la curva (Chart.js, 200 puntos).
+- **Escenario con inflación:** `f(x) = 100·e^(0.05x)` en [0, 12] meses — calcula con los tres métodos.
+- **Comparar sin inflación:** calcula ambos escenarios simultáneamente con Simpson 1/3 y muestra la tarjeta de pérdida de poder adquisitivo: costo con inflación, costo base y diferencia en Bs con porcentaje.
+- El gráfico de comparación superpone ambas curvas (roja = inflación, verde = constante) con áreas sombreadas.
 
 ---
 

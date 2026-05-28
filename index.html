@@ -541,12 +541,13 @@
         </div>
 
         <p>
-          El costo acumulado de una canasta básica durante un período de inflación puede
-          calcularse como el área bajo la curva de precios en el tiempo. Esta integral
-          no siempre tiene solución analítica, especialmente cuando los datos son
-          experimentales o provienen de modelos complejos. Se implementarán las reglas
-          del <strong>Trapecio</strong>, <strong>Simpson 1/3</strong> y
-          <strong>Simpson 3/8</strong>, comparando su precisión.
+          El costo acumulado de una canasta básica se representa como el área bajo la curva
+          de precios en el tiempo — una integral que rara vez tiene solución analítica cuando
+          los datos provienen de modelos reales. Se implementan las reglas del
+          <strong>Trapecio</strong>, <strong>Simpson 1/3</strong> y <strong>Simpson 3/8</strong>.
+          El <strong>Escenario D</strong> compara dos situaciones: precios crecientes por
+          inflación exponencial versus precios constantes, cuantificando la
+          <em>pérdida de poder adquisitivo familiar acumulada</em> en bolivianos.
         </p>
 
         <div class="row gy-4">
@@ -593,9 +594,21 @@
                   </div>
                 </div>
 
-                <button class="btn btn-primary w-100" onclick="Integracion.calcular()">
+                <button class="btn btn-primary w-100 mb-2" onclick="Integracion.calcular()">
                   Calcular integral
                 </button>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <button class="btn btn-warning w-100 btn-sm" onclick="Integracion.escenarioInflacion()">
+                      Escenario con inflación
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-success w-100 btn-sm" onclick="Integracion.escenarioSinInflacion()">
+                      Comparar sin inflación
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -617,6 +630,7 @@
                 <div id="int-resultado" class="result-area">
                   <p class="text-muted small">Los resultados comparativos aparecerán aquí.</p>
                 </div>
+                <div id="int-comparacion"></div>
               </div>
             </div>
           </div>
