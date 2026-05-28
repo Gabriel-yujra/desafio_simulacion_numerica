@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulación Numérica de Abastecimiento, Precios y Conflicto Social</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarMain" data-bs-offset="80">
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="#inicio">
+        <span class="brand-icon">⚙</span> SimNum
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMenu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sistemas-lineales">Sist. Lineales</a></li>
+          <li class="nav-item"><a class="nav-link" href="#raices">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link" href="#interpolacion">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link" href="#integracion">Integración</a></li>
+          <li class="nav-item"><a class="nav-link" href="#edo">Ec. Diferenciales</a></li>
+          <li class="nav-item"><a class="nav-link" href="#conclusiones">Conclusiones</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main-content">
+
+    <!-- ───────────────── 1. INICIO ───────────────── -->
+    <section id="inicio" class="section-block section-hero">
+      <div class="container-xl">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-8">
+            <span class="badge bg-secondary mb-2">Trabajo final · Métodos Numéricos</span>
+            <h1 class="display-5 fw-bold text-primary">
+              Simulación numérica de abastecimiento, precios y conflicto social
+            </h1>
+            <p class="lead text-muted">
+              Herramienta académica interactiva para modelar escenarios de crisis mediante
+              métodos numéricos clásicos: sistemas lineales, raíces de ecuaciones,
+              interpolación, integración y ecuaciones diferenciales ordinarias.
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <div class="card border-warning shadow-sm">
+              <div class="card-body">
+                <h6 class="card-title text-warning fw-bold">⚠ Aviso académico</h6>
+                <p class="card-text small text-muted mb-0">
+                  Esta herramienta tiene fines exclusivamente educativos. Los datos, modelos
+                  y resultados son ficticios o simplificados. No representan situaciones
+                  reales, ni posiciones políticas de ningún tipo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Contexto -->
+        <div class="row gy-3">
+          <div class="col-md-12">
+            <h4 class="fw-semibold">Contexto del problema</h4>
+            <p>
+              Las crisis de abastecimiento, la volatilidad en los precios de productos básicos
+              y la erosión del poder adquisitivo constituyen fenómenos complejos que pueden
+              modelarse mediante herramientas matemáticas. Cuando los canales de distribución
+              se ven comprometidos, los precios de alimentos y carburantes experimentan
+              variaciones no lineales que afectan de forma diferenciada a distintos sectores
+              de la población. A su vez, la percepción colectiva de la escasez puede retroalimentar
+              el desabastecimiento a través de dinámicas de acaparamiento o descontento social.
+            </p>
+            <p>
+              Este proyecto utiliza cinco familias de métodos numéricos para simular, de manera
+              aproximada, distintos aspectos de estas dinámicas: la distribución de recursos en
+              una red de transporte, la detección de umbrales críticos de precios, la reconstrucción
+              de curvas de costo a partir de datos dispersos, el cálculo del costo acumulado y
+              la evolución temporal del descontento social.
+            </p>
+          </div>
+        </div>
+
+        <!-- Objetivos -->
+        <div class="row gy-3 mt-2">
+          <div class="col-md-6">
+            <div class="card h-100 border-primary shadow-sm">
+              <div class="card-header bg-primary text-white fw-semibold">Objetivo general</div>
+              <div class="card-body">
+                <p class="mb-0">
+                  Aplicar métodos numéricos computacionales para construir simulaciones
+                  interactivas que permitan analizar escenarios de abastecimiento, variación
+                  de precios y dinámica social, evaluando la precisión, convergencia y
+                  utilidad práctica de cada método.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-light shadow-sm">
+              <div class="card-header bg-secondary text-white fw-semibold">Objetivos específicos</div>
+              <div class="card-body">
+                <ul class="mb-0 small">
+                  <li>Resolver sistemas de ecuaciones lineales para modelar flujos en redes de transporte.</li>
+                  <li>Encontrar raíces de ecuaciones para identificar umbrales y puntos de equilibrio.</li>
+                  <li>Aplicar interpolación para reconstruir curvas de precios a partir de datos históricos.</li>
+                  <li>Calcular integrales numéricas para estimar costos acumulados y pérdida de poder adquisitivo.</li>
+                  <li>Resolver EDOs para simular el vaciado de reservas y la difusión del descontento social.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 2. SISTEMAS LINEALES ───────────────── -->
+    <section id="sistemas-lineales" class="section-block section-alt">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <div>
+            <h2 class="section-title">Sistemas de ecuaciones lineales</h2>
+            <p class="section-subtitle">Abastecimiento y red de transporte</p>
+          </div>
+        </div>
+
+        <p>
+          Una red de distribución de bienes puede representarse como un sistema de ecuaciones
+          lineales donde cada ecuación expresa la restricción de flujo en un nodo. Dado un
+          conjunto de rutas, demandas y capacidades, la solución del sistema determina los
+          flujos óptimos en cada tramo. Se aplicarán los métodos de <strong>Jacobi</strong>
+          y <strong>Gauss-Seidel</strong> para resolver el sistema iterativamente.
+        </p>
+
+        <div class="row gy-4">
+          <!-- Panel de entrada -->
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Parámetros del sistema</div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="sl-size" class="form-label">Tamaño del sistema (n × n)</label>
+                  <select id="sl-size" class="form-select form-select-sm">
+                    <option value="2">2 × 2</option>
+                    <option value="3" selected>3 × 3</option>
+                    <option value="4">4 × 4</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Método iterativo</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sl-method" id="sl-jacobi" value="jacobi" checked />
+                    <label class="form-check-label" for="sl-jacobi">Jacobi</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sl-method" id="sl-gauss" value="gauss-seidel" />
+                    <label class="form-check-label" for="sl-gauss">Gauss-Seidel</label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="sl-tol" class="form-label">Tolerancia</label>
+                  <input type="number" id="sl-tol" class="form-control form-control-sm" value="0.0001" step="0.00001" min="0" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="sl-maxiter" class="form-label">Iteraciones máximas</label>
+                  <input type="number" id="sl-maxiter" class="form-control form-control-sm" value="100" min="1" />
+                </div>
+
+                <!-- TODO: Reemplazar por matriz dinámica generada con JS -->
+                <div class="mb-3">
+                  <label class="form-label small text-muted">
+                    Matriz A y vector b (se generará dinámicamente)
+                  </label>
+                  <div id="sl-matrix-container" class="matrix-placeholder text-center text-muted small py-3 border rounded">
+                    La matriz de entrada aparecerá aquí
+                  </div>
+                </div>
+
+                <button id="sl-btn-resolver" class="btn btn-primary w-100" onclick="SistemasLineales.resolver()">
+                  Resolver sistema
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel de resultados -->
+          <div class="col-lg-7">
+            <div class="card shadow-sm h-100">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Resultados
+                <button class="btn btn-outline-secondary btn-sm" onclick="SistemasLineales.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <div id="sl-resultado" class="result-area">
+                  <p class="text-muted small">Los resultados del sistema se mostrarán aquí.</p>
+                </div>
+                <div id="sl-tabla-iteraciones" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 3. RAÍCES ───────────────── -->
+    <section id="raices" class="section-block">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <div>
+            <h2 class="section-title">Raíces de ecuaciones</h2>
+            <p class="section-subtitle">Umbrales críticos y puntos de equilibrio</p>
+          </div>
+        </div>
+
+        <p>
+          En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales
+          la demanda colapsa o surgen mercados informales. Encontrar estos puntos de equilibrio
+          equivale a hallar las raíces de una función que expresa el exceso de demanda sobre
+          la oferta disponible. Se implementarán los métodos de <strong>Bisección</strong>,
+          <strong>Newton-Raphson</strong> y <strong>Secante</strong>.
+        </p>
+
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Parámetros</div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="r-funcion" class="form-label">
+                    Función f(x) <span class="text-muted small">(usar sintaxis JS)</span>
+                  </label>
+                  <input type="text" id="r-funcion" class="form-control form-control-sm font-monospace"
+                    value="Math.pow(x, 3) - 2*x - 5" />
+                  <div class="form-text">Ejemplo: demanda − oferta como función del precio x</div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="r-a" class="form-label">Extremo a</label>
+                    <input type="number" id="r-a" class="form-control form-control-sm" value="1" />
+                  </div>
+                  <div class="col-6">
+                    <label for="r-b" class="form-label">Extremo b</label>
+                    <input type="number" id="r-b" class="form-control form-control-sm" value="3" />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="r-tol" class="form-label">Tolerancia</label>
+                  <input type="number" id="r-tol" class="form-control form-control-sm" value="0.0001" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Método</label>
+                  <select id="r-method" class="form-select form-select-sm">
+                    <option value="biseccion">Bisección</option>
+                    <option value="newton">Newton-Raphson</option>
+                    <option value="secante">Secante</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="Raices.resolver()">
+                  Encontrar raíz
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Gráfico de f(x)
+                <button class="btn btn-outline-secondary btn-sm" onclick="Raices.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <!-- TODO: Chart.js dibujará la función y la raíz aquí -->
+                <canvas id="raices-chart" height="200"></canvas>
+              </div>
+            </div>
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Tabla de iteraciones</div>
+              <div class="card-body">
+                <div id="raices-resultado" class="result-area">
+                  <p class="text-muted small">Las iteraciones aparecerán aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 4. INTERPOLACIÓN ───────────────── -->
+    <section id="interpolacion" class="section-block section-alt">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <div>
+            <h2 class="section-title">Interpolación</h2>
+            <p class="section-subtitle">Reconstrucción de curvas de precios</p>
+          </div>
+        </div>
+
+        <p>
+          Los datos históricos de precios suelen ser discretos y dispersos. La interpolación
+          permite reconstruir una curva continua que pasa por todos los puntos conocidos,
+          facilitando la estimación de valores intermedios. Se aplicarán los métodos de
+          <strong>Lagrange</strong> y <strong>diferencias divididas de Newton</strong>
+          sobre series de precios de alimentos.
+        </p>
+
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Puntos de datos (xi, yi)</div>
+              <div class="card-body">
+                <p class="small text-muted">
+                  Ingrese los puntos conocidos. Ejemplo: semana (x) vs. precio (y).
+                </p>
+
+                <div class="mb-3">
+                  <label class="form-label">Método</label>
+                  <select id="interp-method" class="form-select form-select-sm">
+                    <option value="lagrange">Lagrange</option>
+                    <option value="newton">Newton (Dif. divididas)</option>
+                  </select>
+                </div>
+
+                <!-- TODO: Tabla editable generada dinámicamente con JS -->
+                <div id="interp-tabla-puntos" class="mb-3">
+                  <table class="table table-sm table-bordered">
+                    <thead class="table-primary">
+                      <tr><th>x (semana)</th><th>y (precio)</th></tr>
+                    </thead>
+                    <tbody id="interp-tbody">
+                      <tr><td><input type="number" class="form-control form-control-sm" value="0" /></td><td><input type="number" class="form-control form-control-sm" value="100" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="2" /></td><td><input type="number" class="form-control form-control-sm" value="115" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="4" /></td><td><input type="number" class="form-control form-control-sm" value="132" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="6" /></td><td><input type="number" class="form-control form-control-sm" value="160" /></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-outline-secondary btn-sm w-100" onclick="Interpolacion.agregarPunto()">+ Punto</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-danger btn-sm w-100" onclick="Interpolacion.quitarPunto()">− Punto</button>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="interp-xeval" class="form-label">Evaluar en x =</label>
+                  <input type="number" id="interp-xeval" class="form-control form-control-sm" value="3" />
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="Interpolacion.interpolar()">
+                  Interpolar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Curva interpolada
+                <button class="btn btn-outline-secondary btn-sm" onclick="Interpolacion.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <!-- TODO: Chart.js mostrará la curva interpolada y los puntos originales -->
+                <canvas id="interpolacion-chart" height="200"></canvas>
+              </div>
+            </div>
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Resultado de evaluación</div>
+              <div class="card-body">
+                <div id="interp-resultado" class="result-area">
+                  <p class="text-muted small">El valor interpolado aparecerá aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 5. INTEGRACIÓN ───────────────── -->
+    <section id="integracion" class="section-block">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <div>
+            <h2 class="section-title">Integración numérica</h2>
+            <p class="section-subtitle">Costo acumulado y pérdida de poder adquisitivo</p>
+          </div>
+        </div>
+
+        <p>
+          El costo acumulado de una canasta básica durante un período de inflación puede
+          calcularse como el área bajo la curva de precios en el tiempo. Esta integral
+          no siempre tiene solución analítica, especialmente cuando los datos son
+          experimentales o provienen de modelos complejos. Se implementarán las reglas
+          del <strong>Trapecio</strong>, <strong>Simpson 1/3</strong> y
+          <strong>Simpson 3/8</strong>, comparando su precisión.
+        </p>
+
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Configuración de la integral</div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="int-funcion" class="form-label">Función f(x)</label>
+                  <input type="text" id="int-funcion" class="form-control form-control-sm font-monospace"
+                    value="100 * Math.exp(0.05 * x)" />
+                  <div class="form-text">Ejemplo: modelo de precio en el tiempo</div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="int-a" class="form-label">Límite inferior a</label>
+                    <input type="number" id="int-a" class="form-control form-control-sm" value="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="int-b" class="form-label">Límite superior b</label>
+                    <input type="number" id="int-b" class="form-control form-control-sm" value="12" />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="int-n" class="form-label">Número de subintervalos (n)</label>
+                  <input type="number" id="int-n" class="form-control form-control-sm" value="100" min="2" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Métodos a comparar</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-trapecio" checked />
+                    <label class="form-check-label" for="int-trapecio">Regla del Trapecio</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson13" checked />
+                    <label class="form-check-label" for="int-simpson13">Simpson 1/3</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson38" />
+                    <label class="form-check-label" for="int-simpson38">Simpson 3/8</label>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="Integracion.calcular()">
+                  Calcular integral
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Área bajo la curva
+                <button class="btn btn-outline-secondary btn-sm" onclick="Integracion.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <!-- TODO: Chart.js visualizará la función y el área integrada -->
+                <canvas id="integracion-chart" height="200"></canvas>
+              </div>
+            </div>
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Comparativa de métodos</div>
+              <div class="card-body">
+                <div id="int-resultado" class="result-area">
+                  <p class="text-muted small">Los resultados comparativos aparecerán aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 6. EDO ───────────────── -->
+    <section id="edo" class="section-block section-alt">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">05</span>
+          <div>
+            <h2 class="section-title">Ecuaciones diferenciales ordinarias</h2>
+            <p class="section-subtitle">Vaciado de reservas y difusión del descontento social</p>
+          </div>
+        </div>
+
+        <p>
+          Las reservas de carburante o alimentos se vacían de acuerdo con tasas de consumo
+          que pueden variar en el tiempo. Asimismo, el descontento social se difunde siguiendo
+          dinámicas similares a modelos epidemiológicos. Ambos procesos se modelan con EDOs
+          de primer orden, que se resolverán numéricamente con los métodos de
+          <strong>Euler</strong> y <strong>Runge-Kutta de 4° orden (RK4)</strong>.
+        </p>
+
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Configuración del modelo</div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label">Escenario</label>
+                  <select id="edo-escenario" class="form-select form-select-sm" onchange="EDO.cambiarEscenario()">
+                    <option value="reservas">Vaciado de reservas de carburante</option>
+                    <option value="descontento">Difusión del descontento social</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="edo-dy" class="form-label">
+                    dy/dt = f(t, y) <span class="text-muted small">(sintaxis JS)</span>
+                  </label>
+                  <input type="text" id="edo-dy" class="form-control form-control-sm font-monospace"
+                    value="-0.1 * y" />
+                  <div class="form-text" id="edo-hint">
+                    Modelo de vaciado exponencial: tasa proporcional al nivel actual
+                  </div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="edo-y0" class="form-label">Condición inicial y(t₀)</label>
+                    <input type="number" id="edo-y0" class="form-control form-control-sm" value="1000" />
+                  </div>
+                  <div class="col-6">
+                    <label for="edo-t0" class="form-label">Tiempo inicial t₀</label>
+                    <input type="number" id="edo-t0" class="form-control form-control-sm" value="0" />
+                  </div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="edo-tf" class="form-label">Tiempo final tₙ</label>
+                    <input type="number" id="edo-tf" class="form-control form-control-sm" value="30" />
+                  </div>
+                  <div class="col-6">
+                    <label for="edo-h" class="form-label">Paso h</label>
+                    <input type="number" id="edo-h" class="form-control form-control-sm" value="1" step="0.1" />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Método</label>
+                  <select id="edo-method" class="form-select form-select-sm">
+                    <option value="euler">Euler</option>
+                    <option value="rk4" selected>Runge-Kutta 4° orden</option>
+                    <option value="ambos">Comparar ambos</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="EDO.resolver()">
+                  Simular
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Evolución temporal
+                <button class="btn btn-outline-secondary btn-sm" onclick="EDO.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <!-- TODO: Chart.js graficará y(t) con Euler y/o RK4 -->
+                <canvas id="edo-chart" height="220"></canvas>
+              </div>
+            </div>
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Tabla de solución numérica</div>
+              <div class="card-body">
+                <div id="edo-resultado" class="result-area">
+                  <p class="text-muted small">La tabla de valores t, y(t) aparecerá aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── 7. CONCLUSIONES ───────────────── -->
+    <section id="conclusiones" class="section-block">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">06</span>
+          <div>
+            <h2 class="section-title">Conclusiones</h2>
+            <p class="section-subtitle">Síntesis y reflexión académica</p>
+          </div>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="fw-semibold text-primary">Aprendizajes obtenidos</h5>
+                <p>
+                  <!-- TODO: Completar con los resultados reales del trabajo -->
+                  La implementación de métodos numéricos para modelar fenómenos socioeconómicos
+                  demostró que, incluso con modelos simplificados, es posible capturar las
+                  tendencias principales de sistemas complejos. La elección del método adecuado
+                  impacta directamente en la precisión y el costo computacional de la solución.
+                </p>
+                <p>
+                  Los métodos iterativos como Jacobi y Gauss-Seidel resultaron intuitivos para
+                  modelar redes de distribución, mientras que Newton-Raphson mostró una velocidad
+                  de convergencia superior en la búsqueda de umbrales críticos de precio.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="fw-semibold text-primary">Métodos más útiles por escenario</h5>
+                <ul>
+                  <li><strong>Redes de transporte:</strong> Gauss-Seidel (convergencia más rápida que Jacobi en sistemas bien condicionados).</li>
+                  <li><strong>Umbrales de precio:</strong> Newton-Raphson (convergencia cuadrática).</li>
+                  <li><strong>Curvas de precio:</strong> Interpolación de Newton (más estable numéricamente para muchos puntos).</li>
+                  <li><strong>Costo acumulado:</strong> Simpson 1/3 (mayor orden de exactitud con igual número de evaluaciones).</li>
+                  <li><strong>Dinámicas temporales:</strong> RK4 (equilibrio óptimo entre precisión y simplicidad de implementación).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="fw-semibold text-warning">Limitaciones del modelo</h5>
+                <ul>
+                  <!-- TODO: Completar con limitaciones identificadas durante el desarrollo -->
+                  <li>Los modelos asumen comportamientos ideales (linealidad, continuidad) que raramente se cumplen en sistemas económicos reales.</li>
+                  <li>Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas validadas.</li>
+                  <li>No se contempla la interacción entre variables (retroalimentación precio-descontento-demanda).</li>
+                  <li>Los métodos iterativos presentan convergencia sensible al condicionamiento de la matriz del sistema.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="fw-semibold text-success">Ideas de mejoras futuras</h5>
+                <ul>
+                  <!-- TODO: Completar con propuestas propias del equipo -->
+                  <li>Integrar datos reales de organismos estadísticos para validar los modelos.</li>
+                  <li>Ampliar el modelo de EDOs a sistemas acoplados (SIR, Lotka-Volterra adaptado).</li>
+                  <li>Incorporar análisis de sensibilidad para parámetros clave.</li>
+                  <li>Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo.</li>
+                  <li>Implementar métodos adicionales: factorización LU, splines cúbicos, Gauss-Legendre.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Créditos -->
+        <div class="mt-5 text-center text-muted small">
+          <hr />
+          <p>
+            Trabajo final · Materia: Métodos Numéricos ·
+            <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>
+          </p>
+          <p>Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.</p>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <!-- Bootstrap 5 JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmDFt/oNEjbE80fJqrAFEp9GGXlN"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Módulos numéricos (orden: módulos primero, main al final) -->
+  <script src="js/sistemas_lineales.js"></script>
+  <script src="js/raices.js"></script>
+  <script src="js/interpolacion.js"></script>
+  <script src="js/integracion.js"></script>
+  <script src="js/ecuaciones_diferenciales.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
