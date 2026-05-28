@@ -1,1 +1,44 @@
+# ─── Instrucciones privadas de Claude Code ───────────────────────────────────
 CLAUDE.md
+
+# ─── Sistema operativo ────────────────────────────────────────────────────────
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# ─── Editores e IDEs ──────────────────────────────────────────────────────────
+# VS Code (se ignora la carpeta completa; cada quien tiene su configuración local)
+.vscode/
+
+# JetBrains (WebStorm, etc.)
+.idea/
+*.iml
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+
+# ─── Archivos temporales y de depuración ─────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig
+
+# ─── Exportaciones / capturas locales ────────────────────────────────────────
+# Por si alguien exporta datos o capturas desde el navegador mientras prueba
+exports/
+capturas/
+screenshots/
