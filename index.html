@@ -289,49 +289,102 @@
 
         <p>
           En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales
-          la demanda colapsa o surgen mercados informales. Encontrar estos puntos de equilibrio
-          equivale a hallar las raíces de una función que expresa el exceso de demanda sobre
-          la oferta disponible. Se implementarán los métodos de <strong>Bisección</strong>,
-          <strong>Newton-Raphson</strong> y <strong>Secante</strong>.
+          la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a
+          hallar la raíz de una función que expresa el exceso de demanda sobre la oferta
+          disponible. Se implementan tres métodos: <strong>Bisección</strong> (garantiza
+          convergencia si f(a)·f(b) &lt; 0), <strong>Newton-Raphson</strong> (convergencia
+          cuadrática, requiere derivada) y <strong>Secante</strong> (orden ~1.618, sin
+          derivada analítica).
         </p>
 
         <div class="row gy-4">
+          <!-- ── Panel de entrada ── -->
           <div class="col-lg-5">
             <div class="card shadow-sm">
               <div class="card-header fw-semibold">Parámetros</div>
               <div class="card-body">
+
+                <!-- Función f(x) -->
                 <div class="mb-3">
                   <label for="r-funcion" class="form-label">
-                    Función f(x) <span class="text-muted small">(usar sintaxis JS)</span>
+                    Función f(x) <span class="text-muted small">(sintaxis JS)</span>
                   </label>
-                  <input type="text" id="r-funcion" class="form-control form-control-sm font-monospace"
-                    value="Math.pow(x, 3) - 2*x - 5" />
+                  <input type="text" id="r-funcion"
+                         class="form-control form-control-sm font-monospace"
+                         value="Math.pow(x, 3) - 2*x - 5" />
                   <div class="form-text">Ejemplo: demanda − oferta como función del precio x</div>
                 </div>
 
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label for="r-a" class="form-label">Extremo a</label>
-                    <input type="number" id="r-a" class="form-control form-control-sm" value="1" />
-                  </div>
-                  <div class="col-6">
-                    <label for="r-b" class="form-label">Extremo b</label>
-                    <input type="number" id="r-b" class="form-control form-control-sm" value="3" />
+                <!-- Derivada f'(x) — visible solo para Newton -->
+                <div id="r-derivada-container" class="mb-3" style="display:none">
+                  <label for="r-derivada" class="form-label">
+                    Derivada f'(x)
+                    <span class="text-muted small">(opcional; si está vacía se usa diferenciación numérica)</span>
+                  </label>
+                  <input type="text" id="r-derivada"
+                         class="form-control form-control-sm font-monospace"
+                         placeholder="3*Math.pow(x,2) - 2" />
+                  <div class="form-text">
+                    Si se deja en blanco: f'(x) ≈ (f(x+h) − f(x−h)) / 2h, h = 1e-5
                   </div>
                 </div>
 
+                <!-- Método -->
                 <div class="mb-3">
-                  <label for="r-tol" class="form-label">Tolerancia</label>
-                  <input type="number" id="r-tol" class="form-control form-control-sm" value="0.0001" />
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Método</label>
+                  <label for="r-method" class="form-label">Método</label>
                   <select id="r-method" class="form-select form-select-sm">
                     <option value="biseccion">Bisección</option>
                     <option value="newton">Newton-Raphson</option>
                     <option value="secante">Secante</option>
                   </select>
+                  <div class="form-text">
+                    Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada.
+                  </div>
+                </div>
+
+                <!-- Parámetros dinámicos: a / x₀ y b / x₁ -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label id="r-label-a" for="r-a" class="form-label">Extremo a</label>
+                    <input type="number" id="r-a"
+                           class="form-control form-control-sm" value="1" step="any" />
+                  </div>
+                  <div id="r-b-container" class="col-6">
+                    <label id="r-label-b" for="r-b" class="form-label">Extremo b</label>
+                    <input type="number" id="r-b"
+                           class="form-control form-control-sm" value="3" step="any" />
+                  </div>
+                </div>
+
+                <!-- Tolerancia e iteraciones máximas -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="r-tol" class="form-label">Tolerancia</label>
+                    <input type="number" id="r-tol"
+                           class="form-control form-control-sm"
+                           value="0.000001" step="0.000001" min="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="r-maxiter" class="form-label">Iter. máximas</label>
+                    <input type="number" id="r-maxiter"
+                           class="form-control form-control-sm" value="100" min="1" />
+                  </div>
+                </div>
+
+                <!-- Botones de ejemplo -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-outline-success btn-sm w-100"
+                            onclick="Raices.cargarEjemploUmbral()">
+                      Umbral costo/ingreso
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-warning btn-sm w-100"
+                            onclick="Raices.cargarEjemploReposicion()">
+                      Umbral de reposición
+                    </button>
+                  </div>
                 </div>
 
                 <button class="btn btn-primary w-100" onclick="Raices.resolver()">
@@ -341,22 +394,25 @@
             </div>
           </div>
 
+          <!-- ── Panel de resultados ── -->
           <div class="col-lg-7">
+            <!-- Gráfico -->
             <div class="card shadow-sm mb-3">
               <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
-                Gráfico de f(x)
+                Gráfico de f(x) y raíz aproximada
                 <button class="btn btn-outline-secondary btn-sm" onclick="Raices.limpiar()">Limpiar</button>
               </div>
               <div class="card-body">
-                <!-- TODO: Chart.js dibujará la función y la raíz aquí -->
                 <canvas id="raices-chart" height="200"></canvas>
               </div>
             </div>
+
+            <!-- Resultados textuales + tabla de iteraciones -->
             <div class="card shadow-sm">
-              <div class="card-header fw-semibold">Tabla de iteraciones</div>
+              <div class="card-header fw-semibold">Resumen y tabla de iteraciones</div>
               <div class="card-body">
                 <div id="raices-resultado" class="result-area">
-                  <p class="text-muted small">Las iteraciones aparecerán aquí.</p>
+                  <p class="text-muted small">Los resultados y la tabla de iteraciones aparecerán aquí.</p>
                 </div>
               </div>
             </div>
@@ -377,11 +433,14 @@
         </div>
 
         <p>
-          Los datos históricos de precios suelen ser discretos y dispersos. La interpolación
-          permite reconstruir una curva continua que pasa por todos los puntos conocidos,
-          facilitando la estimación de valores intermedios. Se aplicarán los métodos de
-          <strong>Lagrange</strong> y <strong>diferencias divididas de Newton</strong>
-          sobre series de precios de alimentos.
+          En el Escenario C, se dispone de registros históricos dispersos del precio de un
+          producto básico (día vs. precio en Bs). La interpolación construye una función
+          continua que pasa exactamente por todos los puntos conocidos, permitiendo estimar
+          el precio en días sin dato. Se implementan tres métodos: <strong>Lagrange</strong>
+          y <strong>diferencias divididas de Newton</strong> (ambos construyen un único
+          polinomio de grado n−1) y el <strong>Spline cúbico natural</strong> (piezas
+          cúbicas con continuidad C², que evita las oscilaciones del fenómeno de Runge en
+          series largas).
         </p>
 
         <div class="row gy-4">
@@ -398,40 +457,49 @@
                   <select id="interp-method" class="form-select form-select-sm">
                     <option value="lagrange">Lagrange</option>
                     <option value="newton">Newton (Dif. divididas)</option>
+                    <option value="spline" selected>Spline cúbico natural</option>
                   </select>
+                  <div class="form-text">
+                    Lagrange / Newton: polinomio único. Spline: piezas cúbicas C² (recomendado para ≥5 puntos).
+                  </div>
                 </div>
 
-                <!-- TODO: Tabla editable generada dinámicamente con JS -->
+                <!-- Tabla editable de puntos (se llena dinámicamente desde cargarEjemploPrecios) -->
                 <div id="interp-tabla-puntos" class="mb-3">
                   <table class="table table-sm table-bordered">
                     <thead class="table-primary">
-                      <tr><th>x (semana)</th><th>y (precio)</th></tr>
+                      <tr><th>Día (x)</th><th>Precio Bs (y)</th></tr>
                     </thead>
                     <tbody id="interp-tbody">
-                      <tr><td><input type="number" class="form-control form-control-sm" value="0" /></td><td><input type="number" class="form-control form-control-sm" value="100" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="2" /></td><td><input type="number" class="form-control form-control-sm" value="115" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="4" /></td><td><input type="number" class="form-control form-control-sm" value="132" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="6" /></td><td><input type="number" class="form-control form-control-sm" value="160" /></td></tr>
+                      <!-- Filas iniciales; se sobreescriben al cargar el ejemplo -->
+                      <tr><td><input type="number" class="form-control form-control-sm" value="1"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="8.50"  step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="7"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="11.00" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="14" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="14.50" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="28" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="22.50" step="any" /></td></tr>
                     </tbody>
                   </table>
                 </div>
 
                 <div class="row g-2 mb-3">
-                  <div class="col-6">
+                  <div class="col-4">
                     <button class="btn btn-outline-secondary btn-sm w-100" onclick="Interpolacion.agregarPunto()">+ Punto</button>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <button class="btn btn-outline-danger btn-sm w-100" onclick="Interpolacion.quitarPunto()">− Punto</button>
+                  </div>
+                  <div class="col-4">
+                    <button class="btn btn-outline-success btn-sm w-100" onclick="Interpolacion.cargarEjemploPrecios()">Ejemplo</button>
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="interp-xeval" class="form-label">Evaluar en x =</label>
-                  <input type="number" id="interp-xeval" class="form-control form-control-sm" value="3" />
+                  <label for="interp-xeval" class="form-label">Estimar precio en el día x =</label>
+                  <input type="number" id="interp-xeval" class="form-control form-control-sm" value="10" step="any" />
+                  <div class="form-text">Ingrese el día cuyo precio desea estimar.</div>
                 </div>
 
                 <button class="btn btn-primary w-100" onclick="Interpolacion.interpolar()">
-                  Interpolar
+                  Calcular interpolación
                 </button>
               </div>
             </div>
