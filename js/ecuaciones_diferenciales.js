@@ -11,6 +11,8 @@
  *  - Runge-Kutta de 4° orden (RK4)
  */
 
+console.log('[SimNum] Módulo EDO cargado correctamente.');
+
 const EDO = (function () {
 
   /* ── Configuraciones precargadas por escenario ─── */
