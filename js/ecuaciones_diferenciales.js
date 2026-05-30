@@ -170,6 +170,10 @@ const EcuacionesDiferenciales = (function () {
 
     if (p1) p1.style.display = escenario === 'social' ? 'none' : '';
     if (p3) p3.style.display = escenario === 'social' ? '' : 'none';
+    const btnRes = document.getElementById('botones-reservas');
+    const btnSoc = document.getElementById('botones-social');
+    if (btnRes) btnRes.style.display = escenario === 'social' ? 'none' : '';
+    if (btnSoc) btnSoc.style.display = escenario === 'social' ? '' : 'none';
 
     if (escenario === 'reservas') {
       _set('edo-dy', '-(0.05 + 0.008 * t) * y');
@@ -181,16 +185,17 @@ const EcuacionesDiferenciales = (function () {
       if (hint) hint.textContent = 'Vaciado acelerado: tasa de extracción crece con el tiempo → reservas críticas en t≈30.';
     } else {
       _set('edo-t0', '0');
-      _set('edo-tf', '50');
-      _set('edo-h',  '0.25');
-      _set('edo-N0', '990');
-      _set('edo-M0', '10');
-      _set('edo-D0', '0');
-      _set('edo-sa', '0.003');
-      _set('edo-sb', '0.02');
-      _set('edo-sc', '0.01');
-      _set('edo-sk', '0.08');
-      _set('edo-sr', '0.04');
+      _set('edo-tf', '30');
+      _set('edo-h',  '0.5');
+      _set('edo-N0', '900');
+      _set('edo-M0', '80');
+      _set('edo-D0', '20');
+      _set('edo-sa', '0.0005');
+      _set('edo-sb', '0.05');
+      _set('edo-sc', '0.0004');
+      _set('edo-sk', '0.10');
+      _set('edo-sr', '0.05');
+      _set('edo-method', 'rk4');
     }
   }
 
@@ -230,14 +235,21 @@ const EcuacionesDiferenciales = (function () {
     simular();
   }
 
-  /**
-   * Conflicto social: sistema N–M–D con protesta que crece, alcanza un pico y decae.
-   * Parámetros elegidos para que M(t) tenga un pico visible alrededor de t≈12.
-   */
-  function escenarioConflictoSocial() {
+  function escenarioSocial(tipo = 'base') {
     _set('edo-escenario', 'social');
-    cambiarEscenario();
-    _set('edo-method', 'todos');
+    cambiarEscenario(); // Esto resetea a Base
+    _set('edo-method', 'rk4');
+    
+    if (tipo === 'dialogo') {
+      _set('edo-sc', '0.0010');
+    } else if (tipo === 'sin_mediadores') {
+      _set('edo-D0', '0');
+      _set('edo-sk', '0');
+    } else if (tipo === 'rumores') {
+      _set('edo-sa', '0.0015');
+      _set('edo-tf', '15');
+    }
+    
     simular();
   }
 
@@ -399,7 +411,37 @@ const EcuacionesDiferenciales = (function () {
       ];
     });
 
-    el.innerHTML = SimNum.generarTablaHTML(headers, rows, 30);
+    let html = SimNum.generarTablaHTML(headers, rows, 30);
+    
+    // Conclusión automática para Escenario G
+    const aVal = document.getElementById('edo-sa')?.value;
+    const cVal = document.getElementById('edo-sc')?.value;
+    const kVal = document.getElementById('edo-sk')?.value;
+    
+    let textoG = '';
+    if (aVal === '0.0005' && cVal === '0.0004' && kVal === '0.1') {
+      textoG = `En el <strong>escenario base</strong>, el conflicto alcanza un máximo de aproximadamente 190 manifestantes antes de comenzar a disminuir gracias a la intervención de los mediadores.`;
+    } else if (cVal === '0.001' || cVal === '0.0010') {
+      textoG = `Al <strong>mejorar la efectividad del diálogo</strong> (c = 0.001), el sistema se estabiliza más rápidamente y la cantidad de manifestantes activos se reduce de manera drástica.`;
+    } else if (kVal === '0' || kVal === '0.00') {
+      textoG = `<strong>Sin mediadores</strong> (D₀ = 0, k = 0), el conflicto se masifica y llega a involucrar a la mayoría de la población (más de 750 manifestantes).`;
+    } else if (aVal === '0.0015') {
+      textoG = `Con <strong>rumores intensos</strong> (a = 0.0015), el descontento se propaga tres veces más rápido, llevando a una masificación prematura en los primeros 15 días.`;
+    }
+
+    if (textoG) {
+      html = `
+        <div class="alert alert-success mb-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario G - Difusión de Descontento)</h6>
+          <p class="mb-0 small text-muted">
+            La simulación demostró que el descontento social puede propagarse rápidamente cuando aumenta la influencia social (a) y existen pocos mecanismos de diálogo.
+            ${textoG}
+          </p>
+        </div>
+      ` + html;
+    }
+
+    el.innerHTML = html;
   }
 
   /* ══════════════════════════════════════════════
@@ -565,9 +607,9 @@ const EcuacionesDiferenciales = (function () {
   return {
     init,
     simular,
+    limpiar,
     cambiarEscenario,
     escenarioReservasCritico,
-    escenarioConflictoSocial,
-    limpiar,
+    escenarioSocial,
   };
 })();

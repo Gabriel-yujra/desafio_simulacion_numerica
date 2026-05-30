@@ -115,6 +115,47 @@
           </div>
         </div>
 
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioG">
+          <div class="accordion-item border-warning">
+            <h2 class="accordion-header" id="headingEscenarioG">
+              <button class="accordion-button collapsed bg-warning-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioG" aria-expanded="false" aria-controls="collapseEscenarioG">
+                📖 Escenario G: Modelo de difusión de opinión o descontento social (N-M-D)
+              </button>
+            </h2>
+            <div id="collapseEscenarioG" class="accordion-collapse collapse" aria-labelledby="headingEscenarioG" data-bs-parent="#accordionEscenarioG">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>Una ciudad atraviesa una crisis. Inicialmente, la mayoría mantiene una posición neutral, pero el descontento comienza a propagarse por escasez de productos. Aparecen instituciones mediadoras buscando reducir el conflicto mediante diálogo.</p>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Poblaciones</h6>
+                    <ul>
+                      <li><strong>N(t):</strong> Ciudadanos neutrales.</li>
+                      <li><strong>M(t):</strong> Manifestantes activos.</li>
+                      <li><strong>D(t):</strong> Mediadores.</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Parámetros Clave</h6>
+                    <ul>
+                      <li><strong>a:</strong> Influencia del descontento.</li>
+                      <li><strong>c:</strong> Efectividad del diálogo.</li>
+                      <li><strong>k:</strong> Generación de mediadores.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis y Masificación</h6>
+                <p>El descontento tiende a masificarse (M(t) > 50% de la población) cuando la influencia del descontento (a) es muy alta, o cuando no existen mediadores (D=0, k=0). Por el contrario, un diálogo efectivo (c alto) estabiliza la situación rápidamente, reduciendo la cantidad de manifestantes activos y retornándolos al estado neutral.</p>
+                
+                <h6 class="fw-bold text-dark mt-3">Métodos Numéricos</h6>
+                <p>El método de <strong>Heun</strong> (predictor-corrector) brinda buena precisión con menos cálculos. Sin embargo, para simulaciones de este tipo (sistemas no lineales de varias ecuaciones), <strong>Runge-Kutta 4</strong> es altamente recomendado por su estabilidad superior a largo plazo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row gy-4">
           <!-- ── Columna de configuración ── -->
           <div class="col-lg-5">
@@ -166,37 +207,37 @@
                       <input type="number" id="edo-M0" class="form-control form-control-sm" value="10" />
                     </div>
                     <div class="col-4">
-                      <label for="edo-D0" class="form-label small">D₀ (detenidos)</label>
-                      <input type="number" id="edo-D0" class="form-control form-control-sm" value="0" />
+                      <label for="edo-D0" class="form-label small">D₀ (mediadores)</label>
+                      <input type="number" id="edo-D0" class="form-control form-control-sm" value="20" />
                     </div>
                   </div>
                   <div class="row g-2 mb-2">
                     <div class="col-4">
-                      <label for="edo-sa" class="form-label small">a (radical.)</label>
+                      <label for="edo-sa" class="form-label small">a (influencia)</label>
                       <input type="number" id="edo-sa" class="form-control form-control-sm"
-                             value="0.003" step="0.001" />
+                             value="0.0005" step="0.0001" />
                     </div>
                     <div class="col-4">
                       <label for="edo-sb" class="form-label small">b (retorno)</label>
                       <input type="number" id="edo-sb" class="form-control form-control-sm"
-                             value="0.02" step="0.01" />
+                             value="0.05" step="0.01" />
                     </div>
                     <div class="col-4">
-                      <label for="edo-sc" class="form-label small">c (dispers.)</label>
+                      <label for="edo-sc" class="form-label small">c (diálogo)</label>
                       <input type="number" id="edo-sc" class="form-control form-control-sm"
-                             value="0.01" step="0.001" />
+                             value="0.0004" step="0.0001" />
                     </div>
                   </div>
                   <div class="row g-2 mb-3">
                     <div class="col-6">
-                      <label for="edo-sk" class="form-label small">k (detenciones)</label>
+                      <label for="edo-sk" class="form-label small">k (generación D)</label>
                       <input type="number" id="edo-sk" class="form-control form-control-sm"
-                             value="0.08" step="0.01" />
+                             value="0.10" step="0.01" />
                     </div>
                     <div class="col-6">
-                      <label for="edo-sr" class="form-label small">r (liberación)</label>
+                      <label for="edo-sr" class="form-label small">r (desgaste D)</label>
                       <input type="number" id="edo-sr" class="form-control form-control-sm"
-                             value="0.04" step="0.01" />
+                             value="0.05" step="0.01" />
                     </div>
                   </div>
                 </div>
@@ -234,7 +275,7 @@
                         onclick="EcuacionesDiferenciales.simular()">
                   Simular
                 </button>
-                <div class="row g-2 mb-2">
+                <div class="row g-2 mb-2" id="botones-reservas">
                   <div class="col-4">
                     <button class="btn btn-warning w-100 btn-sm"
                             onclick="EcuacionesDiferenciales.escenarioReservasCritico('normal')">
@@ -254,10 +295,33 @@
                     </button>
                   </div>
                 </div>
-                <button class="btn btn-outline-danger w-100 btn-sm"
-                        onclick="EcuacionesDiferenciales.escenarioConflictoSocial()">
-                  Simular Conflicto Social
-                </button>
+                
+                <div class="row g-2 mb-2" id="botones-social" style="display:none">
+                  <div class="col-6">
+                    <button class="btn btn-outline-primary w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioSocial('base')">
+                      Base (RK4)
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-success w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioSocial('dialogo')">
+                      Mejora diálogo
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-danger w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioSocial('sin_mediadores')">
+                      Sin mediadores
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-warning w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioSocial('rumores')">
+                      Rumores intensos
+                    </button>
+                  </div>
+                </div>
 
               </div>
             </div>
