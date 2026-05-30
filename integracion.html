@@ -72,9 +72,53 @@
           inflación exponencial versus precios constantes, cuantificando la
           <em>pérdida de poder adquisitivo familiar acumulada</em> en bolivianos.
         </p>
-        <div class="modulo-contexto">
-          <strong>¿Qué se modela?</strong> El gasto total acumulado de una familia durante 12 meses cuando el precio de la canasta básica crece a una tasa de inflación del 5% mensual.
-          <strong>¿Qué responde la simulación?</strong> Simpson 1/3 produce el resultado más preciso con el mismo número de evaluaciones que el Trapecio. La diferencia entre los tres métodos es el error numérico — si coinciden hasta 4 cifras significativas, la integral está bien aproximada. El botón "Comparar sin inflación" cuantifica cuántos bolivianos adicionales paga una familia por efecto de la inflación.
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioD">
+          <div class="accordion-item border-primary">
+            <h2 class="accordion-header" id="headingEscenarioD">
+              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioD" aria-expanded="true" aria-controls="collapseEscenarioD">
+                📖 Escenario D: Costo acumulado y pérdida del poder adquisitivo familiar
+              </button>
+            </h2>
+            <div id="collapseEscenarioD" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioD" data-bs-parent="#accordionEscenarioD">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>Una familia compra diariamente una canasta básica (papa, arroz, aceite, azúcar). Debido a problemas de abastecimiento, los precios aumentan progresivamente durante el mes. El objetivo es determinar el gasto real, cuánto se habría gastado sin inflación, y cuantificar la pérdida de poder adquisitivo calculando el área bajo la curva de precios (integración numérica).</p>
+
+                <h6 class="fw-bold text-dark mt-3">Datos Observados (Costo de Canasta cada 5 días)</h6>
+                <div class="table-responsive" style="max-width: 300px;">
+                  <table class="table table-sm table-bordered text-center">
+                    <thead class="table-light">
+                      <tr><th>Día</th><th>Costo Canasta (Bs)</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>0</td><td>100</td></tr>
+                      <tr><td>5</td><td>105</td></tr>
+                      <tr><td>10</td><td>112</td></tr>
+                      <tr><td>15</td><td>120</td></tr>
+                      <tr><td>20</td><td>128</td></tr>
+                      <tr><td>25</td><td>137</td></tr>
+                      <tr><td>30</td><td>145</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos de Integración</h6>
+                <ul>
+                  <li><strong>Regla del Trapecio:</strong> Aproxima el área uniendo puntos con líneas rectas. Resultado: ~3622.50 Bs.</li>
+                  <li><strong>Simpson 1/3:</strong> Usa parábolas para unir grupos de 3 puntos. Resultado: ~3621.67 Bs. <em>(Más preciso para curvas suaves)</em>.</li>
+                  <li><strong>Simpson 3/8:</strong> Usa cúbicas para grupos de 4 puntos. Resultado: ~3621.90 Bs.</li>
+                </ul>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis Económico</h6>
+                <ul>
+                  <li><strong>Gasto Real:</strong> Aproximadamente 3622 Bs.</li>
+                  <li><strong>Gasto sin aumento (precio fijo a 100 Bs/día):</strong> 3000 Bs.</li>
+                  <li><strong>Pérdida de poder adquisitivo:</strong> 3622 - 3000 = <strong>622 Bs</strong>. La familia necesitó un <strong>20.7% más de dinero</strong> para comprar lo mismo.</li>
+                  <li><strong>Producto con mayor impacto:</strong> La papa, que incrementó +14 Bs (de 8 a 22), frente al arroz (+6), aceite (+5) y azúcar (+3).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row gy-4">

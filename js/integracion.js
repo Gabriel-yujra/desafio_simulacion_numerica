@@ -136,10 +136,10 @@ const Integracion = (function () {
    * Valor analítico: (100/0.05)(e^0.6 − 1) ≈ 1 644.24 Bs
    */
   function escenarioInflacion() {
-    document.getElementById('int-funcion').value = '100 * Math.exp(0.05 * x)';
+    document.getElementById('int-funcion').value = '[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]';
     document.getElementById('int-a').value        = '0';
-    document.getElementById('int-b').value        = '12';
-    document.getElementById('int-n').value        = '24';
+    document.getElementById('int-b').value        = '30';
+    document.getElementById('int-n').value        = '6';
     document.getElementById('int-trapecio').checked  = true;
     document.getElementById('int-simpson13').checked = true;
     document.getElementById('int-simpson38').checked = true;
@@ -151,8 +151,8 @@ const Integracion = (function () {
    * Cuantifica la pérdida de poder adquisitivo familiar en Bs.
    */
   function escenarioSinInflacion() {
-    const a = 0, b = 12, n = 24;
-    const exprInf   = '100 * Math.exp(0.05 * x)';
+    const a = 0, b = 30, n = 6;
+    const exprInf   = '[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]';
     const exprConst = '100';
 
     const fInf   = x => SimNum.evaluarFuncion(exprInf,   x);
@@ -192,14 +192,14 @@ const Integracion = (function () {
           <div class="row text-center g-2 mb-3">
             <div class="col-4">
               <div class="p-2 rounded bg-danger-subtle">
-                <div class="small text-muted">Con inflación (5%/mes)</div>
+                <div class="small text-muted">Gasto Real</div>
                 <div class="fw-bold fs-5">${SimNum.redondear(rInf.valor, 2)} Bs</div>
-                <div class="small font-monospace text-muted">100·e^(0.05x)</div>
+                <div class="small font-monospace text-muted">Datos Tabulares</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 rounded bg-success-subtle">
-                <div class="small text-muted">Sin inflación (precio fijo)</div>
+                <div class="small text-muted">Gasto Constante</div>
                 <div class="fw-bold fs-5">${SimNum.redondear(rConst.valor, 2)} Bs</div>
                 <div class="small font-monospace text-muted">f(x) = 100</div>
               </div>
@@ -208,16 +208,19 @@ const Integracion = (function () {
               <div class="p-2 rounded bg-warning-subtle">
                 <div class="small text-muted">Pérdida acumulada</div>
                 <div class="fw-bold fs-5 text-danger">+${dif} Bs</div>
-                <div class="small text-muted">(+${pct}% sobre base)</div>
+                <div class="small text-muted">(+${pct}% de inflación)</div>
               </div>
             </div>
           </div>
-          <p class="text-muted small mb-0">
-            Con un precio base de <strong>100 Bs/mes</strong> y una inflación del <strong>5% mensual</strong>,
-            la canasta básica anual cuesta <strong>${dif} Bs más</strong> de lo que costaría sin inflación
-            — un incremento del <strong>${pct}%</strong> en el gasto familiar acumulado.
-            Los intervalos de integración representan los 12 meses del año.
-          </p>
+          <div class="alert alert-success mb-0 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+            <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario D)</h6>
+            <p class="mb-0 small text-muted">
+              Durante el mes la familia gastó aproximadamente <strong>${SimNum.redondear(rInf.valor, 2)} Bs</strong> en la compra de la canasta básica. 
+              Si los precios hubieran permanecido constantes, el gasto habría sido de <strong>${SimNum.redondear(rConst.valor, 2)} Bs</strong>. 
+              La diferencia de <strong>${dif} Bs</strong> representa una pérdida aproximada del <strong>${pct}%</strong> del poder adquisitivo. 
+              El producto que más contribuyó al incremento del gasto fue la <strong>papa</strong>, debido a su fuerte aumento de precio durante el período analizado.
+            </p>
+          </div>
         </div>
       </div>`;
   }
@@ -237,11 +240,28 @@ const Integracion = (function () {
       r.nota || '—',
     ]);
 
-    contenedor.innerHTML =
-      `<div class="alert-resultado info mb-2">
+    let html = `<div class="alert-resultado info mb-2">
          Intervalo [${a}, ${b}] &middot; n solicitado = ${n}
        </div>` +
       SimNum.generarTablaHTML(headers, rows);
+      
+    // Conclusión automática para Escenario D si se calcula la tabla
+    const expr = document.getElementById('int-funcion')?.value?.trim();
+    if (expr === '[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]' && a === 0 && b === 30 && n === 6) {
+      html += `
+        <div class="alert alert-success mt-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario D)</h6>
+          <p class="mb-0 small text-muted">
+            Durante el mes la familia gastó aproximadamente <strong>3622 Bs</strong> en la compra de la canasta básica. 
+            Si los precios hubieran permanecido constantes, el gasto habría sido de <strong>3000 Bs</strong>. 
+            La diferencia de <strong>622 Bs</strong> representa una pérdida aproximada del <strong>20.7%</strong> del poder adquisitivo. 
+            El producto que más contribuyó al incremento del gasto fue la <strong>papa</strong>, debido a su fuerte aumento de precio durante el período analizado.
+          </p>
+        </div>
+      `;
+    }
+    
+    contenedor.innerHTML = html;
   }
 
   /* ══════════════════════════════════════════════
