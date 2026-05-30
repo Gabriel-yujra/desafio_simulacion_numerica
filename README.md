@@ -103,15 +103,13 @@ python -m http.server 8080
 
 ---
 
-## Trabajo en grupo
+## Integrantes
 
-| Rol | Responsabilidad |
-|---|---|
-| **Implementación técnica** | Desarrollo de la página web, codificación de los cinco módulos numéricos, integración de Chart.js y pruebas de la herramienta. |
-| **Exposición y análisis** | Presentación de la herramienta al tribunal, interpretación de los resultados en cada escenario y respuesta a preguntas sobre los modelos. |
-| **Revisión y redacción** | Revisión de los modelos matemáticos, redacción del informe final y preparación del material de apoyo para la exposición. |
-
-Todos los integrantes tienen acceso al repositorio Git y pueden ejecutar la herramienta localmente para preparar su parte de la exposición.
+| Nombre completo |
+|---|
+| Luis Alfredo Quispe Ortiz |
+| Amilcar Josias Yujra Chipana |
+| Gabriel Yujra Machaca |
 
 ---
 

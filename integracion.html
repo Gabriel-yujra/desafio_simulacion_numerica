@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integración Numérica - SimNum</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <span class="brand-icon">⚙</span> SimNum
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMenu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
+          <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
+          <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
+          <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main-content">
+
+    <section id="integracion" class="section-block">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <div>
+            <h2 class="section-title">Integración numérica</h2>
+            <p class="section-subtitle">Costo acumulado y pérdida de poder adquisitivo</p>
+          </div>
+        </div>
+
+        <p>
+          El costo acumulado de una canasta básica se representa como el área bajo la curva
+          de precios en el tiempo — una integral que rara vez tiene solución analítica cuando
+          los datos provienen de modelos reales. Se implementan las reglas del
+          <strong>Trapecio</strong>, <strong>Simpson 1/3</strong> y <strong>Simpson 3/8</strong>.
+          El <strong>Escenario D</strong> compara dos situaciones: precios crecientes por
+          inflación exponencial versus precios constantes, cuantificando la
+          <em>pérdida de poder adquisitivo familiar acumulada</em> en bolivianos.
+        </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> El gasto total acumulado de una familia durante 12 meses cuando el precio de la canasta básica crece a una tasa de inflación del 5% mensual.
+          <strong>¿Qué responde la simulación?</strong> Simpson 1/3 produce el resultado más preciso con el mismo número de evaluaciones que el Trapecio. La diferencia entre los tres métodos es el error numérico — si coinciden hasta 4 cifras significativas, la integral está bien aproximada. El botón "Comparar sin inflación" cuantifica cuántos bolivianos adicionales paga una familia por efecto de la inflación.
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Configuración de la integral</div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="int-funcion" class="form-label">Función f(x)</label>
+                  <input type="text" id="int-funcion" class="form-control form-control-sm font-monospace"
+                    value="100 * Math.exp(0.05 * x)" />
+                  <div class="form-text">Ejemplo: modelo de precio en el tiempo</div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="int-a" class="form-label">Límite inferior a</label>
+                    <input type="number" id="int-a" class="form-control form-control-sm" value="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="int-b" class="form-label">Límite superior b</label>
+                    <input type="number" id="int-b" class="form-control form-control-sm" value="12" />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="int-n" class="form-label">Número de subintervalos (n)</label>
+                  <input type="number" id="int-n" class="form-control form-control-sm" value="100" min="2" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Métodos a comparar</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-trapecio" checked />
+                    <label class="form-check-label" for="int-trapecio">Regla del Trapecio</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson13" checked />
+                    <label class="form-check-label" for="int-simpson13">Simpson 1/3</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson38" />
+                    <label class="form-check-label" for="int-simpson38">Simpson 3/8</label>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary w-100 mb-2" onclick="Integracion.calcular()">
+                  Calcular integral
+                </button>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <button class="btn btn-warning w-100 btn-sm" onclick="Integracion.escenarioInflacion()">
+                      Escenario con inflación
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-success w-100 btn-sm" onclick="Integracion.escenarioSinInflacion()">
+                      Comparar sin inflación
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Área bajo la curva
+                <button class="btn btn-outline-secondary btn-sm" onclick="Integracion.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <canvas id="integracion-chart" height="200"></canvas>
+              </div>
+            </div>
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Comparativa de métodos</div>
+              <div class="card-body">
+                <div id="int-resultado" class="result-area">
+                  <p class="text-muted small">Los resultados comparativos aparecerán aquí.</p>
+                </div>
+                <div id="int-comparacion"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Créditos -->
+    <div class="mt-5 text-center text-muted small pb-4">
+      <hr />
+      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
+      <p class="mb-0">Amilcar Josias Yujra Chipana</p>
+      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p>
+        Trabajo final · Materia: Métodos Numéricos ·
+        <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>
+      </p>
+      <p>Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.</p>
+    </div>
+
+  </main><!-- /main -->
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <!-- Bootstrap 5 JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Módulos numéricos -->
+  <script src="js/integracion.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

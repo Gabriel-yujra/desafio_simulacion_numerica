@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistemas de Ecuaciones Lineales - SimNum</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <span class="brand-icon">⚙</span> SimNum
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMenu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
+          <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
+          <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
+          <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main-content">
+
+    <section id="sistemas-lineales" class="section-block section-alt">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <div>
+            <h2 class="section-title">Sistemas de ecuaciones lineales</h2>
+            <p class="section-subtitle">Abastecimiento y red de transporte</p>
+          </div>
+        </div>
+
+        <p>
+          Una red de distribución de bienes puede representarse como un sistema Ax = b donde
+          cada ecuación expresa la restricción de flujo en un nodo. Se implementan cinco métodos:
+          <strong>LU</strong> (directo), <strong>Jacobi</strong>, <strong>Gauss-Seidel</strong>,
+          <strong>SOR</strong> y <strong>Gradiente Conjugado</strong>. Los métodos iterativos
+          garantizan convergencia si la matriz es diagonalmente dominante.
+        </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> La distribución de combustible y alimentos entre una planta central, depósitos intermedios y zonas de consumo, donde cada flujo debe satisfacer restricciones de balance.
+          <strong>¿Qué responde la simulación?</strong> ¿Cuántas unidades debe enviar cada nodo para satisfacer la demanda? Si la matriz converge rápidamente con Gauss-Seidel (pocas iteraciones, residuo bajo), el sistema de distribución está bien condicionado. Si no converge, indica desbalances en la red que requieren rediseño.
+        </div>
+
+        <div class="row gy-4">
+          <!-- ── Panel de entrada ── -->
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Parámetros del sistema</div>
+              <div class="card-body">
+
+                <!-- Tamaño -->
+                <div class="mb-3">
+                  <label for="sl-size" class="form-label">Tamaño del sistema (n × n)</label>
+                  <select id="sl-size" class="form-select form-select-sm">
+                    <option value="2">2 × 2</option>
+                    <option value="3" selected>3 × 3</option>
+                    <option value="4">4 × 4</option>
+                    <option value="5">5 × 5</option>
+                  </select>
+                </div>
+
+                <!-- Método -->
+                <div class="mb-3">
+                  <label for="sl-method" class="form-label">Método</label>
+                  <select id="sl-method" class="form-select form-select-sm">
+                    <option value="lu">LU (Factorización directa)</option>
+                    <option value="jacobi">Jacobi</option>
+                    <option value="gauss-seidel" selected>Gauss-Seidel</option>
+                    <option value="sor">SOR (sobre-relajación)</option>
+                    <option value="gradiente-conjugado">Gradiente Conjugado</option>
+                  </select>
+                  <div class="form-text">
+                    LU: exacto. Jacobi / GS / SOR: requieren dominancia diagonal.
+                    CG: para matrices simétricas definidas positivas.
+                  </div>
+                </div>
+
+                <!-- ω para SOR (oculto por defecto) -->
+                <div id="sl-omega-container" class="mb-3" style="display:none">
+                  <label for="sl-omega" class="form-label">
+                    Parámetro ω <span class="text-muted small">(SOR, rango 0 – 2)</span>
+                  </label>
+                  <input type="number" id="sl-omega" class="form-control form-control-sm"
+                         value="1.2" step="0.05" min="0.05" max="1.99" />
+                  <div class="form-text">ω = 1 → Gauss-Seidel. ω &gt; 1 → sobre-relajación (acelera).</div>
+                </div>
+
+                <!-- Tolerancia e iteraciones -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="sl-tol" class="form-label">Tolerancia</label>
+                    <input type="number" id="sl-tol" class="form-control form-control-sm"
+                           value="0.000001" step="0.000001" min="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="sl-maxiter" class="form-label">Iter. máximas</label>
+                    <input type="number" id="sl-maxiter" class="form-control form-control-sm"
+                           value="200" min="1" />
+                  </div>
+                </div>
+
+                <!-- Matriz dinámica -->
+                <div class="mb-3">
+                  <label class="form-label small text-muted">Matriz A y vector b</label>
+                  <div id="sl-matrix-container" class="text-center text-muted small py-3 border rounded">
+                    La matriz aparecerá aquí
+                  </div>
+                </div>
+
+                <!-- Botones de ejemplo -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-outline-success btn-sm w-100"
+                            onclick="SistemasLineales.cargarEjemploAbastecimiento()">
+                      Escenario abastecimiento
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-warning btn-sm w-100"
+                            onclick="SistemasLineales.cargarEjemploMalCondicionado()">
+                      Escenario mal condicionado
+                    </button>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="SistemasLineales.resolver()">
+                  Resolver sistema
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Panel de resultados ── -->
+          <div class="col-lg-7">
+            <!-- Gráfico residuo / solución -->
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Convergencia del residuo
+                <button class="btn btn-outline-secondary btn-sm" onclick="SistemasLineales.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <canvas id="sl-chart" height="200"></canvas>
+              </div>
+            </div>
+
+            <!-- Resultados textuales -->
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Solución y resumen</div>
+              <div class="card-body">
+                <div id="sl-resultado" class="result-area">
+                  <p class="text-muted small">Los resultados del sistema se mostrarán aquí.</p>
+                </div>
+                <div id="sl-tabla-iteraciones" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Créditos -->
+    <div class="mt-5 text-center text-muted small pb-4">
+      <hr />
+      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
+      <p class="mb-0">Amilcar Josias Yujra Chipana</p>
+      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p>
+        Trabajo final · Materia: Métodos Numéricos ·
+        <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>
+      </p>
+      <p>Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.</p>
+    </div>
+
+  </main><!-- /main -->
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <!-- Bootstrap 5 JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Módulos numéricos -->
+  <script src="js/sistemas_lineales.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

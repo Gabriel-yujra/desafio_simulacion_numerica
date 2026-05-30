@@ -1,0 +1,142 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "01"
+        - generic [ref=e27]:
+          - heading "Sistemas de ecuaciones lineales" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Abastecimiento y red de transporte
+      - paragraph [ref=e30]:
+        - text: "Una red de distribución de bienes puede representarse como un sistema Ax = b donde cada ecuación expresa la restricción de flujo en un nodo. Se implementan cinco métodos:"
+        - strong [ref=e31]: LU
+        - text: (directo),
+        - strong [ref=e32]: Jacobi
+        - text: ","
+        - strong [ref=e33]: Gauss-Seidel
+        - text: ","
+        - strong [ref=e34]: SOR
+        - text: "y"
+        - strong [ref=e35]: Gradiente Conjugado
+        - text: . Los métodos iterativos garantizan convergencia si la matriz es diagonalmente dominante.
+      - generic [ref=e36]:
+        - strong [ref=e37]: ¿Qué se modela?
+        - text: La distribución de combustible y alimentos entre una planta central, depósitos intermedios y zonas de consumo, donde cada flujo debe satisfacer restricciones de balance.
+        - strong [ref=e38]: ¿Qué responde la simulación?
+        - text: ¿Cuántas unidades debe enviar cada nodo para satisfacer la demanda? Si la matriz converge rápidamente con Gauss-Seidel (pocas iteraciones, residuo bajo), el sistema de distribución está bien condicionado. Si no converge, indica desbalances en la red que requieren rediseño.
+      - generic [ref=e39]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: Parámetros del sistema
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]: Tamaño del sistema (n × n)
+              - combobox "Tamaño del sistema (n × n)" [ref=e46]:
+                - option "2 × 2"
+                - option "3 × 3" [selected]
+                - option "4 × 4"
+                - option "5 × 5"
+            - generic [ref=e47]:
+              - generic [ref=e48]: Método
+              - combobox "Método" [ref=e49]:
+                - option "LU (Factorización directa)"
+                - option "Jacobi"
+                - option "Gauss-Seidel" [selected]
+                - option "SOR (sobre-relajación)"
+                - option "Gradiente Conjugado"
+              - generic [ref=e50]: "LU: exacto. Jacobi / GS / SOR: requieren dominancia diagonal. CG: para matrices simétricas definidas positivas."
+            - generic [ref=e51]:
+              - generic [ref=e52]:
+                - generic [ref=e53]: Tolerancia
+                - spinbutton "Tolerancia" [ref=e54]: "0.000001"
+              - generic [ref=e55]:
+                - generic [ref=e56]: Iter. máximas
+                - spinbutton "Iter. máximas" [ref=e57]: "200"
+            - generic [ref=e58]:
+              - generic [ref=e59]: Matriz A y vector b
+              - table [ref=e62]:
+                - rowgroup [ref=e63]:
+                  - row "x1 x2 x3 b" [ref=e64]:
+                    - columnheader "x1" [ref=e65]:
+                      - text: x
+                      - subscript [ref=e66]: "1"
+                    - columnheader "x2" [ref=e67]:
+                      - text: x
+                      - subscript [ref=e68]: "2"
+                    - columnheader "x3" [ref=e69]:
+                      - text: x
+                      - subscript [ref=e70]: "3"
+                    - columnheader "b" [ref=e71]
+                - rowgroup [ref=e72]:
+                  - row "10 2 1 7" [ref=e73]:
+                    - cell "10" [ref=e74]:
+                      - spinbutton [ref=e75]: "10"
+                    - cell "2" [ref=e76]:
+                      - spinbutton [ref=e77]: "2"
+                    - cell "1" [ref=e78]:
+                      - spinbutton [ref=e79]: "1"
+                    - cell "7" [ref=e80]:
+                      - spinbutton [ref=e81]: "7"
+                  - row "1 5 1 -8" [ref=e82]:
+                    - cell "1" [ref=e83]:
+                      - spinbutton [ref=e84]: "1"
+                    - cell "5" [ref=e85]:
+                      - spinbutton [ref=e86]: "5"
+                    - cell "1" [ref=e87]:
+                      - spinbutton [ref=e88]: "1"
+                    - cell "-8" [ref=e89]:
+                      - spinbutton [ref=e90]: "-8"
+                  - row "2 3 10 6" [ref=e91]:
+                    - cell "2" [ref=e92]:
+                      - spinbutton [ref=e93]: "2"
+                    - cell "3" [ref=e94]:
+                      - spinbutton [ref=e95]: "3"
+                    - cell "10" [ref=e96]:
+                      - spinbutton [ref=e97]: "10"
+                    - cell "6" [ref=e98]:
+                      - spinbutton [ref=e99]: "6"
+            - generic [ref=e100]:
+              - button "Escenario abastecimiento" [ref=e102] [cursor=pointer]
+              - button "Escenario mal condicionado" [ref=e104] [cursor=pointer]
+            - button "Resolver sistema" [ref=e105] [cursor=pointer]
+        - generic [ref=e106]:
+          - generic [ref=e108]:
+            - text: Convergencia del residuo
+            - button "Limpiar" [ref=e109] [cursor=pointer]
+          - generic [ref=e112]:
+            - generic [ref=e113]: Solución y resumen
+            - paragraph [ref=e116]: Los resultados del sistema se mostrarán aquí.
+    - generic [ref=e117]:
+      - separator [ref=e118]
+      - paragraph [ref=e119]: Integrantes
+      - paragraph [ref=e120]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e121]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e122]: Gabriel Yujra Machaca
+      - paragraph [ref=e123]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e124]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

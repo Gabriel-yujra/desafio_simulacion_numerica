@@ -1,0 +1,97 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "02"
+        - generic [ref=e27]:
+          - heading "Raíces de ecuaciones" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Umbrales críticos y puntos de equilibrio
+      - paragraph [ref=e30]:
+        - text: "En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a hallar la raíz de una función que expresa el exceso de demanda sobre la oferta disponible. Se implementan tres métodos:"
+        - strong [ref=e31]: Bisección
+        - text: (garantiza convergencia si f(a)·f(b) < 0),
+        - strong [ref=e32]: Newton-Raphson
+        - text: (convergencia cuadrática, requiere derivada) y
+        - strong [ref=e33]: Secante
+        - text: (orden ~1.618, sin derivada analítica).
+      - generic [ref=e34]:
+        - strong [ref=e35]: ¿Qué se modela?
+        - text: El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
+        - strong [ref=e36]: ¿Qué responde la simulación?
+        - text: "Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual."
+      - generic [ref=e37]:
+        - generic [ref=e39]:
+          - generic [ref=e40]: Parámetros
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e43]: Función f(x) (sintaxis JS)
+              - textbox "Función f(x) (sintaxis JS)" [ref=e44]: 1200 - 80*x - 200*Math.exp(0.1*x)
+              - generic [ref=e45]: "Ejemplo: demanda − oferta como función del precio x"
+            - generic [ref=e46]:
+              - generic [ref=e47]: Método
+              - combobox "Método" [ref=e48]:
+                - option "Bisección" [selected]
+                - option "Newton-Raphson"
+                - option "Secante"
+              - generic [ref=e49]: "Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada."
+            - generic [ref=e50]:
+              - generic [ref=e51]:
+                - generic [ref=e52]: Extremo a
+                - spinbutton "Extremo a" [ref=e53]: "0"
+              - generic [ref=e54]:
+                - generic [ref=e55]: Extremo b
+                - spinbutton "Extremo b" [ref=e56]: "15"
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: Tolerancia
+                - spinbutton "Tolerancia" [ref=e60]: "0.000001"
+              - generic [ref=e61]:
+                - generic [ref=e62]: Iter. máximas
+                - spinbutton "Iter. máximas" [ref=e63]: "100"
+            - generic [ref=e64]:
+              - button "Umbral costo/ingreso" [active] [ref=e66] [cursor=pointer]
+              - button "Umbral de reposición" [ref=e68] [cursor=pointer]
+            - button "Encontrar raíz" [ref=e69] [cursor=pointer]
+        - generic [ref=e70]:
+          - generic [ref=e72]:
+            - text: Gráfico de f(x) y raíz aproximada
+            - button "Limpiar" [ref=e73] [cursor=pointer]
+          - generic [ref=e76]:
+            - generic [ref=e77]: Resumen y tabla de iteraciones
+            - paragraph [ref=e80]: Los resultados y la tabla de iteraciones aparecerán aquí.
+    - generic [ref=e81]:
+      - separator [ref=e82]
+      - paragraph [ref=e83]: Integrantes
+      - paragraph [ref=e84]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e85]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e86]: Gabriel Yujra Machaca
+      - paragraph [ref=e87]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e88]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

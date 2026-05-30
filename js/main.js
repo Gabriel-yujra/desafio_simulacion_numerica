@@ -8,52 +8,21 @@
  */
 
 /* ══════════════════════════════════════════════
-   1. SCROLL-SPY MANUAL
+   1. ACTIVACIÓN DE ENLACE DE NAVBAR POR URL
    ══════════════════════════════════════════════ */
-(function initScrollSpy() {
-  const navLinks  = document.querySelectorAll('#navbarMain .nav-link');
-  const sectionIds = [...navLinks]
-    .map(link => link.getAttribute('href'))
-    .filter(href => href && href.startsWith('#'))
-    .map(href => href.slice(1));
+(function initActiveNavLink() {
+  const navLinks = document.querySelectorAll('#navbarMain .nav-link');
+  const path = window.location.pathname;
+  let pageName = path.split('/').pop() || 'index.html';
 
-  const OFFSET = 80; // px — altura del navbar
-
-  function getActiveSection() {
-    // Recorre secciones de abajo hacia arriba y devuelve la primera
-    // cuyo borde superior quedó por encima del punto de referencia.
-    for (let i = sectionIds.length - 1; i >= 0; i--) {
-      const el = document.getElementById(sectionIds[i]);
-      if (!el) continue;
-      if (el.getBoundingClientRect().top <= OFFSET + 10) {
-        return sectionIds[i];
-      }
-    }
-    return sectionIds[0]; // fallback: primera sección
+  if (pageName === '') {
+    pageName = 'index.html';
   }
 
-  function updateActiveLink() {
-    const active = getActiveSection();
-    navLinks.forEach(link => {
-      const target = link.getAttribute('href')?.slice(1);
-      link.classList.toggle('active', target === active);
-    });
-  }
-
-  // Escuchar scroll con throttle suave vía requestAnimationFrame
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        updateActiveLink();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-
-  // Ejecutar al cargar
-  updateActiveLink();
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    link.classList.toggle('active', href === pageName);
+  });
 })();
 
 
@@ -199,10 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
   console.info('[SimNum] Página cargada correctamente.');
   console.info('[SimNum] Módulos disponibles: SistemasLineales, Raices, Interpolacion, Integracion, EDO');
 
-  // Llamar a inicializaciones individuales de cada módulo si las exponen
-  if (typeof SistemasLineales?.init === 'function') SistemasLineales.init();
-  if (typeof Raices?.init === 'function')            Raices.init();
-  if (typeof Interpolacion?.init === 'function')     Interpolacion.init();
-  if (typeof Integracion?.init === 'function')       Integracion.init();
-  if (typeof EcuacionesDiferenciales?.init === 'function') EcuacionesDiferenciales.init();
+  // Llamar a inicializaciones individuales de cada módulo si están cargados
+  if (typeof SistemasLineales !== 'undefined' && typeof SistemasLineales.init === 'function') SistemasLineales.init();
+  if (typeof Raices !== 'undefined' && typeof Raices.init === 'function')            Raices.init();
+  if (typeof Interpolacion !== 'undefined' && typeof Interpolacion.init === 'function')     Interpolacion.init();
+  if (typeof Integracion !== 'undefined' && typeof Integracion.init === 'function')       Integracion.init();
+  if (typeof EcuacionesDiferenciales !== 'undefined' && typeof EcuacionesDiferenciales.init === 'function') EcuacionesDiferenciales.init();
 });

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raíces de Ecuaciones - SimNum</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <span class="brand-icon">⚙</span> SimNum
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMenu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
+          <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
+          <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
+          <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main-content">
+
+    <section id="raices" class="section-block">
+      <div class="container-xl">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <div>
+            <h2 class="section-title">Raíces de ecuaciones</h2>
+            <p class="section-subtitle">Umbrales críticos y puntos de equilibrio</p>
+          </div>
+        </div>
+
+        <p>
+          En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales
+          la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a
+          hallar la raíz de una función que expresa el exceso de demanda sobre la oferta
+          disponible. Se implementan tres métodos: <strong>Bisección</strong> (garantiza
+          convergencia si f(a)·f(b) &lt; 0), <strong>Newton-Raphson</strong> (convergencia
+          cuadrática, requiere derivada) y <strong>Secante</strong> (orden ~1.618, sin
+          derivada analítica).
+        </p>
+        <div class="modulo-contexto">
+          <strong>¿Qué se modela?</strong> El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
+          <strong>¿Qué responde la simulación?</strong> Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual.
+        </div>
+
+        <div class="row gy-4">
+          <!-- ── Panel de entrada ── -->
+          <div class="col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Parámetros</div>
+              <div class="card-body">
+
+                <!-- Función f(x) -->
+                <div class="mb-3">
+                  <label for="r-funcion" class="form-label">
+                    Función f(x) <span class="text-muted small">(sintaxis JS)</span>
+                  </label>
+                  <input type="text" id="r-funcion"
+                         class="form-control form-control-sm font-monospace"
+                         value="Math.pow(x, 3) - 2*x - 5" />
+                  <div class="form-text">Ejemplo: demanda − oferta como función del precio x</div>
+                </div>
+
+                <!-- Derivada f'(x) — visible solo para Newton -->
+                <div id="r-derivada-container" class="mb-3" style="display:none">
+                  <label for="r-derivada" class="form-label">
+                    Derivada f'(x)
+                    <span class="text-muted small">(opcional; si está vacía se usa diferenciación numérica)</span>
+                  </label>
+                  <input type="text" id="r-derivada"
+                         class="form-control form-control-sm font-monospace"
+                         placeholder="3*Math.pow(x,2) - 2" />
+                  <div class="form-text">
+                    Si se deja en blanco: f'(x) ≈ (f(x+h) − f(x−h)) / 2h, h = 1e-5
+                  </div>
+                </div>
+
+                <!-- Método -->
+                <div class="mb-3">
+                  <label for="r-method" class="form-label">Método</label>
+                  <select id="r-method" class="form-select form-select-sm">
+                    <option value="biseccion">Bisección</option>
+                    <option value="newton">Newton-Raphson</option>
+                    <option value="secante">Secante</option>
+                  </select>
+                  <div class="form-text">
+                    Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada.
+                  </div>
+                </div>
+
+                <!-- Parámetros dinámicos: a / x₀ y b / x₁ -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label id="r-label-a" for="r-a" class="form-label">Extremo a</label>
+                    <input type="number" id="r-a"
+                           class="form-control form-control-sm" value="1" step="any" />
+                  </div>
+                  <div id="r-b-container" class="col-6">
+                    <label id="r-label-b" for="r-b" class="form-label">Extremo b</label>
+                    <input type="number" id="r-b"
+                           class="form-control form-control-sm" value="3" step="any" />
+                  </div>
+                </div>
+
+                <!-- Tolerancia e iteraciones máximas -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="r-tol" class="form-label">Tolerancia</label>
+                    <input type="number" id="r-tol"
+                           class="form-control form-control-sm"
+                           value="0.000001" step="0.000001" min="0" />
+                  </div>
+                  <div class="col-6">
+                    <label for="r-maxiter" class="form-label">Iter. máximas</label>
+                    <input type="number" id="r-maxiter"
+                           class="form-control form-control-sm" value="100" min="1" />
+                  </div>
+                </div>
+
+                <!-- Botones de ejemplo -->
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-outline-success btn-sm w-100"
+                            onclick="Raices.cargarEjemploUmbral()">
+                      Umbral costo/ingreso
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-warning btn-sm w-100"
+                            onclick="Raices.cargarEjemploReposicion()">
+                      Umbral de reposición
+                    </button>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="Raices.resolver()">
+                  Encontrar raíz
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Panel de resultados ── -->
+          <div class="col-lg-7">
+            <!-- Gráfico -->
+            <div class="card shadow-sm mb-3">
+              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                Gráfico de f(x) y raíz aproximada
+                <button class="btn btn-outline-secondary btn-sm" onclick="Raices.limpiar()">Limpiar</button>
+              </div>
+              <div class="card-body">
+                <canvas id="raices-chart" height="200"></canvas>
+              </div>
+            </div>
+
+            <!-- Resultados textuales + tabla de iteraciones -->
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold">Resumen y tabla de iteraciones</div>
+              <div class="card-body">
+                <div id="raices-resultado" class="result-area">
+                  <p class="text-muted small">Los resultados y la tabla de iteraciones aparecerán aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Créditos -->
+    <div class="mt-5 text-center text-muted small pb-4">
+      <hr />
+      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
+      <p class="mb-0">Amilcar Josias Yujra Chipana</p>
+      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p>
+        Trabajo final · Materia: Métodos Numéricos ·
+        <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>
+      </p>
+      <p>Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.</p>
+    </div>
+
+  </main><!-- /main -->
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <!-- Bootstrap 5 JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Módulos numéricos -->
+  <script src="js/raices.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: "#inicio"
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: "#inicio"
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: "#sistemas-lineales"
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: "#raices"
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: "#interpolacion"
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: "#integracion"
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: "#edo"
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: "#conclusiones"
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: Trabajo final · Métodos Numéricos
+          - heading "Simulación numérica de abastecimiento, precios y conflicto social" [level=1] [ref=e28]
+          - paragraph [ref=e29]: "Herramienta académica interactiva para modelar escenarios de crisis mediante métodos numéricos clásicos: sistemas lineales, raíces de ecuaciones, interpolación, integración y ecuaciones diferenciales ordinarias."
+        - generic [ref=e32]:
+          - heading "⚠ Aviso académico" [level=6] [ref=e33]
+          - paragraph [ref=e34]: Esta herramienta tiene fines exclusivamente educativos. Los datos, modelos y resultados son ficticios o simplificados. No representan situaciones reales, ni posiciones políticas de ningún tipo.
+      - separator [ref=e35]
+      - generic [ref=e37]:
+        - heading "Contexto del problema" [level=4] [ref=e38]
+        - paragraph [ref=e39]: Las crisis de abastecimiento, la volatilidad en los precios de productos básicos y la erosión del poder adquisitivo constituyen fenómenos complejos que pueden modelarse mediante herramientas matemáticas. Cuando los canales de distribución se ven comprometidos, los precios de alimentos y carburantes experimentan variaciones no lineales que afectan de forma diferenciada a distintos sectores de la población. A su vez, la percepción colectiva de la escasez puede retroalimentar el desabastecimiento a través de dinámicas de acaparamiento o descontento social.
+        - paragraph [ref=e40]: "Este proyecto utiliza cinco familias de métodos numéricos para simular, de manera aproximada, distintos aspectos de estas dinámicas: la distribución de recursos en una red de transporte, la detección de umbrales críticos de precios, la reconstrucción de curvas de costo a partir de datos dispersos, el cálculo del costo acumulado y la evolución temporal del descontento social."
+      - generic [ref=e41]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: Objetivo general
+          - paragraph [ref=e46]: Aplicar métodos numéricos computacionales para construir simulaciones interactivas que permitan analizar escenarios de abastecimiento, variación de precios y dinámica social, evaluando la precisión, convergencia y utilidad práctica de cada método.
+        - generic [ref=e48]:
+          - generic [ref=e49]: Objetivos específicos
+          - list [ref=e51]:
+            - listitem [ref=e52]: Resolver sistemas de ecuaciones lineales para modelar flujos en redes de transporte.
+            - listitem [ref=e53]: Encontrar raíces de ecuaciones para identificar umbrales y puntos de equilibrio.
+            - listitem [ref=e54]: Aplicar interpolación para reconstruir curvas de precios a partir de datos históricos.
+            - listitem [ref=e55]: Calcular integrales numéricas para estimar costos acumulados y pérdida de poder adquisitivo.
+            - listitem [ref=e56]: Resolver EDOs para simular el vaciado de reservas y la difusión del descontento social.
+      - generic [ref=e57]:
+        - generic [ref=e58]: Cobertura del desafío final — Métodos Numéricos
+        - list [ref=e60]:
+          - listitem [ref=e61]:
+            - text: ✅
+            - strong [ref=e62]: Sistemas de ecuaciones lineales
+            - text: — LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado
+          - listitem [ref=e63]:
+            - text: ✅
+            - strong [ref=e64]: Raíces de ecuaciones
+            - text: — Bisección, Newton-Raphson, Secante
+          - listitem [ref=e65]:
+            - text: ✅
+            - strong [ref=e66]: Interpolación
+            - text: — Lagrange, Newton (diferencias divididas), Spline cúbico natural
+          - listitem [ref=e67]:
+            - text: ✅
+            - strong [ref=e68]: Integración numérica
+            - text: — Trapecio compuesto, Simpson 1/3, Simpson 3/8
+          - listitem [ref=e69]:
+            - text: ✅
+            - strong [ref=e70]: Ecuaciones diferenciales
+            - text: — Euler, Heun (predictor-corrector), RK4 — escenarios reservas y conflicto social
+          - listitem [ref=e71]:
+            - text: ✅
+            - strong [ref=e72]: Página interactiva
+            - text: — formularios, botones, tablas de iteraciones y gráficos Chart.js en cada módulo
+    - generic [ref=e74]:
+      - generic [ref=e75]:
+        - generic [ref=e76]: "01"
+        - generic [ref=e77]:
+          - heading "Sistemas de ecuaciones lineales" [level=2] [ref=e78]
+          - paragraph [ref=e79]: Abastecimiento y red de transporte
+      - paragraph [ref=e80]:
+        - text: "Una red de distribución de bienes puede representarse como un sistema Ax = b donde cada ecuación expresa la restricción de flujo en un nodo. Se implementan cinco métodos:"
+        - strong [ref=e81]: LU
+        - text: (directo),
+        - strong [ref=e82]: Jacobi
+        - text: ","
+        - strong [ref=e83]: Gauss-Seidel
+        - text: ","
+        - strong [ref=e84]: SOR
+        - text: "y"
+        - strong [ref=e85]: Gradiente Conjugado
+        - text: . Los métodos iterativos garantizan convergencia si la matriz es diagonalmente dominante.
+      - generic [ref=e86]:
+        - strong [ref=e87]: ¿Qué se modela?
+        - text: La distribución de combustible y alimentos entre una planta central, depósitos intermedios y zonas de consumo, donde cada flujo debe satisfacer restricciones de balance.
+        - strong [ref=e88]: ¿Qué responde la simulación?
+        - text: ¿Cuántas unidades debe enviar cada nodo para satisfacer la demanda? Si la matriz converge rápidamente con Gauss-Seidel (pocas iteraciones, residuo bajo), el sistema de distribución está bien condicionado. Si no converge, indica desbalances en la red que requieren rediseño.
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - generic [ref=e92]: Parámetros del sistema
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - generic [ref=e95]: Tamaño del sistema (n × n)
+              - combobox "Tamaño del sistema (n × n)" [ref=e96]:
+                - option "2 × 2"
+                - option "3 × 3" [selected]
+                - option "4 × 4"
+                - option "5 × 5"
+            - generic [ref=e97]:
+              - generic [ref=e98]: Método
+              - combobox "Método" [ref=e99]:
+                - option "LU (Factorización directa)"
+                - option "Jacobi"
+                - option "Gauss-Seidel" [selected]
+                - option "SOR (sobre-relajación)"
+                - option "Gradiente Conjugado"
+              - generic [ref=e100]: "LU: exacto. Jacobi / GS / SOR: requieren dominancia diagonal. CG: para matrices simétricas definidas positivas."
+            - generic [ref=e101]:
+              - generic [ref=e102]:
+                - generic [ref=e103]: Tolerancia
+                - spinbutton "Tolerancia" [ref=e104]: "0.000001"
+              - generic [ref=e105]:
+                - generic [ref=e106]: Iter. máximas
+                - spinbutton "Iter. máximas" [ref=e107]: "200"
+            - generic [ref=e108]:
+              - generic [ref=e109]: Matriz A y vector b
+              - table [ref=e687]:
+                - rowgroup [ref=e688]:
+                  - row "x1 x2 x3 b" [ref=e689]:
+                    - columnheader "x1" [ref=e690]:
+                      - text: x
+                      - subscript [ref=e691]: "1"
+                    - columnheader "x2" [ref=e692]:
+                      - text: x
+                      - subscript [ref=e693]: "2"
+                    - columnheader "x3" [ref=e694]:
+                      - text: x
+                      - subscript [ref=e695]: "3"
+                    - columnheader "b" [ref=e696]
+                - rowgroup [ref=e697]:
+                  - row "10 2 1 7" [ref=e698]:
+                    - cell "10" [ref=e699]:
+                      - spinbutton [ref=e700]: "10"
+                    - cell "2" [ref=e701]:
+                      - spinbutton [ref=e702]: "2"
+                    - cell "1" [ref=e703]:
+                      - spinbutton [ref=e704]: "1"
+                    - cell "7" [ref=e705]:
+                      - spinbutton [ref=e706]: "7"
+                  - row "1 5 1 -8" [ref=e707]:
+                    - cell "1" [ref=e708]:
+                      - spinbutton [ref=e709]: "1"
+                    - cell "5" [ref=e710]:
+                      - spinbutton [ref=e711]: "5"
+                    - cell "1" [ref=e712]:
+                      - spinbutton [ref=e713]: "1"
+                    - cell "-8" [ref=e714]:
+                      - spinbutton [ref=e715]: "-8"
+                  - row "2 3 10 6" [ref=e716]:
+                    - cell "2" [ref=e717]:
+                      - spinbutton [ref=e718]: "2"
+                    - cell "3" [ref=e719]:
+                      - spinbutton [ref=e720]: "3"
+                    - cell "10" [ref=e721]:
+                      - spinbutton [ref=e722]: "10"
+                    - cell "6" [ref=e723]:
+                      - spinbutton [ref=e724]: "6"
+            - generic [ref=e150]:
+              - button "Escenario abastecimiento" [active] [ref=e152] [cursor=pointer]
+              - button "Escenario mal condicionado" [ref=e154] [cursor=pointer]
+            - button "Resolver sistema" [ref=e155] [cursor=pointer]
+        - generic [ref=e156]:
+          - generic [ref=e158]:
+            - text: Convergencia del residuo
+            - button "Limpiar" [ref=e159] [cursor=pointer]
+          - generic [ref=e162]:
+            - generic [ref=e163]: Solución y resumen
+            - paragraph [ref=e166]: Los resultados del sistema se mostrarán aquí.
+    - generic [ref=e168]:
+      - generic [ref=e169]:
+        - generic [ref=e170]: "02"
+        - generic [ref=e171]:
+          - heading "Raíces de ecuaciones" [level=2] [ref=e172]
+          - paragraph [ref=e173]: Umbrales críticos y puntos de equilibrio
+      - paragraph [ref=e174]:
+        - text: "En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a hallar la raíz de una función que expresa el exceso de demanda sobre la oferta disponible. Se implementan tres métodos:"
+        - strong [ref=e175]: Bisección
+        - text: (garantiza convergencia si f(a)·f(b) < 0),
+        - strong [ref=e176]: Newton-Raphson
+        - text: (convergencia cuadrática, requiere derivada) y
+        - strong [ref=e177]: Secante
+        - text: (orden ~1.618, sin derivada analítica).
+      - generic [ref=e178]:
+        - strong [ref=e179]: ¿Qué se modela?
+        - text: El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
+        - strong [ref=e180]: ¿Qué responde la simulación?
+        - text: "Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual."
+      - generic [ref=e181]:
+        - generic [ref=e183]:
+          - generic [ref=e184]: Parámetros
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - generic [ref=e187]: Función f(x) (sintaxis JS)
+              - textbox "Función f(x) (sintaxis JS)" [ref=e188]: Math.pow(x, 3) - 2*x - 5
+              - generic [ref=e189]: "Ejemplo: demanda − oferta como función del precio x"
+            - generic [ref=e190]:
+              - generic [ref=e191]: Método
+              - combobox "Método" [ref=e192]:
+                - option "Bisección" [selected]
+                - option "Newton-Raphson"
+                - option "Secante"
+              - generic [ref=e193]: "Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada."
+            - generic [ref=e194]:
+              - generic [ref=e195]:
+                - generic [ref=e196]: Extremo a
+                - spinbutton "Extremo a" [ref=e197]: "1"
+              - generic [ref=e198]:
+                - generic [ref=e199]: Extremo b
+                - spinbutton "Extremo b" [ref=e200]: "3"
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]: Tolerancia
+                - spinbutton "Tolerancia" [ref=e204]: "0.000001"
+              - generic [ref=e205]:
+                - generic [ref=e206]: Iter. máximas
+                - spinbutton "Iter. máximas" [ref=e207]: "100"
+            - generic [ref=e208]:
+              - button "Umbral costo/ingreso" [ref=e210] [cursor=pointer]
+              - button "Umbral de reposición" [ref=e212] [cursor=pointer]
+            - button "Encontrar raíz" [ref=e213] [cursor=pointer]
+        - generic [ref=e214]:
+          - generic [ref=e216]:
+            - text: Gráfico de f(x) y raíz aproximada
+            - button "Limpiar" [ref=e217] [cursor=pointer]
+          - generic [ref=e220]:
+            - generic [ref=e221]: Resumen y tabla de iteraciones
+            - paragraph [ref=e224]: Los resultados y la tabla de iteraciones aparecerán aquí.
+    - generic [ref=e226]:
+      - generic [ref=e227]:
+        - generic [ref=e228]: "03"
+        - generic [ref=e229]:
+          - heading "Interpolación" [level=2] [ref=e230]
+          - paragraph [ref=e231]: Reconstrucción de curvas de precios
+      - paragraph [ref=e232]:
+        - text: "En el Escenario C, se dispone de registros históricos dispersos del precio de un producto básico (día vs. precio en Bs). La interpolación construye una función continua que pasa exactamente por todos los puntos conocidos, permitiendo estimar el precio en días sin dato. Se implementan tres métodos:"
+        - strong [ref=e233]: Lagrange
+        - text: "y"
+        - strong [ref=e234]: diferencias divididas de Newton
+        - text: (ambos construyen un único polinomio de grado n−1) y el
+        - strong [ref=e235]: Spline cúbico natural
+        - text: (piezas cúbicas con continuidad C², que evita las oscilaciones del fenómeno de Runge en series largas).
+      - generic [ref=e236]:
+        - strong [ref=e237]: ¿Qué se modela?
+        - text: La evolución del precio de la canasta básica durante una crisis, reconstruida a partir de registros puntuales (ej. mediciones cada semana).
+        - strong [ref=e238]: ¿Qué responde la simulación?
+        - text: ¿Cuál es el precio estimado en un día sin registro? Si la curva del Spline es suave y los tres métodos coinciden, el modelo es confiable. Si Lagrange oscila fuertemente al alejarse de los datos, se está observando el fenómeno de Runge — señal de que el Spline es la opción más adecuada.
+      - generic [ref=e239]:
+        - generic [ref=e241]:
+          - generic [ref=e242]: Puntos de datos (xi, yi)
+          - generic [ref=e243]:
+            - paragraph [ref=e244]: "Ingrese los puntos conocidos. Ejemplo: semana (x) vs. precio (y)."
+            - generic [ref=e245]:
+              - generic [ref=e246]: Método
+              - combobox [ref=e247]:
+                - option "Lagrange"
+                - option "Newton (Dif. divididas)"
+                - option "Spline cúbico natural" [selected]
+              - generic [ref=e248]: "Lagrange / Newton: polinomio único. Spline: piezas cúbicas C² (recomendado para ≥5 puntos)."
+            - table [ref=e250]:
+              - rowgroup [ref=e251]:
+                - row "Día (x) Precio Bs (y)" [ref=e252]:
+                  - columnheader "Día (x)" [ref=e253]
+                  - columnheader "Precio Bs (y)" [ref=e254]
+              - rowgroup [ref=e255]:
+                - row "1 8.5" [ref=e256]:
+                  - cell "1" [ref=e257]:
+                    - spinbutton [ref=e258]: "1"
+                  - cell "8.5" [ref=e259]:
+                    - spinbutton [ref=e260]: "8.5"
+                - row "3 9.2" [ref=e261]:
+                  - cell "3" [ref=e262]:
+                    - spinbutton [ref=e263]: "3"
+                  - cell "9.2" [ref=e264]:
+                    - spinbutton [ref=e265]: "9.2"
+                - row "7 11" [ref=e266]:
+                  - cell "7" [ref=e267]:
+                    - spinbutton [ref=e268]: "7"
+                  - cell "11" [ref=e269]:
+                    - spinbutton [ref=e270]: "11"
+                - row "14 14.5" [ref=e271]:
+                  - cell "14" [ref=e272]:
+                    - spinbutton [ref=e273]: "14"
+                  - cell "14.5" [ref=e274]:
+                    - spinbutton [ref=e275]: "14.5"
+                - row "21 18" [ref=e276]:
+                  - cell "21" [ref=e277]:
+                    - spinbutton [ref=e278]: "21"
+                  - cell "18" [ref=e279]:
+                    - spinbutton [ref=e280]: "18"
+                - row "28 22.5" [ref=e281]:
+                  - cell "28" [ref=e282]:
+                    - spinbutton [ref=e283]: "28"
+                  - cell "22.5" [ref=e284]:
+                    - spinbutton [ref=e285]: "22.5"
+            - generic [ref=e286]:
+              - button "+ Punto" [ref=e288] [cursor=pointer]
+              - button "− Punto" [ref=e290] [cursor=pointer]
+              - button "Ejemplo" [ref=e292] [cursor=pointer]
+            - generic [ref=e293]:
+              - generic [ref=e294]: Estimar precio en el día x =
+              - spinbutton "Estimar precio en el día x =" [ref=e295]: "10"
+              - generic [ref=e296]: Ingrese el día cuyo precio desea estimar.
+            - button "Calcular interpolación" [ref=e297] [cursor=pointer]
+        - generic [ref=e298]:
+          - generic [ref=e300]:
+            - text: Curva interpolada
+            - button "Limpiar" [ref=e301] [cursor=pointer]
+          - generic [ref=e304]:
+            - generic [ref=e305]: Resultado de evaluación
+            - generic [ref=e307]:
+              - generic [ref=e308]:
+                - strong [ref=e309]: Spline cúbico natural
+                - text: — interpolado con 6 puntos.
+              - generic [ref=e310]:
+                - generic [ref=e312]:
+                  - generic [ref=e313]: Día evaluado (x)
+                  - generic [ref=e314]: "10"
+                - generic [ref=e316]:
+                  - generic [ref=e317]: Precio estimado P(x)
+                  - generic [ref=e318]: 12.503422 Bs
+    - generic [ref=e320]:
+      - generic [ref=e321]:
+        - generic [ref=e322]: "04"
+        - generic [ref=e323]:
+          - heading "Integración numérica" [level=2] [ref=e324]
+          - paragraph [ref=e325]: Costo acumulado y pérdida de poder adquisitivo
+      - paragraph [ref=e326]:
+        - text: El costo acumulado de una canasta básica se representa como el área bajo la curva de precios en el tiempo — una integral que rara vez tiene solución analítica cuando los datos provienen de modelos reales. Se implementan las reglas del
+        - strong [ref=e327]: Trapecio
+        - text: ","
+        - strong [ref=e328]: Simpson 1/3
+        - text: "y"
+        - strong [ref=e329]: Simpson 3/8
+        - text: . El
+        - strong [ref=e330]: Escenario D
+        - text: "compara dos situaciones: precios crecientes por inflación exponencial versus precios constantes, cuantificando la"
+        - emphasis [ref=e331]: pérdida de poder adquisitivo familiar acumulada
+        - text: en bolivianos.
+      - generic [ref=e332]:
+        - strong [ref=e333]: ¿Qué se modela?
+        - text: El gasto total acumulado de una familia durante 12 meses cuando el precio de la canasta básica crece a una tasa de inflación del 5% mensual.
+        - strong [ref=e334]: ¿Qué responde la simulación?
+        - text: Simpson 1/3 produce el resultado más preciso con el mismo número de evaluaciones que el Trapecio. La diferencia entre los tres métodos es el error numérico — si coinciden hasta 4 cifras significativas, la integral está bien aproximada. El botón "Comparar sin inflación" cuantifica cuántos bolivianos adicionales paga una familia por efecto de la inflación.
+      - generic [ref=e335]:
+        - generic [ref=e337]:
+          - generic [ref=e338]: Configuración de la integral
+          - generic [ref=e339]:
+            - generic [ref=e340]:
+              - generic [ref=e341]: Función f(x)
+              - textbox "Función f(x)" [ref=e342]: 100 * Math.exp(0.05 * x)
+              - generic [ref=e343]: "Ejemplo: modelo de precio en el tiempo"
+            - generic [ref=e344]:
+              - generic [ref=e345]:
+                - generic [ref=e346]: Límite inferior a
+                - spinbutton "Límite inferior a" [ref=e347]: "0"
+              - generic [ref=e348]:
+                - generic [ref=e349]: Límite superior b
+                - spinbutton "Límite superior b" [ref=e350]: "12"
+            - generic [ref=e351]:
+              - generic [ref=e352]: Número de subintervalos (n)
+              - spinbutton "Número de subintervalos (n)" [ref=e353]: "24"
+            - generic [ref=e354]:
+              - generic [ref=e355]: Métodos a comparar
+              - generic [ref=e356]:
+                - checkbox "Regla del Trapecio" [checked] [ref=e357]
+                - generic [ref=e358]: Regla del Trapecio
+              - generic [ref=e359]:
+                - checkbox "Simpson 1/3" [checked] [ref=e360]
+                - generic [ref=e361]: Simpson 1/3
+              - generic [ref=e362]:
+                - checkbox "Simpson 3/8" [checked] [ref=e363]
+                - generic [ref=e364]: Simpson 3/8
+            - button "Calcular integral" [ref=e365] [cursor=pointer]
+            - generic [ref=e366]:
+              - button "Escenario con inflación" [ref=e368] [cursor=pointer]
+              - button "Comparar sin inflación" [ref=e370] [cursor=pointer]
+        - generic [ref=e371]:
+          - generic [ref=e373]:
+            - text: Área bajo la curva
+            - button "Limpiar" [ref=e374] [cursor=pointer]
+          - generic [ref=e377]:
+            - generic [ref=e378]: Comparativa de métodos
+            - generic [ref=e380]:
+              - generic [ref=e381]: Intervalo [0, 12] · n solicitado = 24
+              - table [ref=e383]:
+                - rowgroup [ref=e384]:
+                  - row "Método Integral ≈ (Bs) n utilizado Nota" [ref=e385]:
+                    - columnheader "Método" [ref=e386]
+                    - columnheader "Integral ≈ (Bs)" [ref=e387]
+                    - columnheader "n utilizado" [ref=e388]
+                    - columnheader "Nota" [ref=e389]
+                - rowgroup [ref=e390]:
+                  - row "Trapecio compuesto 1644.32323726 24 —" [ref=e391]:
+                    - cell "Trapecio compuesto" [ref=e392]
+                    - cell "1644.32323726" [ref=e393]
+                    - cell "24" [ref=e394]
+                    - cell "—" [ref=e395]
+                  - row "Simpson 1/3 1644.23760435 24 —" [ref=e396]:
+                    - cell "Simpson 1/3" [ref=e397]
+                    - cell "1644.23760435" [ref=e398]
+                    - cell "24" [ref=e399]
+                    - cell "—" [ref=e400]
+                  - row "Simpson 3/8 1644.23760881 24 —" [ref=e401]:
+                    - cell "Simpson 3/8" [ref=e402]
+                    - cell "1644.23760881" [ref=e403]
+                    - cell "24" [ref=e404]
+                    - cell "—" [ref=e405]
+    - generic [ref=e407]:
+      - generic [ref=e408]:
+        - generic [ref=e409]: "05"
+        - generic [ref=e410]:
+          - heading "Ecuaciones diferenciales ordinarias" [level=2] [ref=e411]
+          - paragraph [ref=e412]: Vaciado de reservas y difusión del descontento social
+      - paragraph [ref=e413]:
+        - text: "Las reservas de carburante se vacían siguiendo tasas de consumo que aumentan con el tiempo — un modelo representado por una EDO de primer orden. El descontento social se modela como un sistema N–M–D: población"
+        - emphasis [ref=e414]: neutral
+        - text: (N),
+        - emphasis [ref=e415]: manifestantes
+        - text: (M) y
+        - emphasis [ref=e416]: detenidos
+        - text: "(D), cuya dinámica emerge de la interacción entre los tres grupos. Se comparan tres métodos de integración numérica en el tiempo:"
+        - strong [ref=e417]: Euler
+        - text: (O(h)),
+        - strong [ref=e418]: Heun / predictor-corrector
+        - text: (O(h²)) y
+        - strong [ref=e419]: Runge-Kutta 4° orden
+        - text: (O(h⁴)).
+      - generic [ref=e420]:
+        - strong [ref=e421]: ¿Qué se modela?
+        - text: "En el escenario de reservas: el vaciado acelerado de combustible cuando la tasa de consumo crece linealmente (crisis prolongada). En el escenario social: cómo una pequeña chispa de protesta (M₀ = 10) puede transformarse en una ola masiva de manifestaciones y luego decaer."
+        - strong [ref=e422]: ¿Qué responde la simulación?
+        - text: Euler, Heun y RK4 deben producir trayectorias similares; las diferencias revelan el error de discretización. Si Euler se desvía visiblemente de RK4, significa que el paso h es demasiado grande. El segundo gráfico del escenario social compara M(t) entre los tres métodos, mostrando cuándo el paso h es suficientemente fino.
+      - generic [ref=e423]:
+        - generic [ref=e425]:
+          - generic [ref=e426]: Configuración del modelo
+          - generic [ref=e427]:
+            - generic [ref=e428]:
+              - generic [ref=e429]: Escenario
+              - combobox [ref=e430]:
+                - option "Reservas de carburante — R(t)" [selected]
+                - option "Difusión de descontento — N, M, D(t)"
+            - generic [ref=e431]:
+              - generic [ref=e432]:
+                - generic [ref=e433]: dR/dt = f(t, R) (sintaxis JS)
+                - textbox "dR/dt = f(t, R) (sintaxis JS)" [ref=e434]: "-(0.05 + 0.008 * t) * y"
+                - generic [ref=e435]: "Vaciado acelerado: tasa de extracción crece con el tiempo → reservas críticas en t≈30."
+              - generic [ref=e436]:
+                - generic [ref=e437]: R₀ — Reserva inicial
+                - spinbutton "R₀ — Reserva inicial" [ref=e438]: "1000"
+            - generic [ref=e439]:
+              - generic [ref=e440]:
+                - generic [ref=e441]: t₀
+                - spinbutton "t₀" [ref=e442]: "0"
+              - generic [ref=e443]:
+                - generic [ref=e444]: tₙ
+                - spinbutton "tₙ" [ref=e445]: "30"
+              - generic [ref=e446]:
+                - generic [ref=e447]: Paso h
+                - spinbutton "Paso h" [ref=e448]: "0.5"
+            - generic [ref=e449]:
+              - generic [ref=e450]: Método numérico
+              - combobox [ref=e451]:
+                - option "Euler (1er orden)"
+                - option "Heun / predictor-corrector (2do orden)"
+                - option "Runge-Kutta 4° orden"
+                - option "Comparar Euler / Heun / RK4" [selected]
+            - button "Simular" [ref=e452] [cursor=pointer]
+            - generic [ref=e453]:
+              - button "Reservas críticas" [ref=e455] [cursor=pointer]
+              - button "Conflicto social" [ref=e457] [cursor=pointer]
+        - generic [ref=e458]:
+          - generic [ref=e460]:
+            - text: Evolución temporal
+            - button "Limpiar" [ref=e461] [cursor=pointer]
+          - generic [ref=e464]:
+            - generic [ref=e465]: Tabla de solución numérica
+            - table [ref=e469]:
+              - rowgroup [ref=e470]:
+                - row "t R(t) — Euler R(t) — Heun R(t) — RK4" [ref=e471]:
+                  - columnheader "t" [ref=e472]
+                  - columnheader "R(t) — Euler" [ref=e473]
+                  - columnheader "R(t) — Heun" [ref=e474]
+                  - columnheader "R(t) — RK4" [ref=e475]
+              - rowgroup [ref=e476]:
+                - row "0 1000 1000 1000" [ref=e477]:
+                  - cell "0" [ref=e478]
+                  - cell "1000" [ref=e479]
+                  - cell "1000" [ref=e480]
+                  - cell "1000" [ref=e481]
+                - row "0.5 975 974.3375 974.33508968" [ref=e482]:
+                  - cell "0.5" [ref=e483]
+                  - cell "975" [ref=e484]
+                  - cell "974.3375" [ref=e485]
+                  - cell "974.33508968" [ref=e486]
+                - row "1 948.675 947.43750313 947.43210668" [ref=e487]:
+                  - cell "1" [ref=e488]
+                  - cell "948.675" [ref=e489]
+                  - cell "947.43750313" [ref=e490]
+                  - cell "947.43210668" [ref=e491]
+                - row "1.5 921.163425 919.44025119 919.43125642" [ref=e492]:
+                  - cell "1.5" [ref=e493]
+                  - cell "921.163425" [ref=e494]
+                  - cell "919.44025119" [ref=e495]
+                  - cell "919.43125642" [ref=e496]
+                - row "2 892.60735883 890.48845685 890.47522383" [ref=e497]:
+                  - cell "2" [ref=e498]
+                  - cell "892.60735883" [ref=e499]
+                  - cell "890.48845685" [ref=e500]
+                  - cell "890.47522383" [ref=e501]
+                - row "2.5 863.15131598 860.7261064 860.70797723" [ref=e502]:
+                  - cell "2.5" [ref=e503]
+                  - cell "863.15131598" [ref=e504]
+                  - cell "860.7261064" [ref=e505]
+                  - cell "860.70797723" [ref=e506]
+                - row "3 832.94101992 830.29728672 830.27359614" [ref=e507]:
+                  - cell "3" [ref=e508]
+                  - cell "832.94101992" [ref=e509]
+                  - cell "830.29728672" [ref=e510]
+                  - cell "830.27359614" [ref=e511]
+                - row "3.5 802.12220219 799.34504932 799.31513598" [ref=e512]:
+                  - cell "3.5" [ref=e513]
+                  - cell "802.12220219" [ref=e514]
+                  - cell "799.34504932" [ref=e515]
+                  - cell "799.31513598" [ref=e516]
+                - row "4 770.8394363 768.01032371 767.97354183" [ref=e517]:
+                  - cell "4" [ref=e518]
+                  - cell "770.8394363" [ref=e519]
+                  - cell "768.01032371" [ref=e520]
+                  - cell "767.97354183" [ref=e521]
+                - row "4.5 739.23501941 736.43089122 736.38662232" [ref=e522]:
+                  - cell "4.5" [ref=e523]
+                  - cell "739.23501941" [ref=e524]
+                  - cell "736.43089122" [ref=e525]
+                  - cell "736.38662232" [ref=e526]
+                - row "5 707.44791358 704.74042889 704.6880934" [ref=e527]:
+                  - cell "5" [ref=e528]
+                  - cell "707.44791358" [ref=e529]
+                  - cell "704.74042889" [ref=e530]
+                  - cell "704.6880934" [ref=e531]
+                - row "5.5 675.61275747 673.06763216 673.00670059" [ref=e532]:
+                  - cell "5.5" [ref=e533]
+                  - cell "675.61275747" [ref=e534]
+                  - cell "673.06763216" [ref=e535]
+                  - cell "673.00670059" [ref=e536]
+                - row "6 643.85895787 641.5354232 641.46542662" [ref=e537]:
+                  - cell "6" [ref=e538]
+                  - cell "643.85895787" [ref=e539]
+                  - cell "641.5354232" [ref=e540]
+                  - cell "641.46542662" [ref=e541]
+                - row "6.5 612.30986893 610.26025055 610.18079019" [ref=e542]:
+                  - cell "6.5" [ref=e543]
+                  - cell "612.30986893" [ref=e544]
+                  - cell "610.26025055" [ref=e545]
+                  - cell "610.18079019" [ref=e546]
+                - row "7 581.08206562 579.35148425 579.26223997" [ref=e547]:
+                  - cell "7" [ref=e548]
+                  - cell "581.08206562" [ref=e549]
+                  - cell "579.35148425" [ref=e550]
+                  - cell "579.26223997" [ref=e551]
+                - row "7.5 550.28471614 548.91090889 548.81164635" [ref=e552]:
+                  - cell "7.5" [ref=e553]
+                  - cell "550.28471614" [ref=e554]
+                  - cell "548.91090889" [ref=e555]
+                  - cell "548.81164635" [ref=e556]
+                - row "8 520.01905675 519.03231584 518.92289228" [ref=e557]:
+                  - cell "8" [ref=e558]
+                  - cell "520.01905675" [ref=e559]
+                  - cell "519.03231584" [ref=e560]
+                  - cell "518.92289228" [ref=e561]
+                - row "8.5 490.37797052 489.80119436 489.68156277" [ref=e562]:
+                  - cell "8.5" [ref=e563]
+                  - cell "490.37797052" [ref=e564]
+                  - cell "489.80119436" [ref=e565]
+                  - cell "489.68156277" [ref=e566]
+                - row "9 461.44567026 461.29451995 461.16473163" [ref=e567]:
+                  - cell "9" [ref=e568]
+                  - cell "461.44567026" [ref=e569]
+                  - cell "461.29451995" [ref=e570]
+                  - cell "461.16473163" [ref=e571]
+                - row "9.5 433.29748437 433.58063713 433.44084266" [ref=e572]:
+                  - cell "9.5" [ref=e573]
+                  - cell "433.29748437" [ref=e574]
+                  - cell "433.58063713" [ref=e575]
+                  - cell "433.44084266" [ref=e576]
+                - row "10 405.99974285 406.71923271 406.56968118" [ref=e577]:
+                  - cell "10" [ref=e578]
+                  - cell "405.99974285" [ref=e579]
+                  - cell "406.71923271" [ref=e580]
+                  - cell "406.56968118" [ref=e581]
+                - row "10.5 379.60975957 380.76139448 380.60243116" [ref=e582]:
+                  - cell "10.5" [ref=e583]
+                  - cell "379.60975957" [ref=e584]
+                  - cell "380.76139448" [ref=e585]
+                  - cell "380.60243116" [ref=e586]
+                - row "11 354.17590568 355.74974962 355.58181207" [ref=e587]:
+                  - cell "11" [ref=e588]
+                  - cell "354.17590568" [ref=e589]
+                  - cell "355.74974962" [ref=e590]
+                  - cell "355.58181207" [ref=e591]
+                - row "11.5 329.73776819 331.71867616 331.54228889" [ref=e592]:
+                  - cell "11.5" [ref=e593]
+                  - cell "329.73776819" [ref=e594]
+                  - cell "331.71867616" [ref=e595]
+                  - cell "331.54228889" [ref=e596]
+                - row "12 306.32638664 308.69458042 308.51034829" [ref=e597]:
+                  - cell "12" [ref=e598]
+                  - cell "306.32638664" [ref=e599]
+                  - cell "308.69458042" [ref=e600]
+                  - cell "308.51034829" [ref=e601]
+                - row "12.5 283.96456042 286.69623289 286.50483328" [ref=e602]:
+                  - cell "12.5" [ref=e603]
+                  - cell "283.96456042" [ref=e604]
+                  - cell "286.69623289" [ref=e605]
+                  - cell "286.50483328" [ref=e606]
+                - row "13 262.66721839 265.73515456 265.53732865" [ref=e607]:
+                  - cell "13" [ref=e608]
+                  - cell "262.66721839" [ref=e609]
+                  - cell "265.73515456" [ref=e610]
+                  - cell "265.53732865" [ref=e611]
+                - row "13.5 242.44184257 245.81604598 245.61258916" [ref=e612]:
+                  - cell "13.5" [ref=e613]
+                  - cell "242.44184257" [ref=e614]
+                  - cell "245.81604598" [ref=e615]
+                  - cell "245.61258916" [ref=e616]
+                - row "14 223.28893701 226.93725074 226.72900249" [ref=e617]:
+                  - cell "14" [ref=e618]
+                  - cell "223.28893701" [ref=e619]
+                  - cell "226.93725074" [ref=e620]
+                  - cell "226.72900249" [ref=e621]
+                - row "14.5 205.20253311 209.09124574 208.87907906" [ref=e622]:
+                  - cell "14.5" [ref=e623]
+                  - cell "205.20253311" [ref=e624]
+                  - cell "209.09124574" [ref=e625]
+                  - cell "208.87907906" [ref=e626]
+                - row "… mostrando 30 de 61 filas" [ref=e627]:
+                  - cell "… mostrando 30 de 61 filas" [ref=e628]
+    - generic [ref=e630]:
+      - generic [ref=e631]:
+        - generic [ref=e632]: "06"
+        - generic [ref=e633]:
+          - heading "Conclusiones" [level=2] [ref=e634]
+          - paragraph [ref=e635]: Síntesis y reflexión académica
+      - generic [ref=e636]:
+        - generic [ref=e639]:
+          - heading "Aprendizajes obtenidos" [level=5] [ref=e640]
+          - paragraph [ref=e641]: "La implementación computacional de los cinco módulos demostró que los métodos numéricos permiten aproximar fenómenos socioeconómicos complejos con modelos matemáticos relativamente sencillos. La clave no es solo obtener un número, sino interpretar su significado en contexto: una raíz es un umbral crítico, un área es un costo acumulado, una trayectoria EDO es la evolución temporal de un sistema."
+          - paragraph [ref=e642]: "Al comparar Euler, Heun y RK4 sobre el mismo modelo de reservas, se evidenció empíricamente la diferencia de orden entre los métodos: con h = 0.5, los tres producen trayectorias casi indistinguibles, pero con h = 5, Euler acumula errores visibles que RK4 evita. Este tipo de comparación es imposible de apreciar solo con la teoría."
+        - generic [ref=e645]:
+          - heading "Métodos más útiles por escenario" [level=5] [ref=e646]
+          - list [ref=e647]:
+            - listitem [ref=e648]:
+              - strong [ref=e649]: "Redes de transporte:"
+              - text: Gauss-Seidel (convergencia más rápida que Jacobi en sistemas bien condicionados).
+            - listitem [ref=e650]:
+              - strong [ref=e651]: "Umbrales de precio:"
+              - text: Newton-Raphson (convergencia cuadrática).
+            - listitem [ref=e652]:
+              - strong [ref=e653]: "Curvas de precio:"
+              - text: Interpolación de Newton (más estable numéricamente para muchos puntos).
+            - listitem [ref=e654]:
+              - strong [ref=e655]: "Costo acumulado:"
+              - text: Simpson 1/3 (mayor orden de exactitud con igual número de evaluaciones).
+            - listitem [ref=e656]:
+              - strong [ref=e657]: "Dinámicas temporales:"
+              - text: RK4 (equilibrio óptimo entre precisión y simplicidad de implementación).
+        - generic [ref=e660]:
+          - heading "Limitaciones del modelo" [level=5] [ref=e661]
+          - list [ref=e662]:
+            - listitem [ref=e663]: Los modelos asumen comportamientos ideales (linealidad, continuidad) que raramente se cumplen en sistemas económicos reales.
+            - listitem [ref=e664]: Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas oficiales validadas.
+            - listitem [ref=e665]: El modelo N–M–D de conflicto social no captura heterogeneidad poblacional, efectos geográficos ni políticas de respuesta dinámica.
+            - listitem [ref=e666]: La interpolación asume que el comportamiento entre dos mediciones es suave; en mercados volátiles puede haber saltos bruscos que ningún polinomio reproduce bien.
+            - listitem [ref=e667]: Los métodos iterativos de álgebra lineal son sensibles al condicionamiento de la matriz; sistemas mal condicionados (como el de Hilbert) convergen muy lentamente o divergen.
+        - generic [ref=e670]:
+          - heading "Ideas de mejoras futuras" [level=5] [ref=e671]
+          - list [ref=e672]:
+            - listitem [ref=e673]: Integrar datos reales de organismos estadísticos (INE, Banco Central) para validar los modelos contra series históricas.
+            - listitem [ref=e674]: "Ampliar el modelo de EDOs con ecuaciones acopladas entre reservas y precios: cuando las reservas caen, el precio sube, lo que retroalimenta el descontento."
+            - listitem [ref=e675]: "Incorporar análisis de sensibilidad automático: variar parámetros (tasa de inflación, capacidad de red) y graficar cómo cambian los resultados."
+            - listitem [ref=e676]: Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo y la presentación al tribunal.
+            - listitem [ref=e677]: Implementar cuadratura adaptativa (Gauss-Legendre) para integrales con discontinuidades o picos agudos.
+      - generic [ref=e678]:
+        - separator [ref=e679]
+        - paragraph [ref=e680]: Integrantes
+        - paragraph [ref=e681]: Luis Alfredo Quispe Ortiz
+        - paragraph [ref=e682]: Amilcar Josias Yujra Chipana
+        - paragraph [ref=e683]: Gabriel Yujra Machaca
+        - paragraph [ref=e684]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+        - paragraph [ref=e685]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

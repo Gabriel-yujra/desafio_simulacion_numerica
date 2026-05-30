@@ -446,9 +446,19 @@ const SistemasLineales = (function () {
     const nombre = nombres[metodo] || metodo;
     const tipo   = resultado.convergio ? 'success' : 'info';
 
+    const getContextoVar = (i, dim) => {
+      const contexto = {
+        2: ['Flujo Planta → Zona A', 'Flujo Planta → Zona B'],
+        3: ['Flujo a Zona A', 'Flujo a Zona B', 'Flujo a Zona C'],
+        4: ['Planta → Nodo 1', 'Planta → Nodo 2', 'Nodo 1 → Zona A', 'Nodo 2 → Zona B'],
+        5: ['Planta 1 → Nodo A', 'Planta 2 → Nodo B', 'Nodo A → Sur', 'Nodo B → Norte', 'Reserva → Centro']
+      };
+      return (contexto[dim] && contexto[dim][i]) ? ` <span class="text-muted small">(${contexto[dim][i]})</span>` : '';
+    };
+
     const xStr = resultado.x.map((v, i) =>
-      `<strong>x<sub>${i + 1}</sub></strong> = ${SimNum.redondear(v, 6)}`
-    ).join(' &nbsp;|&nbsp; ');
+      `<strong>x<sub>${i + 1}</sub></strong> = ${SimNum.redondear(v, 6)}${getContextoVar(i, n)}`
+    ).join('<br/>');
 
     let advertencia = '';
     if (!esDD && ['jacobi', 'gauss-seidel', 'sor'].includes(metodo)) {

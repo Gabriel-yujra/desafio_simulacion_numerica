@@ -1,0 +1,285 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "02"
+        - generic [ref=e27]:
+          - heading "Raíces de ecuaciones" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Umbrales críticos y puntos de equilibrio
+      - paragraph [ref=e30]:
+        - text: "En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a hallar la raíz de una función que expresa el exceso de demanda sobre la oferta disponible. Se implementan tres métodos:"
+        - strong [ref=e31]: Bisección
+        - text: (garantiza convergencia si f(a)·f(b) < 0),
+        - strong [ref=e32]: Newton-Raphson
+        - text: (convergencia cuadrática, requiere derivada) y
+        - strong [ref=e33]: Secante
+        - text: (orden ~1.618, sin derivada analítica).
+      - generic [ref=e34]:
+        - strong [ref=e35]: ¿Qué se modela?
+        - text: El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
+        - strong [ref=e36]: ¿Qué responde la simulación?
+        - text: "Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual."
+      - generic [ref=e37]:
+        - generic [ref=e39]:
+          - generic [ref=e40]: Parámetros
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e43]: Función f(x) (sintaxis JS)
+              - textbox "Función f(x) (sintaxis JS)" [ref=e44]: 1200 - 80*x - 200*Math.exp(0.1*x)
+              - generic [ref=e45]: "Ejemplo: demanda − oferta como función del precio x"
+            - generic [ref=e46]:
+              - generic [ref=e47]: Método
+              - combobox "Método" [ref=e48]:
+                - option "Bisección" [selected]
+                - option "Newton-Raphson"
+                - option "Secante"
+              - generic [ref=e49]: "Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada."
+            - generic [ref=e50]:
+              - generic [ref=e51]:
+                - generic [ref=e52]: Extremo a
+                - spinbutton "Extremo a" [ref=e53]: "0"
+              - generic [ref=e54]:
+                - generic [ref=e55]: Extremo b
+                - spinbutton "Extremo b" [ref=e56]: "15"
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: Tolerancia
+                - spinbutton "Tolerancia" [ref=e60]: "0.000001"
+              - generic [ref=e61]:
+                - generic [ref=e62]: Iter. máximas
+                - spinbutton "Iter. máximas" [ref=e63]: "100"
+            - generic [ref=e64]:
+              - button "Umbral costo/ingreso" [ref=e66] [cursor=pointer]
+              - button "Umbral de reposición" [ref=e68] [cursor=pointer]
+            - button "Encontrar raíz" [active] [ref=e69] [cursor=pointer]
+        - generic [ref=e70]:
+          - generic [ref=e72]:
+            - text: Gráfico de f(x) y raíz aproximada
+            - button "Limpiar" [ref=e73] [cursor=pointer]
+          - generic [ref=e76]:
+            - generic [ref=e77]: Resumen y tabla de iteraciones
+            - generic [ref=e79]:
+              - generic [ref=e89]:
+                - strong [ref=e90]: Bisección
+                - text: — Convergió en 24 iteraciónes.
+              - generic [ref=e91]:
+                - generic [ref=e93]:
+                  - generic [ref=e94]: Raíz aproximada x*
+                  - generic [ref=e95]: "8.90756696"
+                - generic [ref=e97]:
+                  - generic [ref=e98]: f(x*) — verificación
+                  - generic [ref=e99]: "0.00004231"
+              - table [ref=e101]:
+                - rowgroup [ref=e102]:
+                  - row "n a b xₘ = (a+b)/2 f(xₘ) Error (b−a)/2" [ref=e103]:
+                    - columnheader "n" [ref=e104]
+                    - columnheader "a" [ref=e105]
+                    - columnheader "b" [ref=e106]
+                    - columnheader "xₘ = (a+b)/2" [ref=e107]
+                    - columnheader "f(xₘ)" [ref=e108]
+                    - columnheader "Error (b−a)/2" [ref=e109]
+                - rowgroup [ref=e110]:
+                  - row "1 0 15 7.5 176.59999668 7.5" [ref=e111]:
+                    - cell "1" [ref=e112]
+                    - cell "0" [ref=e113]
+                    - cell "15" [ref=e114]
+                    - cell "7.5" [ref=e115]
+                    - cell "176.59999668" [ref=e116]
+                    - cell "7.5" [ref=e117]
+                  - row "2 7.5 15 11.25 -316.04336978 3.75" [ref=e118]:
+                    - cell "2" [ref=e119]
+                    - cell "7.5" [ref=e120]
+                    - cell "15" [ref=e121]
+                    - cell "11.25" [ref=e122]
+                    - cell "-316.04336978" [ref=e123]
+                    - cell "3.75" [ref=e124]
+                  - row "3 7.5 11.25 9.375 -60.71789161 1.875" [ref=e125]:
+                    - cell "3" [ref=e126]
+                    - cell "7.5" [ref=e127]
+                    - cell "11.25" [ref=e128]
+                    - cell "9.375" [ref=e129]
+                    - cell "-60.71789161" [ref=e130]
+                    - cell "1.875" [ref=e131]
+                  - row "4 7.5 9.375 8.4375 59.98606794 0.9375" [ref=e132]:
+                    - cell "4" [ref=e133]
+                    - cell "7.5" [ref=e134]
+                    - cell "9.375" [ref=e135]
+                    - cell "8.4375" [ref=e136]
+                    - cell "59.98606794" [ref=e137]
+                    - cell "0.9375" [ref=e138]
+                  - row "5 8.4375 9.375 8.90625 0.16958339 0.46875" [ref=e139]:
+                    - cell "5" [ref=e140]
+                    - cell "8.4375" [ref=e141]
+                    - cell "9.375" [ref=e142]
+                    - cell "8.90625" [ref=e143]
+                    - cell "0.16958339" [ref=e144]
+                    - cell "0.46875" [ref=e145]
+                  - row "6 8.90625 9.375 9.140625 -30.1371244 0.234375" [ref=e146]:
+                    - cell "6" [ref=e147]
+                    - cell "8.90625" [ref=e148]
+                    - cell "9.375" [ref=e149]
+                    - cell "9.140625" [ref=e150]
+                    - cell "-30.1371244" [ref=e151]
+                    - cell "0.234375" [ref=e152]
+                  - row "7 8.90625 9.140625 9.0234375 -14.94991335 0.1171875" [ref=e153]:
+                    - cell "7" [ref=e154]
+                    - cell "8.90625" [ref=e155]
+                    - cell "9.140625" [ref=e156]
+                    - cell "9.0234375" [ref=e157]
+                    - cell "-14.94991335" [ref=e158]
+                    - cell "0.1171875" [ref=e159]
+                  - row "8 8.90625 9.0234375 8.96484375 -7.38175021 0.05859375" [ref=e160]:
+                    - cell "8" [ref=e161]
+                    - cell "8.90625" [ref=e162]
+                    - cell "9.0234375" [ref=e163]
+                    - cell "8.96484375" [ref=e164]
+                    - cell "-7.38175021" [ref=e165]
+                    - cell "0.05859375" [ref=e166]
+                  - row "9 8.90625 8.96484375 8.93554688 -3.60398588 0.02929688" [ref=e167]:
+                    - cell "9" [ref=e168]
+                    - cell "8.90625" [ref=e169]
+                    - cell "8.96484375" [ref=e170]
+                    - cell "8.93554688" [ref=e171]
+                    - cell "-3.60398588" [ref=e172]
+                    - cell "0.02929688" [ref=e173]
+                  - row "10 8.90625 8.93554688 8.92089844 -1.71667763 0.01464844" [ref=e174]:
+                    - cell "10" [ref=e175]
+                    - cell "8.90625" [ref=e176]
+                    - cell "8.93554688" [ref=e177]
+                    - cell "8.92089844" [ref=e178]
+                    - cell "-1.71667763" [ref=e179]
+                    - cell "0.01464844" [ref=e180]
+                  - row "11 8.90625 8.92089844 8.91357422 -0.77341631 0.00732422" [ref=e181]:
+                    - cell "11" [ref=e182]
+                    - cell "8.90625" [ref=e183]
+                    - cell "8.92089844" [ref=e184]
+                    - cell "8.91357422" [ref=e185]
+                    - cell "-0.77341631" [ref=e186]
+                    - cell "0.00732422" [ref=e187]
+                  - row "12 8.90625 8.91357422 8.90991211 -0.30188377 0.00366211" [ref=e188]:
+                    - cell "12" [ref=e189]
+                    - cell "8.90625" [ref=e190]
+                    - cell "8.91357422" [ref=e191]
+                    - cell "8.90991211" [ref=e192]
+                    - cell "-0.30188377" [ref=e193]
+                    - cell "0.00366211" [ref=e194]
+                  - row "13 8.90625 8.90991211 8.90808105 -0.06614202 0.00183105" [ref=e195]:
+                    - cell "13" [ref=e196]
+                    - cell "8.90625" [ref=e197]
+                    - cell "8.90991211" [ref=e198]
+                    - cell "8.90808105" [ref=e199]
+                    - cell "-0.06614202" [ref=e200]
+                    - cell "0.00183105" [ref=e201]
+                  - row "14 8.90625 8.90808105 8.90716553 0.05172273 0.00091553" [ref=e202]:
+                    - cell "14" [ref=e203]
+                    - cell "8.90625" [ref=e204]
+                    - cell "8.90808105" [ref=e205]
+                    - cell "8.90716553" [ref=e206]
+                    - cell "0.05172273" [ref=e207]
+                    - cell "0.00091553" [ref=e208]
+                  - row "15 8.90716553 8.90808105 8.90762329 -0.00720913 0.00045776" [ref=e209]:
+                    - cell "15" [ref=e210]
+                    - cell "8.90716553" [ref=e211]
+                    - cell "8.90808105" [ref=e212]
+                    - cell "8.90762329" [ref=e213]
+                    - cell "-0.00720913" [ref=e214]
+                    - cell "0.00045776" [ref=e215]
+                  - row "16 8.90716553 8.90762329 8.90739441 0.02225693 0.00022888" [ref=e216]:
+                    - cell "16" [ref=e217]
+                    - cell "8.90716553" [ref=e218]
+                    - cell "8.90762329" [ref=e219]
+                    - cell "8.90739441" [ref=e220]
+                    - cell "0.02225693" [ref=e221]
+                    - cell "0.00022888" [ref=e222]
+                  - row "17 8.90739441 8.90762329 8.90750885 0.00752393 0.00011444" [ref=e223]:
+                    - cell "17" [ref=e224]
+                    - cell "8.90739441" [ref=e225]
+                    - cell "8.90762329" [ref=e226]
+                    - cell "8.90750885" [ref=e227]
+                    - cell "0.00752393" [ref=e228]
+                    - cell "0.00011444" [ref=e229]
+                  - row "18 8.90750885 8.90762329 8.90756607 0.00015741 0.00005722" [ref=e230]:
+                    - cell "18" [ref=e231]
+                    - cell "8.90750885" [ref=e232]
+                    - cell "8.90762329" [ref=e233]
+                    - cell "8.90756607" [ref=e234]
+                    - cell "0.00015741" [ref=e235]
+                    - cell "0.00005722" [ref=e236]
+                  - row "19 8.90756607 8.90762329 8.90759468 -0.00352586 0.00002861" [ref=e237]:
+                    - cell "19" [ref=e238]
+                    - cell "8.90756607" [ref=e239]
+                    - cell "8.90762329" [ref=e240]
+                    - cell "8.90759468" [ref=e241]
+                    - cell "-0.00352586" [ref=e242]
+                    - cell "0.00002861" [ref=e243]
+                  - row "20 8.90756607 8.90759468 8.90758038 -0.00168423 0.00001431" [ref=e244]:
+                    - cell "20" [ref=e245]
+                    - cell "8.90756607" [ref=e246]
+                    - cell "8.90759468" [ref=e247]
+                    - cell "8.90758038" [ref=e248]
+                    - cell "-0.00168423" [ref=e249]
+                    - cell "0.00001431" [ref=e250]
+                  - row "21 8.90756607 8.90758038 8.90757322 -0.00076341 0.00000715" [ref=e251]:
+                    - cell "21" [ref=e252]
+                    - cell "8.90756607" [ref=e253]
+                    - cell "8.90758038" [ref=e254]
+                    - cell "8.90757322" [ref=e255]
+                    - cell "-0.00076341" [ref=e256]
+                    - cell "0.00000715" [ref=e257]
+                  - row "22 8.90756607 8.90757322 8.90756965 -0.000303 0.00000358" [ref=e258]:
+                    - cell "22" [ref=e259]
+                    - cell "8.90756607" [ref=e260]
+                    - cell "8.90757322" [ref=e261]
+                    - cell "8.90756965" [ref=e262]
+                    - cell "-0.000303" [ref=e263]
+                    - cell "0.00000358" [ref=e264]
+                  - row "23 8.90756607 8.90756965 8.90756786 -0.0000728 0.00000179" [ref=e265]:
+                    - cell "23" [ref=e266]
+                    - cell "8.90756607" [ref=e267]
+                    - cell "8.90756965" [ref=e268]
+                    - cell "8.90756786" [ref=e269]
+                    - cell "-0.0000728" [ref=e270]
+                    - cell "0.00000179" [ref=e271]
+                  - row "24 8.90756607 8.90756786 8.90756696 0.00004231 8.9e-7" [ref=e272]:
+                    - cell "24" [ref=e273]
+                    - cell "8.90756607" [ref=e274]
+                    - cell "8.90756786" [ref=e275]
+                    - cell "8.90756696" [ref=e276]
+                    - cell "0.00004231" [ref=e277]
+                    - cell "8.9e-7" [ref=e278]
+    - generic [ref=e81]:
+      - separator [ref=e82]
+      - paragraph [ref=e83]: Integrantes
+      - paragraph [ref=e84]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e85]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e86]: Gabriel Yujra Machaca
+      - paragraph [ref=e87]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e88]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

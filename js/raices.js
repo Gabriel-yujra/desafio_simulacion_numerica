@@ -287,7 +287,7 @@ const Raices = (function () {
       <div class="row g-2 mb-3">
         <div class="col-6">
           <div class="card border-0 bg-light p-2 text-center">
-            <div class="small text-muted mb-1">Raíz aproximada x*</div>
+            <div class="small text-muted mb-1">Precio Crítico / Equilibrio (x*)</div>
             <div class="fw-bold text-primary" style="font-size:1.1rem">${raizStr}</div>
           </div>
         </div>
