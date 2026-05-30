@@ -19,7 +19,7 @@
   --color-surface:      #ffffff; /* Blanco para tarjetas */
   --color-border:       #e2e8f0; /* Slate 200 (Bordes finos) */
   --color-text:         #0f172a; /* Slate 900 */
-  --color-muted:        #64748b; /* Slate 500 */
+  --color-muted:        #475569; /* Slate 600 (WCAG AA compliant contrast) */
   
   --navbar-height:      70px;
   --section-padding:    5rem 0;
@@ -772,4 +772,25 @@ hr {
 .paso-guia:nth-child(3) { animation-delay: 0.15s; }
 .paso-guia:nth-child(4) { animation-delay: 0.2s; }
 .paso-guia:nth-child(5) { animation-delay: 0.25s; }
+
+/* ── Sobrescrituras para cumplir contraste WCAG AA ── */
+.text-warning {
+  color: #b45309 !important; /* Ámbar oscuro legible en fondos claros */
+}
+
+.text-success {
+  color: #047857 !important; /* Esmeralda oscuro legible */
+}
+
+.text-danger {
+  color: #b91c1c !important; /* Rojo oscuro legible */
+}
+
+.text-muted {
+  color: #475569 !important; /* Slate 600 legible */
+}
+
+.form-text {
+  color: #475569 !important; /* Slate 600 legible para textos de ayuda */
+}
 
