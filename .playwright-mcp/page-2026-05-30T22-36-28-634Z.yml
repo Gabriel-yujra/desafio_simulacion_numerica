@@ -1,0 +1,314 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "05"
+        - generic [ref=e27]:
+          - heading "Ecuaciones Diferenciales Ordinarias (EDO)" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Vaciado de reservas y difusión del descontento social
+      - paragraph [ref=e30]: Las ecuaciones diferenciales ordinarias modelan la evolución temporal de sistemas físicos y sociales. Sigue los pasos numerados abajo para explorar y simular cómo varían las reservas críticas de carburantes y cómo se difunde el descontento social.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: "1"
+          - generic [ref=e34]:
+            - 'heading "① El Problema: Dinámicas Temporales y Acoplamiento" [level=3] [ref=e35]':
+              - generic [ref=e36]: ①
+              - text: "El Problema: Dinámicas Temporales y Acoplamiento"
+            - paragraph [ref=e37]: "Analizamos cómo evolucionan dos problemas complejos en el tiempo mediante ecuaciones diferenciales continuas:"
+            - generic [ref=e38]:
+              - generic [ref=e40]:
+                - 'heading "Escenario B: Vaciado de Reservas de Combustible" [level=5] [ref=e41]': "Escenario B: Vaciado de Reservas de Combustible"
+                - paragraph [ref=e42]: La planta de Senkata almacena combustible para abastecer la ciudad. Debido a bloqueos y retrasos en el suministro, el ingreso diario (6.000 L/día) es menor que el consumo normal (10.000 L/día). Predecimos cuántos días tardará en alcanzarse el nivel crítico de reserva (20.000 L) antes de un desabastecimiento generalizado.
+              - generic [ref=e44]:
+                - 'heading "Escenario G: Difusión del Descontento Social (N-M-D)" [level=5] [ref=e45]': "Escenario G: Difusión del Descontento Social (N-M-D)"
+                - paragraph [ref=e46]: "Durante una crisis prolongada, el malestar social se propaga en la población. Dividimos a la ciudadanía en tres grupos interactivos: ciudadanos Neutrales ($N$), Manifestantes activos ($M$) y mediadores de diálogo ($D$). Simulamos si las protestas colapsan o se masifican según la intervención del diálogo."
+        - generic [ref=e47]:
+          - generic [ref=e48]: "2"
+          - generic [ref=e49]:
+            - heading "② Datos y Parámetros Iniciales de Simulación" [level=3] [ref=e50]:
+              - generic [ref=e51]: ②
+              - text: Datos y Parámetros Iniciales de Simulación
+            - paragraph [ref=e52]: "Los coeficientes y valores de stock que alimentan nuestros algoritmos en el día cero ($t=0$):"
+            - generic [ref=e53]:
+              - generic [ref=e55]:
+                - heading "Datos - Vaciado de Tanques (Escenario B)" [level=5] [ref=e56]
+                - list [ref=e57]:
+                  - listitem [ref=e58]:
+                    - strong [ref=e59]: "Reserva Inicial ($R_0$):"
+                    - text: 100.000 litros.
+                  - listitem [ref=e60]:
+                    - strong [ref=e61]: "Umbral Crítico:"
+                    - text: 20.000 litros.
+                  - listitem [ref=e62]:
+                    - strong [ref=e63]: "Abastecimiento de Entrada:"
+                    - text: 6.000 L/día (normal) o 3.000 L/día (en bloqueos severos).
+                  - listitem [ref=e64]:
+                    - strong [ref=e65]: "Consumo de Salida:"
+                    - text: 10.000 L/día (normal) o 14.000 L/día (compras de pánico).
+              - generic [ref=e67]:
+                - heading "Datos - Difusión Social (Escenario G)" [level=5] [ref=e68]
+                - list [ref=e69]:
+                  - listitem [ref=e70]:
+                    - strong [ref=e71]: "Población Inicial:"
+                    - text: Neutrales $N_0 = 900$, Manifestantes $M_0 = 80$, Mediadores $D_0 = 20$.
+                  - listitem [ref=e72]:
+                    - strong [ref=e73]: "Parámetros logísticos predeterminados:"
+                    - text: Tasa de contagio social ($a = 0.0005$), retorno a neutralidad ($b = 0.05$), efectividad del diálogo ($c = 0.0004$), reclutamiento de mediadores ($k = 0.10$), fatiga ($r = 0.05$).
+        - generic [ref=e74]:
+          - generic [ref=e75]: "3"
+          - generic [ref=e76]:
+            - heading "③ El Modelo Matemático y los Algoritmos EDO" [level=3] [ref=e77]:
+              - generic [ref=e78]: ③
+              - text: El Modelo Matemático y los Algoritmos EDO
+            - paragraph [ref=e79]: "La dinámica temporal se modela mediante ecuaciones diferenciales de primer orden simples o acopladas:"
+            - generic [ref=e80]:
+              - generic [ref=e82]:
+                - heading "EDO Vaciado de Reservas (1D)" [level=5] [ref=e83]
+                - paragraph [ref=e84]: "El volumen del tanque cambia según el diferencial de entrada y salida: $$\\frac{dR}{dt} = \\text{Entrada} - \\text{Salida}$$"
+                - paragraph [ref=e85]: Evaluamos el comportamiento lineal con tasas constantes o modelos no lineales simulando fugas o vaciados acelerados.
+              - generic [ref=e87]:
+                - heading "Sistema Acoplado N-M-D (3D)" [level=5] [ref=e88]
+                - paragraph [ref=e89]: "La interacción social se modela de forma análoga a la epidemiología SIR: $$\\frac{dN}{dt} = -aNM + bD$$ $$\\frac{dM}{dt} = aNM - cMD$$ $$\\frac{dD}{dt} = kM - rD$$"
+                - paragraph [ref=e90]: "Tres solucionadores son comparados: **Euler** (O(h)), **Heun** (O(h²)) y **Runge-Kutta 4** (O(h⁴)), recomendándose este último por su alta precisión en sistemas acoplados."
+        - generic [ref=e91]:
+          - generic [ref=e92]: "4"
+          - generic [ref=e93]:
+            - heading "④ Configura y Simula los Modelos" [level=3] [ref=e94]:
+              - generic [ref=e95]: ④
+              - text: Configura y Simula los Modelos
+            - paragraph [ref=e96]: "Elige el escenario que deseas analizar, carga uno de los casos preconfigurados o edita los parámetros libremente, y pulsa Simular:"
+            - generic [ref=e97]:
+              - generic [ref=e99]:
+                - heading "1. Selección del Escenario" [level=5] [ref=e100]
+                - combobox [ref=e102]:
+                  - option "Reservas de carburante — R(t)" [selected]
+                  - option "Difusión de descontento — N, M, D(t)"
+                - generic [ref=e103]:
+                  - heading "2. Parámetros del Tanque" [level=5] [ref=e104]
+                  - generic [ref=e105]:
+                    - generic [ref=e106]: dR/dt = f(t, R) (JS)
+                    - textbox "dR/dt = f(t, R) (JS)" [ref=e107]: "-4000"
+                    - generic [ref=e108]: "Escenario Normal: R'(t) = 6000 - 10000 = -4000. Crítico (20k) en t=20."
+                  - generic [ref=e109]:
+                    - generic [ref=e110]: R₀ — Reserva inicial (Litros)
+                    - spinbutton "R₀ — Reserva inicial (Litros)" [ref=e111]: "100000"
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - heading "3. Intervalo de Tiempo y Método" [level=5] [ref=e115]
+                  - generic [ref=e116]:
+                    - generic [ref=e117]:
+                      - generic [ref=e118]: Día t₀
+                      - spinbutton "Día t₀" [ref=e119]: "0"
+                    - generic [ref=e120]:
+                      - generic [ref=e121]: Día tₙ
+                      - spinbutton "Día tₙ" [ref=e122]: "25"
+                    - generic [ref=e123]:
+                      - generic [ref=e124]: Paso h (días)
+                      - spinbutton "Paso h (días)" [ref=e125]: "1"
+                  - generic [ref=e126]:
+                    - generic [ref=e127]: Método de Integración
+                    - combobox [ref=e128]:
+                      - option "Euler (1er orden)"
+                      - option "Heun / Predictor-Corrector (2do orden)"
+                      - option "Runge-Kutta 4° orden"
+                      - option "Comparar Euler / Heun / RK4" [selected]
+                  - heading "4. Cargar Casos Críticos" [level=5] [ref=e129]
+                  - generic [ref=e130]:
+                    - button "Normal" [ref=e132] [cursor=pointer]
+                    - button "Pánico" [ref=e134] [cursor=pointer]
+                    - button "Reducción" [ref=e136] [cursor=pointer]
+                - button "🚀 Iniciar Simulación Dinámica" [ref=e138] [cursor=pointer]
+        - generic [ref=e139]:
+          - generic [ref=e140]: "5"
+          - generic [ref=e141]:
+            - heading "⑤ Resultados e Interpretación" [level=3] [ref=e142]:
+              - generic [ref=e143]: ⑤
+              - text: Resultados e Interpretación
+            - paragraph [ref=e144]: "Observa la evolución de las variables en las curvas integradas en el tiempo y en la tabla de solución:"
+            - generic [ref=e145]:
+              - generic [ref=e148]:
+                - text: Evolución en el Tiempo
+                - button "Limpiar" [ref=e149] [cursor=pointer]
+              - generic [ref=e153]:
+                - generic [ref=e154]: Tabla de Integración y Conclusión
+                - generic [ref=e156]:
+                  - generic [ref=e157]:
+                    - heading "Conclusión Automática" [level=6] [ref=e158]
+                    - paragraph [ref=e159]:
+                      - text: Con una reserva inicial de 100,000 litros, una entrada diaria de 6.000 litros y un consumo de 10.000 litros, la planta alcanza el nivel crítico de 20.000 litros en aproximadamente
+                      - strong [ref=e160]: 20 días
+                      - text: . Si la demanda aumenta o el abastecimiento disminuye, el tiempo de seguridad se reduce significativamente, evidenciando la importancia de mantener un equilibrio entre reposición y consumo.
+                  - table [ref=e162]:
+                    - rowgroup [ref=e163]:
+                      - row "t (días) R(t) — Euler R(t) — Heun R(t) — RK4" [ref=e164]:
+                        - columnheader "t (días)" [ref=e165]
+                        - columnheader "R(t) — Euler" [ref=e166]
+                        - columnheader "R(t) — Heun" [ref=e167]
+                        - columnheader "R(t) — RK4" [ref=e168]
+                    - rowgroup [ref=e169]:
+                      - row "0 100000 100000 100000" [ref=e170]:
+                        - cell "0" [ref=e171]
+                        - cell "100000" [ref=e172]
+                        - cell "100000" [ref=e173]
+                        - cell "100000" [ref=e174]
+                      - row "1 96000 96000 96000" [ref=e175]:
+                        - cell "1" [ref=e176]
+                        - cell "96000" [ref=e177]
+                        - cell "96000" [ref=e178]
+                        - cell "96000" [ref=e179]
+                      - row "2 92000 92000 92000" [ref=e180]:
+                        - cell "2" [ref=e181]
+                        - cell "92000" [ref=e182]
+                        - cell "92000" [ref=e183]
+                        - cell "92000" [ref=e184]
+                      - row "3 88000 88000 88000" [ref=e185]:
+                        - cell "3" [ref=e186]
+                        - cell "88000" [ref=e187]
+                        - cell "88000" [ref=e188]
+                        - cell "88000" [ref=e189]
+                      - row "4 84000 84000 84000" [ref=e190]:
+                        - cell "4" [ref=e191]
+                        - cell "84000" [ref=e192]
+                        - cell "84000" [ref=e193]
+                        - cell "84000" [ref=e194]
+                      - row "5 80000 80000 80000" [ref=e195]:
+                        - cell "5" [ref=e196]
+                        - cell "80000" [ref=e197]
+                        - cell "80000" [ref=e198]
+                        - cell "80000" [ref=e199]
+                      - row "6 76000 76000 76000" [ref=e200]:
+                        - cell "6" [ref=e201]
+                        - cell "76000" [ref=e202]
+                        - cell "76000" [ref=e203]
+                        - cell "76000" [ref=e204]
+                      - row "7 72000 72000 72000" [ref=e205]:
+                        - cell "7" [ref=e206]
+                        - cell "72000" [ref=e207]
+                        - cell "72000" [ref=e208]
+                        - cell "72000" [ref=e209]
+                      - row "8 68000 68000 68000" [ref=e210]:
+                        - cell "8" [ref=e211]
+                        - cell "68000" [ref=e212]
+                        - cell "68000" [ref=e213]
+                        - cell "68000" [ref=e214]
+                      - row "9 64000 64000 64000" [ref=e215]:
+                        - cell "9" [ref=e216]
+                        - cell "64000" [ref=e217]
+                        - cell "64000" [ref=e218]
+                        - cell "64000" [ref=e219]
+                      - row "10 60000 60000 60000" [ref=e220]:
+                        - cell "10" [ref=e221]
+                        - cell "60000" [ref=e222]
+                        - cell "60000" [ref=e223]
+                        - cell "60000" [ref=e224]
+                      - row "11 56000 56000 56000" [ref=e225]:
+                        - cell "11" [ref=e226]
+                        - cell "56000" [ref=e227]
+                        - cell "56000" [ref=e228]
+                        - cell "56000" [ref=e229]
+                      - row "12 52000 52000 52000" [ref=e230]:
+                        - cell "12" [ref=e231]
+                        - cell "52000" [ref=e232]
+                        - cell "52000" [ref=e233]
+                        - cell "52000" [ref=e234]
+                      - row "13 48000 48000 48000" [ref=e235]:
+                        - cell "13" [ref=e236]
+                        - cell "48000" [ref=e237]
+                        - cell "48000" [ref=e238]
+                        - cell "48000" [ref=e239]
+                      - row "14 44000 44000 44000" [ref=e240]:
+                        - cell "14" [ref=e241]
+                        - cell "44000" [ref=e242]
+                        - cell "44000" [ref=e243]
+                        - cell "44000" [ref=e244]
+                      - row "15 40000 40000 40000" [ref=e245]:
+                        - cell "15" [ref=e246]
+                        - cell "40000" [ref=e247]
+                        - cell "40000" [ref=e248]
+                        - cell "40000" [ref=e249]
+                      - row "16 36000 36000 36000" [ref=e250]:
+                        - cell "16" [ref=e251]
+                        - cell "36000" [ref=e252]
+                        - cell "36000" [ref=e253]
+                        - cell "36000" [ref=e254]
+                      - row "17 32000 32000 32000" [ref=e255]:
+                        - cell "17" [ref=e256]
+                        - cell "32000" [ref=e257]
+                        - cell "32000" [ref=e258]
+                        - cell "32000" [ref=e259]
+                      - row "18 28000 28000 28000" [ref=e260]:
+                        - cell "18" [ref=e261]
+                        - cell "28000" [ref=e262]
+                        - cell "28000" [ref=e263]
+                        - cell "28000" [ref=e264]
+                      - row "19 24000 24000 24000" [ref=e265]:
+                        - cell "19" [ref=e266]
+                        - cell "24000" [ref=e267]
+                        - cell "24000" [ref=e268]
+                        - cell "24000" [ref=e269]
+                      - row "20 20000 20000 20000" [ref=e270]:
+                        - cell "20" [ref=e271]
+                        - cell "20000" [ref=e272]
+                        - cell "20000" [ref=e273]
+                        - cell "20000" [ref=e274]
+                      - row "21 16000 16000 16000" [ref=e275]:
+                        - cell "21" [ref=e276]
+                        - cell "16000" [ref=e277]
+                        - cell "16000" [ref=e278]
+                        - cell "16000" [ref=e279]
+                      - row "22 12000 12000 12000" [ref=e280]:
+                        - cell "22" [ref=e281]
+                        - cell "12000" [ref=e282]
+                        - cell "12000" [ref=e283]
+                        - cell "12000" [ref=e284]
+                      - row "23 8000 8000 8000" [ref=e285]:
+                        - cell "23" [ref=e286]
+                        - cell "8000" [ref=e287]
+                        - cell "8000" [ref=e288]
+                        - cell "8000" [ref=e289]
+                      - row "24 4000 4000 4000" [ref=e290]:
+                        - cell "24" [ref=e291]
+                        - cell "4000" [ref=e292]
+                        - cell "4000" [ref=e293]
+                        - cell "4000" [ref=e294]
+                      - row "25 0 0 0" [ref=e295]:
+                        - cell "25" [ref=e296]
+                        - cell "0" [ref=e297]
+                        - cell "0" [ref=e298]
+                        - cell "0" [ref=e299]
+    - generic [ref=e300]:
+      - separator [ref=e301]
+      - paragraph [ref=e302]: Integrantes
+      - paragraph [ref=e303]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e304]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e305]: Gabriel Yujra Machaca
+      - paragraph [ref=e306]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e307]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

@@ -1,0 +1,165 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "02"
+        - generic [ref=e27]:
+          - heading "Raíces de Ecuaciones" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Umbrales críticos y puntos de equilibrio
+      - paragraph [ref=e30]: Encontrar las raíces de una ecuación no lineal nos permite identificar puntos críticos de equilibrio y umbrales de alerta en una economía familiar o logística de carburantes. Sigue los pasos numerados abajo para explorar estas simulaciones.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: "1"
+          - generic [ref=e34]:
+            - 'heading "① El Problema: Puntos de Quiebre Logístico y Familiar" [level=3] [ref=e35]':
+              - generic [ref=e36]: ①
+              - text: "El Problema: Puntos de Quiebre Logístico y Familiar"
+            - paragraph [ref=e37]: "Analizamos escenarios donde surge un \"punto de quiebre\" o umbral límite representable por una raíz matemática $f(x) = 0$:"
+            - generic [ref=e38]:
+              - generic [ref=e40]:
+                - 'heading "Escenario E: Umbral de Gasto vs Ingreso Familiar" [level=5] [ref=e41]': "Escenario E: Umbral de Gasto vs Ingreso Familiar"
+                - paragraph [ref=e42]: Una familia en el país percibe un ingreso mensual fijo de 3.500 Bs. Debido al alza de precios, el costo mensual acumulado de la canasta básica sube de forma cuadrática. Se necesita calcular en qué día exacto del mes los gastos superan al ingreso familiar, cayendo en déficit.
+              - generic [ref=e44]:
+                - 'heading "Umbral Alternativo: Reposición de Combustible" [level=5] [ref=e45]': "Umbral Alternativo: Reposición de Combustible"
+                - paragraph [ref=e46]: Una planta distribuidora tiene un consumo constante de carburantes. La tasa de reposición depende de una variable de eficiencia logística. Buscamos el valor exacto de dicha tasa para que el balance sea cero y las reservas no caigan.
+        - generic [ref=e47]:
+          - generic [ref=e48]: "2"
+          - generic [ref=e49]:
+            - heading "② Los Datos Iniciales" [level=3] [ref=e50]:
+              - generic [ref=e51]: ②
+              - text: Los Datos Iniciales
+            - paragraph [ref=e52]: "Los parámetros y constantes estimadas para modelar ambos problemas son:"
+            - generic [ref=e53]:
+              - generic [ref=e55]:
+                - heading "Datos - Costo vs Ingreso" [level=5] [ref=e56]
+                - list [ref=e57]:
+                  - listitem [ref=e58]:
+                    - strong [ref=e59]: "Ingreso mensual familiar:"
+                    - text: 3.500 Bs (fijo).
+                  - listitem [ref=e60]:
+                    - strong [ref=e61]: "Costo base del día 0:"
+                    - text: 1.000 Bs.
+                  - listitem [ref=e62]:
+                    - strong [ref=e63]: "Incremento de costo:"
+                    - text: Tasa lineal de 50 Bs/día y factor cuadrático de 2 Bs/día².
+              - generic [ref=e65]:
+                - heading "Datos - Reposición de Combustible" [level=5] [ref=e66]
+                - list [ref=e67]:
+                  - listitem [ref=e68]:
+                    - strong [ref=e69]: "Consumo diario:"
+                    - text: 10.000 litros.
+                  - listitem [ref=e70]:
+                    - strong [ref=e71]: "Modelo de reposición:"
+                    - text: $3000 + 200r$ litros/día (donde $r$ es la tasa logística).
+                  - listitem [ref=e72]:
+                    - strong [ref=e73]: "Objetivo:"
+                    - text: Hallar $r$ para igualar la reposición al consumo.
+        - generic [ref=e74]:
+          - generic [ref=e75]: "3"
+          - generic [ref=e76]:
+            - heading "③ El Modelo Matemático de Búsqueda" [level=3] [ref=e77]:
+              - generic [ref=e78]: ③
+              - text: El Modelo Matemático de Búsqueda
+            - paragraph [ref=e79]: "Abstraemos el problema planteando una función $f(t) = 0$ para encontrar la raíz:"
+            - generic [ref=e80]:
+              - generic [ref=e82]:
+                - heading "Costo vs Ingreso" [level=5] [ref=e83]
+                - paragraph [ref=e84]: "Igualamos el costo acumulado al ingreso familiar: $$C(t) = 1000 + 50t + 2t^2 = 3500$$ Dando como resultado la función objetivo:"
+                - generic [ref=e85]: f(t) = 2t² + 50t - 2500 = 0
+                - paragraph [ref=e86]: Evaluamos en el intervalo $t \in [20, 25]$ (días del mes).
+              - generic [ref=e88]:
+                - heading "Reposición de Combustible" [level=5] [ref=e89]
+                - paragraph [ref=e90]: "Igualamos la reposición al consumo: $$3000 + 200r = 10000$$ Dando como resultado la función objetivo lineal:"
+                - generic [ref=e91]: f(r) = 200r - 7000 = 0
+                - paragraph [ref=e92]: Buscamos el valor crítico de $r$ que mantiene en balance el tanque.
+        - generic [ref=e93]:
+          - generic [ref=e94]: "4"
+          - generic [ref=e95]:
+            - heading "④ Configura y Corre la Simulación" [level=3] [ref=e96]:
+              - generic [ref=e97]: ④
+              - text: Configura y Corre la Simulación
+            - paragraph [ref=e98]: "Elige uno de los escenarios preconfigurados o ingresa una función matemática personalizada para hallar su raíz mediante métodos iterativos:"
+            - generic [ref=e99]:
+              - generic [ref=e101]:
+                - heading "1. Cargar Preconfiguraciones" [level=5] [ref=e102]
+                - generic [ref=e103]:
+                  - button "📉 Umbral Familiar" [ref=e105] [cursor=pointer]
+                  - button "⛽ Umbral Tanque" [ref=e107] [cursor=pointer]
+                - heading "2. Ecuación y Método" [level=5] [ref=e108]
+                - generic [ref=e109]:
+                  - generic [ref=e110]: Función f(x) (JS syntax)
+                  - textbox "Función f(x) (JS syntax)" [ref=e111]: 2*Math.pow(x,2) + 50*x - 2500
+                - generic [ref=e112]:
+                  - generic [ref=e113]: Método Numérico
+                  - combobox "Método Numérico" [ref=e114]:
+                    - option "Bisección" [selected]
+                    - option "Newton-Raphson"
+                    - option "Secante"
+              - generic [ref=e116]:
+                - generic [ref=e117]:
+                  - heading "3. Intervalos y Parámetros Numéricos" [level=5] [ref=e118]
+                  - generic [ref=e119]:
+                    - generic [ref=e120]:
+                      - generic [ref=e121]: Extremo a
+                      - spinbutton "Extremo a" [ref=e122]: "20"
+                    - generic [ref=e123]:
+                      - generic [ref=e124]: Extremo b
+                      - spinbutton "Extremo b" [ref=e125]: "25"
+                  - generic [ref=e126]:
+                    - generic [ref=e127]:
+                      - generic [ref=e128]: Tolerancia
+                      - spinbutton "Tolerancia" [ref=e129]: "0.000001"
+                    - generic [ref=e130]:
+                      - generic [ref=e131]: Iter. máx.
+                      - spinbutton "Iter. máx." [ref=e132]: "100"
+                - button "🚀 Buscar Raíz Numérica" [ref=e134] [cursor=pointer]
+        - generic [ref=e135]:
+          - generic [ref=e136]: "5"
+          - generic [ref=e137]:
+            - heading "⑤ Resultados e Interpretación" [level=3] [ref=e138]:
+              - generic [ref=e139]: ⑤
+              - text: Resultados e Interpretación
+            - paragraph [ref=e140]: "Observa cómo los métodos convergen hacia el punto crítico en la gráfica y la consola:"
+            - generic [ref=e141]:
+              - generic [ref=e144]:
+                - text: Gráfica de f(x) y Raíz
+                - button "Limpiar" [ref=e145] [cursor=pointer]
+              - generic [ref=e149]:
+                - generic [ref=e150]: Consola de Resultados y Convergencia
+                - paragraph [ref=e153]: Los resultados detallados y la tabla de iteraciones se calcularán aquí.
+    - generic [ref=e154]:
+      - separator [ref=e155]
+      - paragraph [ref=e156]: Integrantes
+      - paragraph [ref=e157]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e158]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e159]: Gabriel Yujra Machaca
+      - paragraph [ref=e160]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e161]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

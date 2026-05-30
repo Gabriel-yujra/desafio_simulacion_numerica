@@ -1,0 +1,203 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "04"
+        - generic [ref=e27]:
+          - heading "Integración Numérica" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Costo acumulado y pérdida de poder adquisitivo
+      - paragraph [ref=e30]: La integración numérica nos permite calcular el área acumulada bajo una curva de precios. Sigue los pasos numerados abajo para analizar el impacto real de la inflación en el bolsillo de una familia.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: "1"
+          - generic [ref=e34]:
+            - 'heading "① El Problema: El Impacto de la Inflación Acumulada" [level=3] [ref=e35]':
+              - generic [ref=e36]: ①
+              - text: "El Problema: El Impacto de la Inflación Acumulada"
+            - paragraph [ref=e37]: Una familia realiza diariamente compras de una canasta básica (papa, arroz, aceite, azúcar). Debido al desabastecimiento provocado por bloqueos e incremento de costos de transporte, los precios suben día a día de forma acumulativa. El problema consiste en determinar cuánto dinero extra gasta realmente esta familia al final de un período mensual debido a la inflación, comparándolo con lo que habrían gastado si los precios permanecieran estables.
+        - generic [ref=e38]:
+          - generic [ref=e39]: "2"
+          - generic [ref=e40]:
+            - heading "② Datos del Costo Diario Observado" [level=3] [ref=e41]:
+              - generic [ref=e42]: ②
+              - text: Datos del Costo Diario Observado
+            - paragraph [ref=e43]: "Se recolectan datos históricos discretos de lo que costaría la canasta básica cada 5 días a lo largo del mes (30 días):"
+            - generic [ref=e44]:
+              - generic [ref=e46]:
+                - heading "Tabla de Costos de Canasta Básica" [level=5] [ref=e47]
+                - table [ref=e49]:
+                  - rowgroup [ref=e50]:
+                    - row "Día del mes Costo de la Canasta (Bs)" [ref=e51]:
+                      - columnheader "Día del mes" [ref=e52]
+                      - columnheader "Costo de la Canasta (Bs)" [ref=e53]
+                  - rowgroup [ref=e54]:
+                    - row "Día 0 100.0 Bs" [ref=e55]:
+                      - cell "Día 0" [ref=e56]
+                      - cell "100.0 Bs" [ref=e57]
+                    - row "Día 5 105.0 Bs" [ref=e58]:
+                      - cell "Día 5" [ref=e59]
+                      - cell "105.0 Bs" [ref=e60]
+                    - row "Día 10 112.0 Bs" [ref=e61]:
+                      - cell "Día 10" [ref=e62]
+                      - cell "112.0 Bs" [ref=e63]
+                    - row "Día 15 120.0 Bs" [ref=e64]:
+                      - cell "Día 15" [ref=e65]
+                      - cell "120.0 Bs" [ref=e66]
+                    - row "Día 20 128.0 Bs" [ref=e67]:
+                      - cell "Día 20" [ref=e68]
+                      - cell "128.0 Bs" [ref=e69]
+                    - row "Día 25 137.0 Bs" [ref=e70]:
+                      - cell "Día 25" [ref=e71]
+                      - cell "137.0 Bs" [ref=e72]
+                    - row "Día 30 145.0 Bs" [ref=e73]:
+                      - cell "Día 30" [ref=e74]
+                      - cell "145.0 Bs" [ref=e75]
+              - generic [ref=e77]:
+                - heading "Hipótesis Inflacionaria" [level=5] [ref=e78]
+                - paragraph [ref=e79]: "Si el precio se mantuviera en equilibrio a 100 Bs por día, el gasto total del mes sería de: $$100 \\text{ Bs/día} \\times 30 \\text{ días} = 3000 \\text{ Bs}$$"
+                - paragraph [ref=e80]: Cualquier gasto por encima de esa cifra representa una **pérdida directa del poder adquisitivo** del núcleo familiar.
+        - generic [ref=e81]:
+          - generic [ref=e82]: "3"
+          - generic [ref=e83]:
+            - 'heading "③ El Modelo Matemático: Área Bajo la Curva" [level=3] [ref=e84]':
+              - generic [ref=e85]: ③
+              - text: "El Modelo Matemático: Área Bajo la Curva"
+            - paragraph [ref=e86]: "El gasto acumulado total corresponde a la suma continua de los costos diarios, modelado como la integral definida: $$\\text{Gasto Acumulado} = \\int_{a}^{b} C(t) \\, dt$$ Como no conocemos la función analítica exacta y dependemos de datos muestreados, aplicamos tres aproximaciones numéricas clásicas:"
+            - generic [ref=e87]:
+              - generic [ref=e89]:
+                - heading "Regla del Trapecio" [level=5] [ref=e90]
+                - paragraph [ref=e91]: Aproxima el área bajo la curva uniendo los puntos mediante segmentos rectilíneos. Es muy sencillo pero menos exacto ante curvas pronunciadas.
+              - generic [ref=e93]:
+                - heading "Regla de Simpson 1/3" [level=5] [ref=e94]
+                - paragraph [ref=e95]: Aproxima el área ajustando parábolas de segundo grado para grupos de tres puntos consecutivos. Requiere que el número de subintervalos $n$ sea par.
+              - generic [ref=e97]:
+                - heading "Regla de Simpson 3/8" [level=5] [ref=e98]
+                - paragraph [ref=e99]: Utiliza polinomios de tercer grado para ajustar grupos de cuatro puntos. Requiere que el número de subintervalos $n$ sea múltiplo de 3.
+        - generic [ref=e100]:
+          - generic [ref=e101]: "4"
+          - generic [ref=e102]:
+            - heading "④ Configura y Simula la Integración" [level=3] [ref=e103]:
+              - generic [ref=e104]: ④
+              - text: Configura y Simula la Integración
+            - paragraph [ref=e105]: "Carga el escenario de inflación de la canasta básica o ingresa una función matemática personalizada y pulsa Calcular:"
+            - generic [ref=e106]:
+              - generic [ref=e108]:
+                - heading "1. Escenarios Rápidos" [level=5] [ref=e109]
+                - generic [ref=e110]:
+                  - button "📈 Inflación Real" [ref=e112] [cursor=pointer]
+                  - button "⚖️ Precios Fijos" [ref=e114] [cursor=pointer]
+                - heading "2. Configuración" [level=5] [ref=e115]
+                - generic [ref=e116]:
+                  - generic [ref=e117]: Función f(x) (JS)
+                  - textbox "Función f(x) (JS)" [ref=e118]: "[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]"
+                - generic [ref=e119]:
+                  - generic [ref=e120]:
+                    - generic [ref=e121]: Límite inferior a
+                    - spinbutton "Límite inferior a" [ref=e122]: "0"
+                  - generic [ref=e123]:
+                    - generic [ref=e124]: Límite superior b
+                    - spinbutton "Límite superior b" [ref=e125]: "30"
+                - generic [ref=e126]:
+                  - generic [ref=e127]: Subintervalos (n)
+                  - spinbutton "Subintervalos (n)" [ref=e128]: "6"
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - heading "3. Métodos Numéricos a Comparar" [level=5] [ref=e132]
+                  - generic [ref=e133]:
+                    - checkbox "Regla del Trapecio" [checked] [ref=e134]
+                    - generic [ref=e135]: Regla del Trapecio
+                  - generic [ref=e136]:
+                    - checkbox "Simpson 1/3 (n par)" [checked] [ref=e137]
+                    - generic [ref=e138]: Simpson 1/3 (n par)
+                  - generic [ref=e139]:
+                    - checkbox "Simpson 3/8 (n múltiplo de 3)" [checked] [ref=e140]
+                    - generic [ref=e141]: Simpson 3/8 (n múltiplo de 3)
+                - button "🚀 Calcular Gasto Acumulado" [ref=e143] [cursor=pointer]
+        - generic [ref=e144]:
+          - generic [ref=e145]: "5"
+          - generic [ref=e146]:
+            - heading "⑤ Resultados de Gasto y Poder Adquisitivo" [level=3] [ref=e147]:
+              - generic [ref=e148]: ⑤
+              - text: Resultados de Gasto y Poder Adquisitivo
+            - paragraph [ref=e149]: "Compara los resultados del área bajo la curva obtenidos en la gráfica y la consola comparativa:"
+            - generic [ref=e150]:
+              - generic [ref=e153]:
+                - text: Visualización del Área Acumulada
+                - button "Limpiar" [ref=e154] [cursor=pointer]
+              - generic [ref=e158]:
+                - generic [ref=e159]: Consola y Pérdida de Poder Adquisitivo
+                - generic [ref=e161]:
+                  - generic [ref=e162]: Intervalo [0, 30] · n solicitado = 6
+                  - table [ref=e164]:
+                    - rowgroup [ref=e165]:
+                      - row "Método Integral ≈ (Bs) n utilizado Nota" [ref=e166]:
+                        - columnheader "Método" [ref=e167]
+                        - columnheader "Integral ≈ (Bs)" [ref=e168]
+                        - columnheader "n utilizado" [ref=e169]
+                        - columnheader "Nota" [ref=e170]
+                    - rowgroup [ref=e171]:
+                      - row "Trapecio compuesto 3622.5 6 —" [ref=e172]:
+                        - cell "Trapecio compuesto" [ref=e173]
+                        - cell "3622.5" [ref=e174]
+                        - cell "6" [ref=e175]
+                        - cell "—" [ref=e176]
+                      - row "Simpson 1/3 3621.66666667 6 —" [ref=e177]:
+                        - cell "Simpson 1/3" [ref=e178]
+                        - cell "3621.66666667" [ref=e179]
+                        - cell "6" [ref=e180]
+                        - cell "—" [ref=e181]
+                      - row "Simpson 3/8 3620.625 6 —" [ref=e182]:
+                        - cell "Simpson 3/8" [ref=e183]
+                        - cell "3620.625" [ref=e184]
+                        - cell "6" [ref=e185]
+                        - cell "—" [ref=e186]
+                  - generic [ref=e187]:
+                    - heading "Conclusión Automática (Escenario D)" [level=6] [ref=e188]
+                    - paragraph [ref=e189]:
+                      - text: Durante el mes la familia gastó aproximadamente
+                      - strong [ref=e190]: 3622 Bs
+                      - text: en la compra de la canasta básica. Si los precios hubieran permanecido constantes, el gasto habría sido de
+                      - strong [ref=e191]: 3000 Bs
+                      - text: . La diferencia de
+                      - strong [ref=e192]: 622 Bs
+                      - text: representa una pérdida aproximada del
+                      - strong [ref=e193]: 20.7%
+                      - text: del poder adquisitivo. El producto que más contribuyó al incremento del gasto fue la
+                      - strong [ref=e194]: papa
+                      - text: ", debido a su fuerte aumento de precio durante el período analizado."
+    - generic [ref=e195]:
+      - separator [ref=e196]
+      - paragraph [ref=e197]: Integrantes
+      - paragraph [ref=e198]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e199]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e200]: Gabriel Yujra Machaca
+      - paragraph [ref=e201]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e202]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.

@@ -58,299 +58,355 @@
         <div class="section-header">
           <span class="section-number">05</span>
           <div>
-            <h2 class="section-title">Ecuaciones diferenciales ordinarias</h2>
+            <h2 class="section-title">Ecuaciones Diferenciales Ordinarias (EDO)</h2>
             <p class="section-subtitle">Vaciado de reservas y difusión del descontento social</p>
           </div>
         </div>
 
-        <p>
-          Las reservas de carburante se vacían siguiendo tasas de consumo que aumentan con el
-          tiempo — un modelo representado por una EDO de primer orden. El descontento social se
-          modela como un sistema N–M–D: población <em>neutral</em> (N), <em>manifestantes</em> (M)
-          y <em>detenidos</em> (D), cuya dinámica emerge de la interacción entre los tres grupos.
-          Se comparan tres métodos de integración numérica en el tiempo: <strong>Euler</strong>
-          (O(h)), <strong>Heun / predictor-corrector</strong> (O(h²)) y
-          <strong>Runge-Kutta 4° orden</strong> (O(h⁴)).
+        <p class="lead text-muted mb-4">
+          Las ecuaciones diferenciales ordinarias modelan la evolución temporal de sistemas físicos y sociales. Sigue los pasos numerados abajo para explorar y simular cómo varían las reservas críticas de carburantes y cómo se difunde el descontento social.
         </p>
-        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioB">
-          <div class="accordion-item border-primary">
-            <h2 class="accordion-header" id="headingEscenarioB">
-              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioB" aria-expanded="true" aria-controls="collapseEscenarioB">
-                📖 Escenario B: Vaciado crítico de reservas de carburantes
-              </button>
-            </h2>
-            <div id="collapseEscenarioB" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioB" data-bs-parent="#accordionEscenarioB">
-              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
-                <h6 class="fw-bold text-dark">Contexto</h6>
-                <p>La Planta de Senkata almacena combustible para abastecer una ciudad. Debido a problemas logísticos y retrasos, el ingreso diario de combustible (6.000 L/día) es menor que el consumo diario (10.000 L/día). La empresa desea conocer cuánto durarán las reservas, cuándo se alcanzará un nivel crítico (20.000 L) y cómo afecta un aumento de demanda o reducción de oferta.</p>
-                
-                <h6 class="fw-bold text-dark mt-3">Modelo Matemático (EDO de 1er Orden)</h6>
-                <p>La reserva cambia según el balance de entradas y salidas: <strong>R'(t) = Entrada - Salida</strong>.</p>
-                <ul>
-                  <li><strong>Reserva Inicial:</strong> R(0) = 100.000 litros.</li>
-                  <li><strong>Escenario Normal:</strong> R'(t) = 6000 - 10000 = <strong>-4000</strong>.</li>
-                  <li><strong>Pánico de Compra (Consumo a 14000 L):</strong> R'(t) = 6000 - 14000 = <strong>-8000</strong>.</li>
-                  <li><strong>Reducción Abastecimiento (Entrada a 3000 L):</strong> R'(t) = 3000 - 10000 = <strong>-7000</strong>.</li>
-                </ul>
 
-                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos (Euler, Heun, RK4)</h6>
-                <ul>
-                  <li><strong>Euler (O(h)):</strong> Usa una sola pendiente (la inicial). Dado que nuestra EDO es lineal con pendiente constante (-4000), el error es bajo.</li>
-                  <li><strong>Heun (O(h²)):</strong> Promedia la pendiente inicial y final. Aquí produce exactamente los mismos valores que Euler.</li>
-                  <li><strong>Runge-Kutta 4 (O(h⁴)):</strong> Calcula 4 pendientes intermedias. Ofrece la solución exacta. RK4 es el método más estable y preciso.</li>
-                </ul>
+        <div class="flujo-pasos">
 
-                <h6 class="fw-bold text-dark mt-3">Análisis del Negocio</h6>
-                <ul>
-                  <li><strong>¿En cuántos días la reserva llega a un nivel crítico?</strong> En el escenario normal, el crítico (20.000 L) se alcanza en <strong>20 días</strong> exactos.</li>
-                  <li><strong>¿Qué pasa si aumenta el consumo diario?</strong> La reserva crítica se alcanza en solo <strong>10 días</strong>. Se agota el doble de rápido.</li>
-                  <li><strong>¿Qué pasa si se reduce el abastecimiento?</strong> La reserva crítica se alcanza en <strong>11.43 días</strong>. Las reservas caen mucho más rápido.</li>
-                </ul>
-                
-                <div class="alert alert-info mt-3 mb-0 p-2 border-0">
-                  <strong class="text-dark">Contexto Adicional (Conflicto Social):</strong> También incluye un sistema acoplado (N-M-D) para simular cómo una pequeña chispa de protesta (M₀ = 10) puede transformarse en una ola masiva de manifestaciones y luego decaer a medida que ocurren detenciones.
+          <!-- PASO 1: EL PROBLEMA -->
+          <div class="paso-guia paso-contexto">
+            <div class="paso-badge">1</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">①</span> El Problema: Dinámicas Temporales y Acoplamiento
+              </h3>
+              <p class="text-muted small">
+                Analizamos cómo evolucionan dos problemas complejos en el tiempo mediante ecuaciones diferenciales continuas:
+              </p>
+              <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border border-primary-subtle h-100">
+                    <h5 class="h6 fw-bold text-primary"><i class="bi bi-droplet"></i> Escenario B: Vaciado de Reservas de Combustible</h5>
+                    <p class="small mb-0 text-muted">
+                      La planta de Senkata almacena combustible para abastecer la ciudad. Debido a bloqueos y retrasos en el suministro, el ingreso diario (6.000 L/día) es menor que el consumo normal (10.000 L/día). Predecimos cuántos días tardará en alcanzarse el nivel crítico de reserva (20.000 L) antes de un desabastecimiento generalizado.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border border-warning-subtle h-100">
+                    <h5 class="h6 fw-bold text-warning"><i class="bi bi-people"></i> Escenario G: Difusión del Descontento Social (N-M-D)</h5>
+                    <p class="small mb-0 text-muted">
+                      Durante una crisis prolongada, el malestar social se propaga en la población. Dividimos a la ciudadanía en tres grupos interactivos: ciudadanos Neutrales ($N$), Manifestantes activos ($M$) y mediadores de diálogo ($D$). Simulamos si las protestas colapsan o se masifican según la intervención del diálogo.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioG">
-          <div class="accordion-item border-warning">
-            <h2 class="accordion-header" id="headingEscenarioG">
-              <button class="accordion-button collapsed bg-warning-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioG" aria-expanded="false" aria-controls="collapseEscenarioG">
-                📖 Escenario G: Modelo de difusión de opinión o descontento social (N-M-D)
-              </button>
-            </h2>
-            <div id="collapseEscenarioG" class="accordion-collapse collapse" aria-labelledby="headingEscenarioG" data-bs-parent="#accordionEscenarioG">
-              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
-                <h6 class="fw-bold text-dark">Contexto</h6>
-                <p>Una ciudad atraviesa una crisis. Inicialmente, la mayoría mantiene una posición neutral, pero el descontento comienza a propagarse por escasez de productos. Aparecen instituciones mediadoras buscando reducir el conflicto mediante diálogo.</p>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <h6 class="fw-bold text-dark">Poblaciones</h6>
-                    <ul>
-                      <li><strong>N(t):</strong> Ciudadanos neutrales.</li>
-                      <li><strong>M(t):</strong> Manifestantes activos.</li>
-                      <li><strong>D(t):</strong> Mediadores.</li>
-                    </ul>
-                  </div>
-                  <div class="col-md-6">
-                    <h6 class="fw-bold text-dark">Parámetros Clave</h6>
-                    <ul>
-                      <li><strong>a:</strong> Influencia del descontento.</li>
-                      <li><strong>c:</strong> Efectividad del diálogo.</li>
-                      <li><strong>k:</strong> Generación de mediadores.</li>
+          <!-- PASO 2: LOS DATOS -->
+          <div class="paso-guia paso-datos">
+            <div class="paso-badge">2</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">②</span> Datos y Parámetros Iniciales de Simulación
+              </h3>
+              <p class="text-muted small">
+                Los coeficientes y valores de stock que alimentan nuestros algoritmos en el día cero ($t=0$):
+              </p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Vaciado de Tanques (Escenario B)</h5>
+                    <ul class="small text-muted mb-0 ps-3">
+                      <li><strong>Reserva Inicial ($R_0$):</strong> 100.000 litros.</li>
+                      <li><strong>Umbral Crítico:</strong> 20.000 litros.</li>
+                      <li><strong>Abastecimiento de Entrada:</strong> 6.000 L/día (normal) o 3.000 L/día (en bloqueos severos).</li>
+                      <li><strong>Consumo de Salida:</strong> 10.000 L/día (normal) o 14.000 L/día (compras de pánico).</li>
                     </ul>
                   </div>
                 </div>
-
-                <h6 class="fw-bold text-dark mt-3">Análisis y Masificación</h6>
-                <p>El descontento tiende a masificarse (M(t) > 50% de la población) cuando la influencia del descontento (a) es muy alta, o cuando no existen mediadores (D=0, k=0). Por el contrario, un diálogo efectivo (c alto) estabiliza la situación rápidamente, reduciendo la cantidad de manifestantes activos y retornándolos al estado neutral.</p>
-                
-                <h6 class="fw-bold text-dark mt-3">Métodos Numéricos</h6>
-                <p>El método de <strong>Heun</strong> (predictor-corrector) brinda buena precisión con menos cálculos. Sin embargo, para simulaciones de este tipo (sistemas no lineales de varias ecuaciones), <strong>Runge-Kutta 4</strong> es altamente recomendado por su estabilidad superior a largo plazo.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row gy-4">
-          <!-- ── Columna de configuración ── -->
-          <div class="col-lg-5">
-            <div class="card shadow-sm">
-              <div class="card-header fw-semibold">Configuración del modelo</div>
-              <div class="card-body">
-
-                <!-- Selector de escenario -->
-                <div class="mb-3">
-                  <label class="form-label">Escenario</label>
-                  <select id="edo-escenario" class="form-select form-select-sm"
-                          onchange="EcuacionesDiferenciales.cambiarEscenario()">
-                    <option value="reservas">Reservas de carburante — R(t)</option>
-                    <option value="social">Difusión de descontento — N, M, D(t)</option>
-                  </select>
-                </div>
-
-                <!-- Parámetros 1D (reservas) -->
-                <div id="edo-params-1d">
-                  <div class="mb-3">
-                    <label for="edo-dy" class="form-label">
-                      dR/dt = f(t, R) <span class="text-muted small">(sintaxis JS)</span>
-                    </label>
-                    <input type="text" id="edo-dy" class="form-control form-control-sm font-monospace"
-                           value="-(0.05 + 0.008 * t) * y" />
-                    <div class="form-text" id="edo-hint">
-                      Vaciado acelerado: tasa de extracción crece linealmente con el tiempo.
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label for="edo-y0" class="form-label">R₀ — Reserva inicial</label>
-                    <input type="number" id="edo-y0" class="form-control form-control-sm" value="1000" />
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Difusión Social (Escenario G)</h5>
+                    <ul class="small text-muted mb-0 ps-3">
+                      <li><strong>Población Inicial:</strong> Neutrales $N_0 = 900$, Manifestantes $M_0 = 80$, Mediadores $D_0 = 20$.</li>
+                      <li><strong>Parámetros logísticos predeterminados:</strong> Tasa de contagio social ($a = 0.0005$), retorno a neutralidad ($b = 0.05$), efectividad del diálogo ($c = 0.0004$), reclutamiento de mediadores ($k = 0.10$), fatiga ($r = 0.05$).</li>
+                    </ul>
                   </div>
                 </div>
-
-                <!-- Parámetros 3D (social, oculto por defecto) -->
-                <div id="edo-params-3d" style="display:none">
-                  <div class="alert alert-info py-2 px-3 mb-2 small lh-sm">
-                    <strong>Sistema N–M–D</strong><br>
-                    N' = −aNM + bD &nbsp;·&nbsp; M' = aNM − cMD &nbsp;·&nbsp; D' = kM − rD
-                  </div>
-                  <div class="row g-2 mb-2">
-                    <div class="col-4">
-                      <label for="edo-N0" class="form-label small">N₀ (neutrales)</label>
-                      <input type="number" id="edo-N0" class="form-control form-control-sm" value="990" />
-                    </div>
-                    <div class="col-4">
-                      <label for="edo-M0" class="form-label small">M₀ (manifest.)</label>
-                      <input type="number" id="edo-M0" class="form-control form-control-sm" value="10" />
-                    </div>
-                    <div class="col-4">
-                      <label for="edo-D0" class="form-label small">D₀ (mediadores)</label>
-                      <input type="number" id="edo-D0" class="form-control form-control-sm" value="20" />
-                    </div>
-                  </div>
-                  <div class="row g-2 mb-2">
-                    <div class="col-4">
-                      <label for="edo-sa" class="form-label small">a (influencia)</label>
-                      <input type="number" id="edo-sa" class="form-control form-control-sm"
-                             value="0.0005" step="0.0001" />
-                    </div>
-                    <div class="col-4">
-                      <label for="edo-sb" class="form-label small">b (retorno)</label>
-                      <input type="number" id="edo-sb" class="form-control form-control-sm"
-                             value="0.05" step="0.01" />
-                    </div>
-                    <div class="col-4">
-                      <label for="edo-sc" class="form-label small">c (diálogo)</label>
-                      <input type="number" id="edo-sc" class="form-control form-control-sm"
-                             value="0.0004" step="0.0001" />
-                    </div>
-                  </div>
-                  <div class="row g-2 mb-3">
-                    <div class="col-6">
-                      <label for="edo-sk" class="form-label small">k (generación D)</label>
-                      <input type="number" id="edo-sk" class="form-control form-control-sm"
-                             value="0.10" step="0.01" />
-                    </div>
-                    <div class="col-6">
-                      <label for="edo-sr" class="form-label small">r (desgaste D)</label>
-                      <input type="number" id="edo-sr" class="form-control form-control-sm"
-                             value="0.05" step="0.01" />
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Parámetros temporales comunes -->
-                <div class="row g-2 mb-3">
-                  <div class="col-4">
-                    <label for="edo-t0" class="form-label">t₀</label>
-                    <input type="number" id="edo-t0" class="form-control form-control-sm" value="0" />
-                  </div>
-                  <div class="col-4">
-                    <label for="edo-tf" class="form-label">tₙ</label>
-                    <input type="number" id="edo-tf" class="form-control form-control-sm" value="30" />
-                  </div>
-                  <div class="col-4">
-                    <label for="edo-h" class="form-label">Paso h</label>
-                    <input type="number" id="edo-h" class="form-control form-control-sm"
-                           value="0.5" step="0.1" />
-                  </div>
-                </div>
-
-                <!-- Selector de método -->
-                <div class="mb-3">
-                  <label class="form-label">Método numérico</label>
-                  <select id="edo-method" class="form-select form-select-sm">
-                    <option value="euler">Euler (1er orden)</option>
-                    <option value="heun">Heun / predictor-corrector (2do orden)</option>
-                    <option value="rk4" selected>Runge-Kutta 4° orden</option>
-                    <option value="todos">Comparar Euler / Heun / RK4</option>
-                  </select>
-                </div>
-
-                <!-- Botones -->
-                <button class="btn btn-primary w-100 mb-2"
-                        onclick="EcuacionesDiferenciales.simular()">
-                  Simular
-                </button>
-                <div class="row g-2 mb-2" id="botones-reservas">
-                  <div class="col-4">
-                    <button class="btn btn-warning w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('normal')">
-                      Reserva Normal
-                    </button>
-                  </div>
-                  <div class="col-4">
-                    <button class="btn btn-danger w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('panico')">
-                      Pánico
-                    </button>
-                  </div>
-                  <div class="col-4">
-                    <button class="btn btn-secondary w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('reduccion')">
-                      Reducción
-                    </button>
-                  </div>
-                </div>
-                
-                <div class="row g-2 mb-2" id="botones-social" style="display:none">
-                  <div class="col-6">
-                    <button class="btn btn-outline-primary w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioSocial('base')">
-                      Base (RK4)
-                    </button>
-                  </div>
-                  <div class="col-6">
-                    <button class="btn btn-outline-success w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioSocial('dialogo')">
-                      Mejora diálogo
-                    </button>
-                  </div>
-                  <div class="col-6">
-                    <button class="btn btn-outline-danger w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioSocial('sin_mediadores')">
-                      Sin mediadores
-                    </button>
-                  </div>
-                  <div class="col-6">
-                    <button class="btn btn-outline-warning w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioSocial('rumores')">
-                      Rumores intensos
-                    </button>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
 
-          <!-- ── Columna de resultados ── -->
-          <div class="col-lg-7">
-            <div class="card shadow-sm mb-3">
-              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
-                Evolución temporal
-                <button class="btn btn-outline-secondary btn-sm"
-                        onclick="EcuacionesDiferenciales.limpiar()">Limpiar</button>
-              </div>
-              <div class="card-body">
-                <canvas id="edo-chart" height="200"></canvas>
-                <!-- Gráfico comparativo (visible solo con "Comparar todos" en escenario social) -->
-                <canvas id="edo-chart-2" height="160" class="mt-3" style="display:none"></canvas>
-              </div>
-            </div>
-            <div class="card shadow-sm">
-              <div class="card-header fw-semibold">Tabla de solución numérica</div>
-              <div class="card-body">
-                <div id="edo-resultado" class="result-area">
-                  <p class="text-muted small">La tabla de valores t, y(t) aparecerá aquí.</p>
+          <!-- PASO 3: EL MODELO MATEMÁTICO -->
+          <div class="paso-guia paso-modelo">
+            <div class="paso-badge">3</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">③</span> El Modelo Matemático y los Algoritmos EDO
+              </h3>
+              <p class="text-muted small">
+                La dinámica temporal se modela mediante ecuaciones diferenciales de primer orden simples o acopladas:
+              </p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark">EDO Vaciado de Reservas (1D)</h5>
+                    <p class="small text-muted mb-2">
+                      El volumen del tanque cambia según el diferencial de entrada y salida:
+                      $$\frac{dR}{dt} = \text{Entrada} - \text{Salida}$$
+                    </p>
+                    <p class="small text-muted mb-0">
+                      Evaluamos el comportamiento lineal con tasas constantes o modelos no lineales simulando fugas o vaciados acelerados.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark">Sistema Acoplado N-M-D (3D)</h5>
+                    <p class="small text-muted mb-2">
+                      La interacción social se modela de forma análoga a la epidemiología SIR:
+                      $$\frac{dN}{dt} = -aNM + bD$$
+                      $$\frac{dM}{dt} = aNM - cMD$$
+                      $$\frac{dD}{dt} = kM - rD$$
+                    </p>
+                    <p class="small text-muted mb-0">
+                      Tres solucionadores son comparados: **Euler** (O(h)), **Heun** (O(h²)) y **Runge-Kutta 4** (O(h⁴)), recomendándose este último por su alta precisión en sistemas acoplados.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <!-- PASO 4: SIMULÁ VOS MISMO -->
+          <div class="paso-guia paso-simulacion">
+            <div class="paso-badge">4</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">④</span> Configura y Simula los Modelos
+              </h3>
+              <p class="text-muted small">
+                Elige el escenario que deseas analizar, carga uno de los casos preconfigurados o edita los parámetros libremente, y pulsa Simular:
+              </p>
+
+              <div class="row g-3">
+                <!-- Columna de Parámetros -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border">
+                    <h5 class="h6 fw-bold text-dark mb-3">1. Selección del Escenario</h5>
+                    <div class="mb-3">
+                      <select id="edo-escenario" class="form-select form-select-sm"
+                              onchange="EcuacionesDiferenciales.cambiarEscenario()">
+                        <option value="reservas">Reservas de carburante — R(t)</option>
+                        <option value="social">Difusión de descontento — N, M, D(t)</option>
+                      </select>
+                    </div>
+
+                    <!-- Parámetros 1D (reservas) -->
+                    <div id="edo-params-1d">
+                      <h5 class="h6 fw-bold text-dark mb-2">2. Parámetros del Tanque</h5>
+                      <div class="mb-2">
+                        <label for="edo-dy" class="form-label mb-1">dR/dt = f(t, R) <span class="text-muted small">(JS)</span></label>
+                        <input type="text" id="edo-dy" class="form-control form-control-sm font-monospace"
+                               value="-(0.05 + 0.008 * t) * y" />
+                        <div class="form-text mt-1" id="edo-hint" style="font-size:0.75rem">
+                          Vaciado acelerado: la tasa de extracción crece linealmente con el tiempo.
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edo-y0" class="form-label mb-1">R₀ — Reserva inicial (Litros)</label>
+                        <input type="number" id="edo-y0" class="form-control form-control-sm" value="100000" />
+                      </div>
+                    </div>
+
+                    <!-- Parámetros 3D (social, oculto por defecto) -->
+                    <div id="edo-params-3d" style="display:none">
+                      <h5 class="h6 fw-bold text-dark mb-2">2. Poblaciones e Índices (N-M-D)</h5>
+                      <div class="row g-2 mb-2">
+                        <div class="col-4">
+                          <label for="edo-N0" class="form-label small mb-1">N₀ (Neutrales)</label>
+                          <input type="number" id="edo-N0" class="form-control form-control-sm" value="900" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-M0" class="form-label small mb-1">M₀ (Protestas)</label>
+                          <input type="number" id="edo-M0" class="form-control form-control-sm" value="80" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-D0" class="form-label small mb-1">D₀ (Mediadores)</label>
+                          <input type="number" id="edo-D0" class="form-control form-control-sm" value="20" />
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-2">
+                        <div class="col-4">
+                          <label for="edo-sa" class="form-label small mb-1">a (contagio)</label>
+                          <input type="number" id="edo-sa" class="form-control form-control-sm"
+                                 value="0.0005" step="0.0001" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-sb" class="form-label small mb-1">b (retorno)</label>
+                          <input type="number" id="edo-sb" class="form-control form-control-sm"
+                                 value="0.05" step="0.01" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-sc" class="form-label small mb-1">c (diálogo)</label>
+                          <input type="number" id="edo-sc" class="form-control form-control-sm"
+                                 value="0.0004" step="0.0001" />
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-3">
+                        <div class="col-6">
+                          <label for="edo-sk" class="form-label small mb-1">k (creación mediador)</label>
+                          <input type="number" id="edo-sk" class="form-control form-control-sm"
+                                 value="0.10" step="0.01" />
+                        </div>
+                        <div class="col-6">
+                          <label for="edo-sr" class="form-label small mb-1">r (fatiga mediador)</label>
+                          <input type="number" id="edo-sr" class="form-control form-control-sm"
+                                 value="0.05" step="0.01" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Configuración Temporal y Métodos -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 class="h6 fw-bold text-dark mb-3">3. Intervalo de Tiempo y Método</h5>
+                      <div class="row g-2 mb-2">
+                        <div class="col-4">
+                          <label for="edo-t0" class="form-label mb-1">Día t₀</label>
+                          <input type="number" id="edo-t0" class="form-control form-control-sm" value="0" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-tf" class="form-label mb-1">Día tₙ</label>
+                          <input type="number" id="edo-tf" class="form-control form-control-sm" value="30" />
+                        </div>
+                        <div class="col-4">
+                          <label for="edo-h" class="form-label mb-1">Paso h (días)</label>
+                          <input type="number" id="edo-h" class="form-control form-control-sm"
+                                 value="0.5" step="0.1" />
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label mb-1">Método de Integración</label>
+                        <select id="edo-method" class="form-select form-select-sm">
+                          <option value="euler">Euler (1er orden)</option>
+                          <option value="heun">Heun / Predictor-Corrector (2do orden)</option>
+                          <option value="rk4" selected>Runge-Kutta 4° orden</option>
+                          <option value="todos">Comparar Euler / Heun / RK4</option>
+                        </select>
+                      </div>
+
+                      <h5 class="h6 fw-bold text-dark mb-2">4. Cargar Casos Críticos</h5>
+                      
+                      <!-- Botones de Reservas -->
+                      <div class="row g-2" id="botones-reservas">
+                        <div class="col-4">
+                          <button class="btn btn-outline-success btn-sm w-100"
+                                  onclick="EcuacionesDiferenciales.escenarioReservasCritico('normal')">
+                            Normal
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button class="btn btn-outline-danger btn-sm w-100"
+                                  onclick="EcuacionesDiferenciales.escenarioReservasCritico('panico')">
+                            Pánico
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button class="btn btn-outline-warning btn-sm w-100"
+                                  onclick="EcuacionesDiferenciales.escenarioReservasCritico('reduccion')">
+                            Reducción
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Botones Sociales -->
+                      <div class="row g-2" id="botones-social" style="display:none">
+                        <div class="col-6">
+                          <button class="btn btn-outline-primary w-100 btn-sm"
+                                  onclick="EcuacionesDiferenciales.escenarioSocial('base')">
+                            Caso Base (RK4)
+                          </button>
+                        </div>
+                        <div class="col-6">
+                          <button class="btn btn-outline-success w-100 btn-sm"
+                                  onclick="EcuacionesDiferenciales.escenarioSocial('dialogo')">
+                            Diálogo Activo
+                          </button>
+                        </div>
+                        <div class="col-6">
+                          <button class="btn btn-outline-danger w-100 btn-sm"
+                                  onclick="EcuacionesDiferenciales.escenarioSocial('sin_mediadores')">
+                            Sin Mediación
+                          </button>
+                        </div>
+                        <div class="col-6">
+                          <button class="btn btn-outline-warning w-100 btn-sm"
+                                  onclick="EcuacionesDiferenciales.escenarioSocial('rumores')">
+                            Pánico/Rumores
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-3">
+                      <button class="btn btn-primary w-100 py-2 fw-bold"
+                              onclick="EcuacionesDiferenciales.simular()">
+                        🚀 Iniciar Simulación Dinámica
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 5: RESULTADOS E INTERPRETACIÓN -->
+          <div class="paso-guia paso-resultados">
+            <div class="paso-badge">5</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">⑤</span> Resultados e Interpretación
+              </h3>
+              <p class="text-muted small">
+                Observa la evolución de las variables en las curvas integradas en el tiempo y en la tabla de solución:
+              </p>
+
+              <div class="row g-3">
+                <!-- Gráfico de evolución -->
+                <div class="col-md-6">
+                  <div class="card shadow-sm h-100">
+                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center py-2">
+                      Evolución en el Tiempo
+                      <button class="btn btn-outline-secondary btn-sm px-2 py-0" style="font-size:0.75rem"
+                              onclick="EcuacionesDiferenciales.limpiar()">Limpiar</button>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="edo-chart" height="200"></canvas>
+                      <!-- Gráfico comparativo secundario -->
+                      <canvas id="edo-chart-2" height="150" class="mt-3" style="display:none"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tabla de solución numérica -->
+                <div class="col-md-6">
+                  <div class="card shadow-sm h-100">
+                    <div class="card-header fw-semibold py-2">Tabla de Integración y Conclusión</div>
+                    <div class="card-body">
+                      <div id="edo-resultado" class="result-area" style="max-height: 380px; overflow-y: auto;">
+                        <p class="text-muted small">Haz clic en Iniciar Simulación para calcular la tabla de valores numéricos de y(t).</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /flujo-pasos -->
       </div>
     </section>
 

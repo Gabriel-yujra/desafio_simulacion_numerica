@@ -53,180 +53,285 @@
   <!-- ═══════════════════ MAIN ═══════════════════ -->
   <main class="main-content">
 
-    <section id="raices" class="section-block">
+    <section id="raices" class="section-block section-alt">
       <div class="container-xl">
         <div class="section-header">
           <span class="section-number">02</span>
           <div>
-            <h2 class="section-title">Raíces de ecuaciones</h2>
+            <h2 class="section-title">Raíces de Ecuaciones</h2>
             <p class="section-subtitle">Umbrales críticos y puntos de equilibrio</p>
           </div>
         </div>
 
-        <p>
-          En un mercado sometido a escasez, existen umbrales de precio a partir de los cuales
-          la demanda colapsa o surgen mercados informales. Encontrar estos puntos equivale a
-          hallar la raíz de una función que expresa el exceso de demanda sobre la oferta
-          disponible. Se implementan tres métodos: <strong>Bisección</strong> (garantiza
-          convergencia si f(a)·f(b) &lt; 0), <strong>Newton-Raphson</strong> (convergencia
-          cuadrática, requiere derivada) y <strong>Secante</strong> (orden ~1.618, sin
-          derivada analítica).
+        <p class="lead text-muted mb-4">
+          Encontrar las raíces de una ecuación no lineal nos permite identificar puntos críticos de equilibrio y umbrales de alerta en una economía familiar o logística de carburantes. Sigue los pasos numerados abajo para explorar estas simulaciones.
         </p>
-        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioE">
-          <div class="accordion-item border-primary">
-            <h2 class="accordion-header" id="headingEscenarioE">
-              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioE" aria-expanded="true" aria-controls="collapseEscenarioE">
-                📖 Escenario E: Umbrales Críticos de Abastecimiento
-              </button>
-            </h2>
-            <div id="collapseEscenarioE" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioE" data-bs-parent="#accordionEscenarioE">
-              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
-                <h6 class="fw-bold text-dark">Contexto</h6>
-                <p>Una familia tiene un ingreso mensual fijo de <strong>3500 Bs</strong>. Debido al incremento de precios, el costo de la canasta básica aumenta cada día. Buscamos el punto crítico (raíz) donde el costo acumulado iguala al ingreso familiar, momento en que la familia entra en déficit económico.</p>
 
-                <h6 class="fw-bold text-dark mt-3">Modelo Matemático</h6>
-                <p>Costo acumulado: $C(t) = 1000 + 50t + 2t^2$. Igualando al ingreso ($3500$) y simplificando obtenemos la función a evaluar:</p>
-                <div class="p-2 bg-light font-monospace text-center mb-3">f(t) = 2t² + 50t - 2500</div>
-                <p>Buscamos la raíz positiva, comenzando el análisis en el intervalo <strong>[20, 25]</strong> o con valor inicial <strong>20</strong>.</p>
+        <div class="flujo-pasos">
 
-                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos de Búsqueda de Raíces</h6>
-                <ul>
-                  <li><strong>Bisección:</strong> Muy robusto y seguro (siempre converge si hay cambio de signo). Requiere 15-20 iteraciones.</li>
-                  <li><strong>Secante:</strong> Rápido (~1.618 de orden) y no necesita derivada analítica. Converge en 4-6 iteraciones.</li>
-                  <li><strong>Newton-Raphson:</strong> El más rápido (convergencia cuadrática), pero sensible al punto inicial. Converge en 3-4 iteraciones.</li>
-                </ul>
-
-                <h6 class="fw-bold text-dark mt-3">Interpretación Económica (Déficit Familiar)</h6>
-                <p>La raíz aproximada es <strong>t = 25 días</strong>. Esto significa que en el día 25, el costo acumulado iguala el ingreso familiar de 3500 Bs. A partir de ese momento, los gastos superan a los ingresos y la familia ya no puede cubrir sus necesidades básicas.</p>
-                
-                <h6 class="fw-bold text-dark mt-3">Escenario Alternativo (Umbral de Reposición)</h6>
-                <p>Consumo = 10000 L/día. Reposición = 3000 + 200r. Buscando la raíz de $200r - 7000 = 0$, obtenemos la tasa crítica de reposición <strong>r = 35</strong>. Por debajo disminuyen las reservas, por encima aumentan.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row gy-4">
-          <!-- ── Panel de entrada ── -->
-          <div class="col-lg-5">
-            <div class="card shadow-sm">
-              <div class="card-header fw-semibold">Parámetros</div>
-              <div class="card-body">
-
-                <!-- Función f(x) -->
-                <div class="mb-3">
-                  <label for="r-funcion" class="form-label">
-                    Función f(x) <span class="text-muted small">(sintaxis JS)</span>
-                  </label>
-                  <input type="text" id="r-funcion"
-                         class="form-control form-control-sm font-monospace"
-                         value="Math.pow(x, 3) - 2*x - 5" />
-                  <div class="form-text">Ejemplo: demanda − oferta como función del precio x</div>
-                </div>
-
-                <!-- Derivada f'(x) — visible solo para Newton -->
-                <div id="r-derivada-container" class="mb-3" style="display:none">
-                  <label for="r-derivada" class="form-label">
-                    Derivada f'(x)
-                    <span class="text-muted small">(opcional; si está vacía se usa diferenciación numérica)</span>
-                  </label>
-                  <input type="text" id="r-derivada"
-                         class="form-control form-control-sm font-monospace"
-                         placeholder="3*Math.pow(x,2) - 2" />
-                  <div class="form-text">
-                    Si se deja en blanco: f'(x) ≈ (f(x+h) − f(x−h)) / 2h, h = 1e-5
+          <!-- PASO 1: EL PROBLEMA -->
+          <div class="paso-guia paso-contexto">
+            <div class="paso-badge">1</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">①</span> El Problema: Puntos de Quiebre Logístico y Familiar
+              </h3>
+              <p class="text-muted small">
+                Analizamos escenarios donde surge un "punto de quiebre" o umbral límite representable por una raíz matemática $f(x) = 0$:
+              </p>
+              <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border border-primary-subtle h-100">
+                    <h5 class="h6 fw-bold text-primary"><i class="bi bi-wallet2"></i> Escenario E: Umbral de Gasto vs Ingreso Familiar</h5>
+                    <p class="small mb-0 text-muted">
+                      Una familia en el país percibe un ingreso mensual fijo de 3.500 Bs. Debido al alza de precios, el costo mensual acumulado de la canasta básica sube de forma cuadrática. Se necesita calcular en qué día exacto del mes los gastos superan al ingreso familiar, cayendo en déficit.
+                    </p>
                   </div>
                 </div>
-
-                <!-- Método -->
-                <div class="mb-3">
-                  <label for="r-method" class="form-label">Método</label>
-                  <select id="r-method" class="form-select form-select-sm">
-                    <option value="biseccion">Bisección</option>
-                    <option value="newton">Newton-Raphson</option>
-                    <option value="secante">Secante</option>
-                  </select>
-                  <div class="form-text">
-                    Bisección: robusto. Newton: rápido (cuadrático). Secante: sin derivada.
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border border-warning-subtle h-100">
+                    <h5 class="h6 fw-bold text-warning"><i class="bi bi-droplet-half"></i> Umbral Alternativo: Reposición de Combustible</h5>
+                    <p class="small mb-0 text-muted">
+                      Una planta distribuidora tiene un consumo constante de carburantes. La tasa de reposición depende de una variable de eficiencia logística. Buscamos el valor exacto de dicha tasa para que el balance sea cero y las reservas no caigan.
+                    </p>
                   </div>
-                </div>
-
-                <!-- Parámetros dinámicos: a / x₀ y b / x₁ -->
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label id="r-label-a" for="r-a" class="form-label">Extremo a</label>
-                    <input type="number" id="r-a"
-                           class="form-control form-control-sm" value="1" step="any" />
-                  </div>
-                  <div id="r-b-container" class="col-6">
-                    <label id="r-label-b" for="r-b" class="form-label">Extremo b</label>
-                    <input type="number" id="r-b"
-                           class="form-control form-control-sm" value="3" step="any" />
-                  </div>
-                </div>
-
-                <!-- Tolerancia e iteraciones máximas -->
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label for="r-tol" class="form-label">Tolerancia</label>
-                    <input type="number" id="r-tol"
-                           class="form-control form-control-sm"
-                           value="0.000001" step="0.000001" min="0" />
-                  </div>
-                  <div class="col-6">
-                    <label for="r-maxiter" class="form-label">Iter. máximas</label>
-                    <input type="number" id="r-maxiter"
-                           class="form-control form-control-sm" value="100" min="1" />
-                  </div>
-                </div>
-
-                <!-- Botones de ejemplo -->
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <button class="btn btn-outline-success btn-sm w-100"
-                            onclick="Raices.cargarEjemploUmbral()">
-                      Umbral costo/ingreso
-                    </button>
-                  </div>
-                  <div class="col-6">
-                    <button class="btn btn-outline-warning btn-sm w-100"
-                            onclick="Raices.cargarEjemploReposicion()">
-                      Umbral de reposición
-                    </button>
-                  </div>
-                </div>
-
-                <button class="btn btn-primary w-100" onclick="Raices.resolver()">
-                  Encontrar raíz
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Panel de resultados ── -->
-          <div class="col-lg-7">
-            <!-- Gráfico -->
-            <div class="card shadow-sm mb-3">
-              <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
-                Gráfico de f(x) y raíz aproximada
-                <button class="btn btn-outline-secondary btn-sm" onclick="Raices.limpiar()">Limpiar</button>
-              </div>
-              <div class="card-body">
-                <canvas id="raices-chart" height="200"></canvas>
-              </div>
-            </div>
-
-            <!-- Resultados textuales + tabla de iteraciones -->
-            <div class="card shadow-sm">
-              <div class="card-header fw-semibold">Resumen y tabla de iteraciones</div>
-              <div class="card-body">
-                <div id="raices-resultado" class="result-area">
-                  <p class="text-muted small">Los resultados y la tabla de iteraciones aparecerán aquí.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <!-- PASO 2: LOS DATOS -->
+          <div class="paso-guia paso-datos">
+            <div class="paso-badge">2</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">②</span> Los Datos Iniciales
+              </h3>
+              <p class="text-muted small">
+                Los parámetros y constantes estimadas para modelar ambos problemas son:
+              </p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Costo vs Ingreso</h5>
+                    <ul class="small text-muted mb-0 ps-3">
+                      <li><strong>Ingreso mensual familiar:</strong> 3.500 Bs (fijo).</li>
+                      <li><strong>Costo base del día 0:</strong> 1.000 Bs.</li>
+                      <li><strong>Incremento de costo:</strong> Tasa lineal de 50 Bs/día y factor cuadrático de 2 Bs/día².</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Reposición de Combustible</h5>
+                    <ul class="small text-muted mb-0 ps-3">
+                      <li><strong>Consumo diario:</strong> 10.000 litros.</li>
+                      <li><strong>Modelo de reposición:</strong> $3000 + 200r$ litros/día (donde $r$ es la tasa logística).</li>
+                      <li><strong>Objetivo:</strong> Hallar $r$ para igualar la reposición al consumo.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 3: EL MODELO MATEMÁTICO -->
+          <div class="paso-guia paso-modelo">
+            <div class="paso-badge">3</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">③</span> El Modelo Matemático de Búsqueda
+              </h3>
+              <p class="text-muted small">
+                Abstraemos el problema planteando una función $f(t) = 0$ para encontrar la raíz:
+              </p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark">Costo vs Ingreso</h5>
+                    <p class="small text-muted mb-2">
+                      Igualamos el costo acumulado al ingreso familiar:
+                      $$C(t) = 1000 + 50t + 2t^2 = 3500$$
+                      Dando como resultado la función objetivo:
+                    </p>
+                    <div class="p-2 bg-white rounded font-monospace text-center border text-primary mb-2" style="font-size:0.9rem">
+                      f(t) = 2t² + 50t - 2500 = 0
+                    </div>
+                    <p class="small text-muted mb-0">
+                      Evaluamos en el intervalo $t \in [20, 25]$ (días del mes).
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <h5 class="h6 fw-bold text-dark">Reposición de Combustible</h5>
+                    <p class="small text-muted mb-2">
+                      Igualamos la reposición al consumo:
+                      $$3000 + 200r = 10000$$
+                      Dando como resultado la función objetivo lineal:
+                    </p>
+                    <div class="p-2 bg-white rounded font-monospace text-center border text-warning mb-2" style="font-size:0.9rem">
+                      f(r) = 200r - 7000 = 0
+                    </div>
+                    <p class="small text-muted mb-0">
+                      Buscamos el valor crítico de $r$ que mantiene en balance el tanque.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 4: SIMULÁ VOS MISMO -->
+          <div class="paso-guia paso-simulacion">
+            <div class="paso-badge">4</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">④</span> Configura y Corre la Simulación
+              </h3>
+              <p class="text-muted small">
+                Elige uno de los escenarios preconfigurados o ingresa una función matemática personalizada para hallar su raíz mediante métodos iterativos:
+              </p>
+
+              <div class="row g-3">
+                <!-- Parámetros del Formulario -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border">
+                    <h5 class="h6 fw-bold text-dark mb-3">1. Cargar Preconfiguraciones</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-6">
+                        <button class="btn btn-outline-success btn-sm w-100 py-2"
+                                onclick="Raices.cargarEjemploUmbral()">
+                          📉 Umbral Familiar
+                        </button>
+                      </div>
+                      <div class="col-6">
+                        <button class="btn btn-outline-warning btn-sm w-100 py-2"
+                                onclick="Raices.cargarEjemploReposicion()">
+                          ⛽ Umbral Tanque
+                        </button>
+                      </div>
+                    </div>
+
+                    <h5 class="h6 fw-bold text-dark mb-3">2. Ecuación y Método</h5>
+                    <!-- Función f(x) -->
+                    <div class="mb-2">
+                      <label for="r-funcion" class="form-label mb-1">Función f(x) <span class="text-muted small">(JS syntax)</span></label>
+                      <input type="text" id="r-funcion"
+                             class="form-control form-control-sm font-monospace"
+                             value="2*Math.pow(x,2) + 50*x - 2500" />
+                    </div>
+
+                    <!-- Derivada f'(x) — visible solo para Newton -->
+                    <div id="r-derivada-container" class="mb-2" style="display:none">
+                      <label for="r-derivada" class="form-label mb-1">
+                        Derivada f'(x) <span class="text-muted small">(opcional)</span>
+                      </label>
+                      <input type="text" id="r-derivada"
+                             class="form-control form-control-sm font-monospace"
+                             placeholder="4*x + 50" />
+                    </div>
+
+                    <!-- Método -->
+                    <div class="mb-2">
+                      <label for="r-method" class="form-label mb-1">Método Numérico</label>
+                      <select id="r-method" class="form-select form-select-sm">
+                        <option value="biseccion" selected>Bisección</option>
+                        <option value="newton">Newton-Raphson</option>
+                        <option value="secante">Secante</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Intervalos y tolerancias -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 class="h6 fw-bold text-dark mb-3">3. Intervalos y Parámetros Numéricos</h5>
+                      
+                      <!-- Parámetros dinámicos: a / x₀ y b / x₁ -->
+                      <div class="row g-2 mb-2">
+                        <div class="col-6">
+                          <label id="r-label-a" for="r-a" class="form-label mb-1">Extremo a / x₀</label>
+                          <input type="number" id="r-a"
+                                 class="form-control form-control-sm" value="20" step="any" />
+                        </div>
+                        <div id="r-b-container" class="col-6">
+                          <label id="r-label-b" for="r-b" class="form-label mb-1">Extremo b / x₁</label>
+                          <input type="number" id="r-b"
+                                 class="form-control form-control-sm" value="25" step="any" />
+                        </div>
+                      </div>
+
+                      <!-- Tolerancia e iteraciones máximas -->
+                      <div class="row g-2 mb-3">
+                        <div class="col-6">
+                          <label for="r-tol" class="form-label mb-1">Tolerancia</label>
+                          <input type="number" id="r-tol"
+                                 class="form-control form-control-sm"
+                                 value="0.000001" step="0.000001" min="0" />
+                        </div>
+                        <div class="col-6">
+                          <label for="r-maxiter" class="form-label mb-1">Iter. máx.</label>
+                          <input type="number" id="r-maxiter"
+                                 class="form-control form-control-sm" value="100" min="1" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <button class="btn btn-primary w-100 py-2 fw-bold" onclick="Raices.resolver()">
+                        🚀 Buscar Raíz Numérica
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 5: RESULTADOS E INTERPRETACIÓN -->
+          <div class="paso-guia paso-resultados">
+            <div class="paso-badge">5</div>
+            <div class="paso-contenido">
+              <h3 class="paso-titulo">
+                <span class="fs-5">⑤</span> Resultados e Interpretación
+              </h3>
+              <p class="text-muted small">
+                Observa cómo los métodos convergen hacia el punto crítico en la gráfica y la consola:
+              </p>
+
+              <div class="row g-3">
+                <!-- Gráfico -->
+                <div class="col-md-6">
+                  <div class="card shadow-sm h-100">
+                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center py-2">
+                      Gráfica de f(x) y Raíz
+                      <button class="btn btn-outline-secondary btn-sm px-2 py-0" style="font-size:0.75rem" onclick="Raices.limpiar()">Limpiar</button>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                      <canvas id="raices-chart" height="220"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resultados textuales -->
+                <div class="col-md-6">
+                  <div class="card shadow-sm h-100">
+                    <div class="card-header fw-semibold py-2">Consola de Resultados y Convergencia</div>
+                    <div class="card-body">
+                      <div id="raices-resultado" class="result-area" style="max-height: 250px; overflow-y: auto;">
+                        <p class="text-muted small">Los resultados detallados y la tabla de iteraciones se calcularán aquí.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /flujo-pasos -->
       </div>
     </section>
 

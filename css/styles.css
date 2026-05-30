@@ -163,7 +163,7 @@ body {
   font-size: 3rem;
   font-weight: 800;
   background: linear-gradient(135deg, var(--color-primary) 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   opacity: 0.35;
   line-height: 1;
@@ -604,3 +604,172 @@ hr {
     font-size: 0.8rem;
   }
 }
+
+/* ── Componente Paso Guía (Flujo paso a paso) ───────────────── */
+.flujo-pasos {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.flujo-pasos::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 2px;
+  background-color: var(--color-border);
+  z-index: 1;
+}
+
+.paso-guia {
+  position: relative;
+  padding-left: 3.5rem;
+  padding-bottom: 2rem;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.paso-guia:last-child {
+  padding-bottom: 0;
+  /* La línea vertical no debe continuar después de la última tarjeta */
+}
+
+/* Ocultar el final de la línea */
+.paso-guia:last-child::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 34px;
+  bottom: 0;
+  width: 22px;
+  background-color: var(--color-bg); /* O tapar con el color del fondo */
+  z-index: 1.5;
+}
+
+.paso-badge {
+  position: absolute;
+  left: 3px; /* 20px - 17px (media de 34px) */
+  top: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--color-bg-alt);
+  border: 2px solid var(--color-border);
+  color: var(--color-muted);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.paso-guia:hover .paso-badge {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}
+
+.paso-contenido {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.paso-contenido:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.paso-titulo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Colores diferenciados por tipo de paso */
+.paso-contexto .paso-badge {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+.paso-contexto .paso-titulo {
+  color: #1d4ed8;
+}
+.paso-contexto .paso-contenido {
+  border-left: 4px solid #3b82f6;
+}
+
+.paso-datos .paso-badge {
+  background-color: #f0fdf4;
+  border-color: #22c55e;
+  color: #15803d;
+}
+.paso-datos .paso-titulo {
+  color: #15803d;
+}
+.paso-datos .paso-contenido {
+  border-left: 4px solid #22c55e;
+}
+
+.paso-modelo .paso-badge {
+  background-color: #f5f3ff;
+  border-color: #8b5cf6;
+  color: #6d28d9;
+}
+.paso-modelo .paso-titulo {
+  color: #6d28d9;
+}
+.paso-modelo .paso-contenido {
+  border-left: 4px solid #8b5cf6;
+}
+
+.paso-simulacion .paso-badge {
+  background-color: #fff7ed;
+  border-color: #f97316;
+  color: #c2410c;
+}
+.paso-simulacion .paso-titulo {
+  color: #c2410c;
+}
+.paso-simulacion .paso-contenido {
+  border-left: 4px solid #f97316;
+}
+
+.paso-resultados .paso-badge {
+  background-color: #ecfdf5;
+  border-color: #059669;
+  color: #047857;
+}
+.paso-resultados .paso-titulo {
+  color: #047857;
+}
+.paso-resultados .paso-contenido {
+  border-left: 4px solid #059669;
+}
+
+/* Animación sutil de aparición */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Retardos en cascada para pasos */
+.paso-guia:nth-child(1) { animation-delay: 0.05s; }
+.paso-guia:nth-child(2) { animation-delay: 0.1s; }
+.paso-guia:nth-child(3) { animation-delay: 0.15s; }
+.paso-guia:nth-child(4) { animation-delay: 0.2s; }
+.paso-guia:nth-child(5) { animation-delay: 0.25s; }
+

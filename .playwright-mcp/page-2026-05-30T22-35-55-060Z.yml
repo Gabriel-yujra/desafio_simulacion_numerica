@@ -1,0 +1,198 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "⚙ SimNum" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: ⚙
+        - text: SimNum
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Inicio" [ref=e9] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e10]:
+          - link "Sist. Lineales" [ref=e11] [cursor=pointer]:
+            - /url: sistemas_lineales.html
+        - listitem [ref=e12]:
+          - link "Raíces" [ref=e13] [cursor=pointer]:
+            - /url: raices.html
+        - listitem [ref=e14]:
+          - link "Interpolación" [ref=e15] [cursor=pointer]:
+            - /url: interpolacion.html
+        - listitem [ref=e16]:
+          - link "Integración" [ref=e17] [cursor=pointer]:
+            - /url: integracion.html
+        - listitem [ref=e18]:
+          - link "Ec. Diferenciales" [ref=e19] [cursor=pointer]:
+            - /url: edo.html
+        - listitem [ref=e20]:
+          - link "Conclusiones" [ref=e21] [cursor=pointer]:
+            - /url: conclusiones.html
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: "03"
+        - generic [ref=e27]:
+          - heading "Interpolación Numérica" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Reconstrucción de curvas de precios
+      - paragraph [ref=e30]: La interpolación matemática permite estimar valores intermedios a partir de observaciones históricas discretas. Sigue este flujo paso a paso para reconstruir la curva continua de inflación alimentaria.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: "1"
+          - generic [ref=e34]:
+            - 'heading "① El Problema: Datos Dispersos en Tiempos de Crisis" [level=3] [ref=e35]':
+              - generic [ref=e36]: ①
+              - text: "El Problema: Datos Dispersos en Tiempos de Crisis"
+            - paragraph [ref=e37]: Durante las crisis de abastecimiento, los precios de los productos básicos fluctúan a diario. Los mercados oficiales solo reportan precios algunos días específicos del mes, dejando vacíos de información. El objetivo es modelar la trayectoria continua de los precios (especialmente de la papa en Bs/kg) para entender el comportamiento de la canasta alimenticia.
+        - generic [ref=e38]:
+          - generic [ref=e39]: "2"
+          - generic [ref=e40]:
+            - heading "② Datos Históricos Registrados" [level=3] [ref=e41]:
+              - generic [ref=e42]: ②
+              - text: Datos Históricos Registrados
+            - paragraph [ref=e43]: "Estos son los registros observados en los mercados durante el mes de crisis para el precio de la papa (Bs/kg):"
+            - generic [ref=e44]:
+              - generic [ref=e46]:
+                - heading "Tabla de Precios Observados (Papa)" [level=5] [ref=e47]
+                - table [ref=e49]:
+                  - rowgroup [ref=e50]:
+                    - row "Día del mes Precio (Bs/Kg)" [ref=e51]:
+                      - columnheader "Día del mes" [ref=e52]
+                      - columnheader "Precio (Bs/Kg)" [ref=e53]
+                  - rowgroup [ref=e54]:
+                    - row "Día 1 8.0 Bs" [ref=e55]:
+                      - cell "Día 1" [ref=e56]
+                      - cell "8.0 Bs" [ref=e57]
+                    - row "Día 5 10.0 Bs" [ref=e58]:
+                      - cell "Día 5" [ref=e59]
+                      - cell "10.0 Bs" [ref=e60]
+                    - row "Día 10 13.0 Bs" [ref=e61]:
+                      - cell "Día 10" [ref=e62]
+                      - cell "13.0 Bs" [ref=e63]
+                    - row "Día 15 16.0 Bs" [ref=e64]:
+                      - cell "Día 15" [ref=e65]
+                      - cell "16.0 Bs" [ref=e66]
+                    - row "Día 20 19.0 Bs" [ref=e67]:
+                      - cell "Día 20" [ref=e68]
+                      - cell "19.0 Bs" [ref=e69]
+                    - row "Día 30 22.0 Bs" [ref=e70]:
+                      - cell "Día 30" [ref=e71]
+                      - cell "22.0 Bs" [ref=e72]
+              - generic [ref=e74]:
+                - heading "Desafío Analítico" [level=5] [ref=e75]
+                - paragraph [ref=e76]: ¿Cómo estimar con rigor científico el precio del producto en los días donde el mercado no reportó datos (por ejemplo, el día 12 o el día 25)? Necesitamos una curva que pase exactamente por todos los puntos conocidos.
+        - generic [ref=e77]:
+          - generic [ref=e78]: "3"
+          - generic [ref=e79]:
+            - heading "③ Comparación de Modelos de Interpolación" [level=3] [ref=e80]:
+              - generic [ref=e81]: ③
+              - text: Comparación de Modelos de Interpolación
+            - paragraph [ref=e82]: "Podemos abordar la reconstrucción de la curva de precios mediante diferentes aproximaciones polinómicas:"
+            - generic [ref=e83]:
+              - generic [ref=e85]:
+                - heading "Lagrange" [level=5] [ref=e86]
+                - paragraph [ref=e87]: Construye un polinomio global de grado $n-1$. Es matemáticamente exacto para los puntos dados, pero tiende a oscilar salvajemente en los extremos al agregar muchos puntos (Fenómeno de Runge).
+              - generic [ref=e89]:
+                - heading "Diferencias Divididas (Newton)" [level=5] [ref=e90]
+                - paragraph [ref=e91]: Genera el mismo polinomio que Lagrange, pero mediante un algoritmo iterativo que facilita añadir nuevos datos sin recalcular todo el sistema desde cero.
+              - generic [ref=e93]:
+                - heading "Splines Cúbicos Naturales" [level=5] [ref=e94]
+                - paragraph [ref=e95]: Construye tramos de curvas cúbicas independientes entre cada par de puntos vecinos, exigiendo continuidad de la primera y segunda derivada ($C^2$). Ofrece el trazado más natural y realista de precios.
+        - generic [ref=e96]:
+          - generic [ref=e97]: "4"
+          - generic [ref=e98]:
+            - heading "④ Configura y Simula la Interpolación" [level=3] [ref=e99]:
+              - generic [ref=e100]: ④
+              - text: Configura y Simula la Interpolación
+            - paragraph [ref=e101]: "Modifica los puntos de la tabla, selecciona el método numérico de tu preferencia e ingresa el día en el cual deseas estimar el precio:"
+            - generic [ref=e102]:
+              - generic [ref=e104]:
+                - heading "1. Método Numérico" [level=5] [ref=e105]
+                - combobox [ref=e107]:
+                  - option "Lagrange"
+                  - option "Newton (Diferencias Divididas)"
+                  - option "Spline Cúbico Natural" [selected]
+                - heading "2. Estimación de Precio" [level=5] [ref=e108]
+                - generic [ref=e109]:
+                  - generic [ref=e110]: Estimar precio en el día x =
+                  - spinbutton "Estimar precio en el día x =" [ref=e111]: "12"
+                  - generic [ref=e112]: Día del mes para calcular.
+                - button "🚀 Calcular Interpolación" [ref=e113] [cursor=pointer]
+              - generic [ref=e115]:
+                - generic [ref=e116]:
+                  - heading "3. Puntos de Datos (Día vs Precio Bs)" [level=5] [ref=e117]
+                  - paragraph [ref=e118]: "Modifica los valores o agrega/elimina filas según sea necesario:"
+                  - table [ref=e120]:
+                    - rowgroup [ref=e121]:
+                      - row "Día (x) Precio Bs (y)" [ref=e122]:
+                        - columnheader "Día (x)" [ref=e123]
+                        - columnheader "Precio Bs (y)" [ref=e124]
+                    - rowgroup [ref=e125]:
+                      - row "1 8" [ref=e126]:
+                        - cell "1" [ref=e127]:
+                          - spinbutton [ref=e128]: "1"
+                        - cell "8" [ref=e129]:
+                          - spinbutton [ref=e130]: "8"
+                      - row "5 10" [ref=e131]:
+                        - cell "5" [ref=e132]:
+                          - spinbutton [ref=e133]: "5"
+                        - cell "10" [ref=e134]:
+                          - spinbutton [ref=e135]: "10"
+                      - row "10 13" [ref=e136]:
+                        - cell "10" [ref=e137]:
+                          - spinbutton [ref=e138]: "10"
+                        - cell "13" [ref=e139]:
+                          - spinbutton [ref=e140]: "13"
+                      - row "15 16" [ref=e141]:
+                        - cell "15" [ref=e142]:
+                          - spinbutton [ref=e143]: "15"
+                        - cell "16" [ref=e144]:
+                          - spinbutton [ref=e145]: "16"
+                      - row "20 19" [ref=e146]:
+                        - cell "20" [ref=e147]:
+                          - spinbutton [ref=e148]: "20"
+                        - cell "19" [ref=e149]:
+                          - spinbutton [ref=e150]: "19"
+                      - row "30 22" [ref=e151]:
+                        - cell "30" [ref=e152]:
+                          - spinbutton [ref=e153]: "30"
+                        - cell "22" [ref=e154]:
+                          - spinbutton [ref=e155]: "22"
+                - generic [ref=e156]:
+                  - button "➕ Fila" [ref=e158] [cursor=pointer]
+                  - button "➖ Fila" [ref=e160] [cursor=pointer]
+                  - button "🔄 Reiniciar" [ref=e162] [cursor=pointer]
+        - generic [ref=e163]:
+          - generic [ref=e164]: "5"
+          - generic [ref=e165]:
+            - heading "⑤ Visualización de la Curva de Precios" [level=3] [ref=e166]:
+              - generic [ref=e167]: ⑤
+              - text: Visualización de la Curva de Precios
+            - paragraph [ref=e168]: "El gráfico interactivo traza los puntos originales y la función continua ajustada. La consola detalla la estimación y el análisis:"
+            - generic [ref=e169]:
+              - generic [ref=e172]:
+                - text: Curva de Precios Reconstruida
+                - button "Limpiar" [ref=e173] [cursor=pointer]
+              - generic [ref=e177]:
+                - generic [ref=e178]: Resultado de la Estimación
+                - generic [ref=e180]:
+                  - generic [ref=e181]:
+                    - strong [ref=e182]: Spline cúbico natural
+                    - text: — interpolado con 6 puntos.
+                  - generic [ref=e183]:
+                    - heading "Conclusión Automática (Escenario C)" [level=6] [ref=e184]
+                    - paragraph [ref=e185]: El precio de la papa mostró una tendencia ascendente durante el mes, pasando de 8 Bs/kg a 22 Bs/kg. Mediante interpolación fue posible estimar precios en días sin información, observándose que los Splines Cúbicos generan una representación más estable y realista del comportamiento del mercado.
+                  - generic [ref=e186]:
+                    - generic [ref=e188]:
+                      - generic [ref=e189]: Día evaluado (x)
+                      - generic [ref=e190]: "12"
+                    - generic [ref=e192]:
+                      - generic [ref=e193]: Precio estimado P(x)
+                      - generic [ref=e194]: 14.195562 Bs
+    - generic [ref=e195]:
+      - separator [ref=e196]
+      - paragraph [ref=e197]: Integrantes
+      - paragraph [ref=e198]: Luis Alfredo Quispe Ortiz
+      - paragraph [ref=e199]: Amilcar Josias Yujra Chipana
+      - paragraph [ref=e200]: Gabriel Yujra Machaca
+      - paragraph [ref=e201]: "Trabajo final · Materia: Métodos Numéricos · Simulación numérica de abastecimiento"
+      - paragraph [ref=e202]: Herramienta de uso exclusivamente académico. Todos los datos son ilustrativos.
