@@ -73,9 +73,53 @@
           cúbicas con continuidad C², que evita las oscilaciones del fenómeno de Runge en
           series largas).
         </p>
-        <div class="modulo-contexto">
-          <strong>¿Qué se modela?</strong> La evolución del precio de la canasta básica durante una crisis, reconstruida a partir de registros puntuales (ej. mediciones cada semana).
-          <strong>¿Qué responde la simulación?</strong> ¿Cuál es el precio estimado en un día sin registro? Si la curva del Spline es suave y los tres métodos coinciden, el modelo es confiable. Si Lagrange oscila fuertemente al alejarse de los datos, se está observando el fenómeno de Runge — señal de que el Spline es la opción más adecuada.
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioC">
+          <div class="accordion-item border-primary">
+            <h2 class="accordion-header" id="headingEscenarioC">
+              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioC" aria-expanded="true" aria-controls="collapseEscenarioC">
+                📖 Escenario C: Desabastecimiento de alimentos y curva continua de precios
+              </button>
+            </h2>
+            <div id="collapseEscenarioC" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioC" data-bs-parent="#accordionEscenarioC">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>Durante una crisis de abastecimiento, los precios de los alimentos básicos cambian constantemente. Los mercados solo reportan precios algunos días del mes, por lo que es necesario estimar los precios faltantes utilizando métodos de interpolación. El producto analizado será la papa.</p>
+
+                <h6 class="fw-bold text-dark mt-3">Datos Reales Observados (Papa)</h6>
+                <div class="table-responsive" style="max-width: 300px;">
+                  <table class="table table-sm table-bordered text-center">
+                    <thead class="table-light">
+                      <tr><th>Día</th><th>Precio (Bs/kg)</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>1</td><td>8</td></tr>
+                      <tr><td>5</td><td>10</td></tr>
+                      <tr><td>10</td><td>13</td></tr>
+                      <tr><td>15</td><td>16</td></tr>
+                      <tr><td>20</td><td>19</td></tr>
+                      <tr><td>30</td><td>22</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p>Estos son los únicos datos disponibles. Se busca saber el precio en días sin información (Ej. 7, 12, 18, 25).</p>
+
+                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos</h6>
+                <ul>
+                  <li><strong>Lagrange:</strong> Construye un único polinomio. Exacto, pero puede oscilar con muchos datos (Fenómeno de Runge).</li>
+                  <li><strong>Newton:</strong> Mismo resultado que Lagrange, pero más eficiente al agregar nuevos puntos.</li>
+                  <li><strong>Splines Cúbicos:</strong> Construye varios polinomios cúbicos unidos suavemente. Produce una curva más natural y realista. <em>(Recomendado)</em></li>
+                </ul>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis Económico</h6>
+                <ul>
+                  <li><strong>Estimación Día 12:</strong> Usando los datos, el precio estimado ronda los 14.2 Bs. Para el día 25 ronda los 20.5 Bs.</li>
+                  <li><strong>Comportamiento de la curva:</strong> Tendencia ascendente continua, sin caídas. Evidencia clara de presión inflacionaria.</li>
+                  <li><strong>Comparación (Papa vs Arroz):</strong> Si el arroz subió de 12 a 18 Bs (+6 Bs), la papa subió de 8 a 22 Bs (+14 Bs). La papa fue el producto con mayor incremento.</li>
+                  <li><strong>Confiabilidad:</strong> Alta. Existen 6 puntos bien distribuidos. Si tuviéramos solo datos del día 1 y 30, la interpolación perdería confiabilidad al no detectar subidas bruscas intermedias.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row gy-4">
@@ -107,10 +151,12 @@
                     </thead>
                     <tbody id="interp-tbody">
                       <!-- Filas iniciales; se sobreescriben al cargar el ejemplo -->
-                      <tr><td><input type="number" class="form-control form-control-sm" value="1"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="8.50"  step="any" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="7"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="11.00" step="any" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="14" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="14.50" step="any" /></td></tr>
-                      <tr><td><input type="number" class="form-control form-control-sm" value="28" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="22.50" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="1"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="8"  step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="5"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="10" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="10" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="13" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="15" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="16" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="20" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="19" step="any" /></td></tr>
+                      <tr><td><input type="number" class="form-control form-control-sm" value="30" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="22" step="any" /></td></tr>
                     </tbody>
                   </table>
                 </div>

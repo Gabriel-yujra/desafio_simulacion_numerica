@@ -291,7 +291,29 @@ const Interpolacion = (function () {
       ${extraAviso}
       <div class="alert-resultado success mb-3">
         <strong>${nombre}</strong> — interpolado con ${puntos.length} punto${puntos.length > 1 ? 's' : ''}.
-      </div>
+      </div>`;
+
+    // Conclusión automática para Escenario C (Detección por los 6 puntos de Papa)
+    if (puntos.length === 6 && 
+        puntos[0].x === 1 && puntos[0].y === 8 && 
+        puntos[5].x === 30 && puntos[5].y === 22) {
+      
+      let mensajeConfiabilidad = metodo === 'spline' ? 
+        'observándose que los Splines Cúbicos generan una representación más estable y realista del comportamiento del mercado.' : 
+        'sin embargo, se recomienda el uso de Splines Cúbicos para evitar oscilaciones (fenómeno de Runge).';
+
+      html += `
+        <div class="alert alert-success mb-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario C)</h6>
+          <p class="mb-0 small text-muted">
+            El precio de la papa mostró una tendencia ascendente durante el mes, pasando de 8 Bs/kg a 22 Bs/kg. 
+            Mediante interpolación fue posible estimar precios en días sin información, ${mensajeConfiabilidad}
+          </p>
+        </div>
+      `;
+    }
+
+    html += `
       <div class="row g-2 mb-3">
         <div class="col-6">
           <div class="card border-0 bg-light p-2 text-center">
@@ -444,12 +466,12 @@ const Interpolacion = (function () {
   */
   function cargarEjemploPrecios() {
     const datos = [
-      { x: 1,  y: 8.50  },
-      { x: 3,  y: 9.20  },
-      { x: 7,  y: 11.00 },
-      { x: 14, y: 14.50 },
-      { x: 21, y: 18.00 },
-      { x: 28, y: 22.50 },
+      { x: 1,  y: 8 },
+      { x: 5,  y: 10 },
+      { x: 10, y: 13 },
+      { x: 15, y: 16 },
+      { x: 20, y: 19 },
+      { x: 30, y: 22 },
     ];
 
     const tbody = document.getElementById('interp-tbody');
@@ -465,7 +487,7 @@ const Interpolacion = (function () {
     });
 
     const xEvalEl  = document.getElementById('interp-xeval');
-    if (xEvalEl) xEvalEl.value = '10';
+    if (xEvalEl) xEvalEl.value = '12';
 
     const methodEl = document.getElementById('interp-method');
     if (methodEl) methodEl.value = 'spline';
