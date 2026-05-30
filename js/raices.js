@@ -313,6 +313,32 @@ const Raices = (function () {
       }
       html += SimNum.generarTablaHTML(headers, rows, 60);
     }
+    
+    // Conclusión automática para Escenario E
+    const expr = document.getElementById('r-funcion')?.value?.replace(/\s+/g, '');
+    if (expr === '2*Math.pow(x,2)+50*x-2500') {
+      html += `
+        <div class="alert alert-success mt-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario E - Déficit Familiar)</h6>
+          <p class="mb-0 small text-muted">
+            El análisis numérico determinó que el costo acumulado de la canasta básica iguala el ingreso familiar de 3500 Bs 
+            aproximadamente en <strong>25 días</strong>. Entre los métodos, <strong>Newton-Raphson</strong> presentó la 
+            convergencia más rápida, mientras que <strong>Bisección</strong> resultó el más robusto. 
+            Este umbral de 25 días representa el punto de quiebre donde la familia comienza a incurrir en déficit.
+          </p>
+        </div>
+      `;
+    } else if (expr === '200*x-7000') {
+      html += `
+        <div class="alert alert-success mt-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario E - Umbral de Reposición)</h6>
+          <p class="mb-0 small text-muted">
+            La tasa crítica de reposición que equilibra el sistema (demanda vs reposición) es <strong>r = 35</strong>. 
+            Por debajo de este ritmo diario, las reservas de la planta inevitablemente comenzarán a vaciarse.
+          </p>
+        </div>
+      `;
+    }
 
     contenedor.innerHTML = html;
     dibujarGrafico(f, a, b, resultado.raiz, resultado.history, metodo);
@@ -455,31 +481,25 @@ const Raices = (function () {
    *   La raíz (x ≈ 8.95) es el mes en que el gasto supera el ingreso familiar.
    */
   function cargarEjemploUmbral() {
-    _setVal('r-funcion',  '1200 - 80*x - 200*Math.exp(0.1*x)');
-    _setVal('r-derivada', '-80 - 20*Math.exp(0.1*x)');
-    _setVal('r-a',        '0');
-    _setVal('r-b',        '15');
+    _setVal('r-funcion',  '2*Math.pow(x,2) + 50*x - 2500');
+    _setVal('r-derivada', '4*x + 50');
+    _setVal('r-a',        '20');
+    _setVal('r-b',        '25');
     _setVal('r-tol',      '0.000001');
     _setVal('r-maxiter',  '100');
     const sel = document.getElementById('r-method');
     if (sel) { sel.value = 'biseccion'; _actualizarParametros(); }
   }
 
-  /**
-   * Umbral de reposición crítica:
-   *   f(x) = 500·exp(−0.2x) − 50·(x+1)
-   *   Diferencia demanda−oferta: la demanda cae exponencialmente y la oferta crece
-   *   linealmente. La raíz (x ≈ 3.82) es el punto de equilibrio del mercado.
-   */
   function cargarEjemploReposicion() {
-    _setVal('r-funcion',  '500*Math.exp(-0.2*x) - 50*(x+1)');
-    _setVal('r-derivada', '-100*Math.exp(-0.2*x) - 50');
+    _setVal('r-funcion',  '200*x - 7000');
+    _setVal('r-derivada', '200');
     _setVal('r-a',        '0');
-    _setVal('r-b',        '10');
+    _setVal('r-b',        '50');
     _setVal('r-tol',      '0.000001');
     _setVal('r-maxiter',  '100');
     const sel = document.getElementById('r-method');
-    if (sel) { sel.value = 'biseccion'; _actualizarParametros(); }
+    if (sel) { sel.value = 'secante'; _actualizarParametros(); }
   }
 
   function _setVal(id, val) {

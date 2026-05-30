@@ -72,9 +72,38 @@
           cuadrática, requiere derivada) y <strong>Secante</strong> (orden ~1.618, sin
           derivada analítica).
         </p>
-        <div class="modulo-contexto">
-          <strong>¿Qué se modela?</strong> El mes o precio exacto en que el gasto familiar iguala al ingreso disponible, o el punto de equilibrio entre la tasa de demanda y la tasa de reposición del proveedor.
-          <strong>¿Qué responde la simulación?</strong> Si Newton-Raphson converge en 4–6 iteraciones, hay una raíz bien definida: existe un umbral crítico claro. Si necesita muchas iteraciones o no converge, la función es muy plana en esa zona — el mercado no tiene un punto de quiebre abrupto sino una transición gradual.
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioE">
+          <div class="accordion-item border-primary">
+            <h2 class="accordion-header" id="headingEscenarioE">
+              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioE" aria-expanded="true" aria-controls="collapseEscenarioE">
+                📖 Escenario E: Umbrales Críticos de Abastecimiento
+              </button>
+            </h2>
+            <div id="collapseEscenarioE" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioE" data-bs-parent="#accordionEscenarioE">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>Una familia tiene un ingreso mensual fijo de <strong>3500 Bs</strong>. Debido al incremento de precios, el costo de la canasta básica aumenta cada día. Buscamos el punto crítico (raíz) donde el costo acumulado iguala al ingreso familiar, momento en que la familia entra en déficit económico.</p>
+
+                <h6 class="fw-bold text-dark mt-3">Modelo Matemático</h6>
+                <p>Costo acumulado: $C(t) = 1000 + 50t + 2t^2$. Igualando al ingreso ($3500$) y simplificando obtenemos la función a evaluar:</p>
+                <div class="p-2 bg-light font-monospace text-center mb-3">f(t) = 2t² + 50t - 2500</div>
+                <p>Buscamos la raíz positiva, comenzando el análisis en el intervalo <strong>[20, 25]</strong> o con valor inicial <strong>20</strong>.</p>
+
+                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos de Búsqueda de Raíces</h6>
+                <ul>
+                  <li><strong>Bisección:</strong> Muy robusto y seguro (siempre converge si hay cambio de signo). Requiere 15-20 iteraciones.</li>
+                  <li><strong>Secante:</strong> Rápido (~1.618 de orden) y no necesita derivada analítica. Converge en 4-6 iteraciones.</li>
+                  <li><strong>Newton-Raphson:</strong> El más rápido (convergencia cuadrática), pero sensible al punto inicial. Converge en 3-4 iteraciones.</li>
+                </ul>
+
+                <h6 class="fw-bold text-dark mt-3">Interpretación Económica (Déficit Familiar)</h6>
+                <p>La raíz aproximada es <strong>t = 25 días</strong>. Esto significa que en el día 25, el costo acumulado iguala el ingreso familiar de 3500 Bs. A partir de ese momento, los gastos superan a los ingresos y la familia ya no puede cubrir sus necesidades básicas.</p>
+                
+                <h6 class="fw-bold text-dark mt-3">Escenario Alternativo (Umbral de Reposición)</h6>
+                <p>Consumo = 10000 L/día. Reposición = 3000 + 200r. Buscando la raíz de $200r - 7000 = 0$, obtenemos la tasa crítica de reposición <strong>r = 35</strong>. Por debajo disminuyen las reservas, por encima aumentan.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row gy-4">
