@@ -70,9 +70,58 @@
           <strong>SOR</strong> y <strong>Gradiente Conjugado</strong>. Los métodos iterativos
           garantizan convergencia si la matriz es diagonalmente dominante.
         </p>
-        <div class="modulo-contexto">
-          <strong>¿Qué se modela?</strong> La distribución de combustible y alimentos entre una planta central, depósitos intermedios y zonas de consumo, donde cada flujo debe satisfacer restricciones de balance.
-          <strong>¿Qué responde la simulación?</strong> ¿Cuántas unidades debe enviar cada nodo para satisfacer la demanda? Si la matriz converge rápidamente con Gauss-Seidel (pocas iteraciones, residuo bajo), el sistema de distribución está bien condicionado. Si no converge, indica desbalances en la red que requieren rediseño.
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioA">
+          <div class="accordion-item border-primary">
+            <h2 class="accordion-header" id="headingEscenarioA">
+              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioA" aria-expanded="true" aria-controls="collapseEscenarioA">
+                📖 Escenario A: Optimización del abastecimiento de carburantes
+              </button>
+            </h2>
+            <div id="collapseEscenarioA" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioA" data-bs-parent="#accordionEscenarioA">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>La Asociación Nacional de Distribución de Combustibles debe abastecer tres zonas de una ciudad (Norte, Centro, Sur) desde tres plantas de almacenamiento (El Alto, Viacha, Senkata). Debido a problemas logísticos, bloqueos y aumento de demanda, se requiere determinar cuánto combustible debe enviarse desde cada planta para satisfacer la demanda minimizando problemas de distribución.</p>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Oferta disponible (Litros/día)</h6>
+                    <ul>
+                      <li>Planta El Alto: 8.000</li>
+                      <li>Planta Viacha: 10.000</li>
+                      <li>Planta Senkata: 12.000</li>
+                      <li><strong>Total: 30.000 litros</strong></li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Demanda requerida (Litros/día)</h6>
+                    <ul>
+                      <li>Zona Norte: 7.000</li>
+                      <li>Zona Centro: 11.000</li>
+                      <li>Zona Sur: 12.000</li>
+                      <li><strong>Total: 30.000 litros</strong> (Sistema balanceado)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis de la Matriz Reducida (Botón: Escenario abastecimiento)</h6>
+                <p>Para la resolución por los métodos iterativos de la página, abstraemos un <strong>sistema reducido diagonalmente dominante</strong>:</p>
+                <pre class="bg-light p-2 rounded text-dark border">
+ 10x +  2y +   z =  7000
+   x + 12y +  2z = 11000
+  2x +   y + 15z = 12000</pre>
+                <p>La solución de este sistema dicta el flujo base. El sistema converge mediante Jacobi, Gauss-Seidel y SOR.</p>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis del Negocio</h6>
+                <ul>
+                  <li><strong>¿Cuánto debe enviarse a cada zona?</strong> La distribución óptima asume cubrir 7.000 al Norte, 11.000 al Centro y 12.000 al Sur. La Zona Sur requiere la mayor asignación debido a su alta demanda.</li>
+                  <li><strong>¿Qué pasa si una ruta se bloquea?</strong> Ej: si Senkata → Sur se bloquea, se pierden 6000 L. Habría que triangular (El Alto y Viacha cubren Sur, forzando a Senkata a cubrir el Centro), lo que sobrecarga rutas y aumenta costos de transporte.</li>
+                  <li><strong>¿Qué zona queda más afectada?</strong> La Zona Sur, porque depende más de rutas largas y tiene la mayor demanda; cualquier bloqueo en Senkata causa un déficit directo grave (vulnerabilidad alta).</li>
+                  <li><strong>¿Es un sistema estable?</strong> Sí. Variaciones pequeñas (ej. incremento de demanda del 5% en Norte) generan pequeños ajustes logísticos. No ocurren disrupciones catastróficas.</li>
+                  <li><strong>¿Qué sucede si la demanda crece mucho?</strong> Ante un aumento del 20% general, la demanda llega a 36.000 L frente a 30.000 L de oferta (déficit de 6.000 L). Aquí el sistema ya no tiene solución de equilibrio puro; habrá escasez, colas y priorización (se violan las igualdades matriciales).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row gy-4">

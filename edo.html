@@ -72,9 +72,47 @@
           (O(h)), <strong>Heun / predictor-corrector</strong> (O(h²)) y
           <strong>Runge-Kutta 4° orden</strong> (O(h⁴)).
         </p>
-        <div class="modulo-contexto">
-          <strong>¿Qué se modela?</strong> En el escenario de reservas: el vaciado acelerado de combustible cuando la tasa de consumo crece linealmente (crisis prolongada). En el escenario social: cómo una pequeña chispa de protesta (M₀ = 10) puede transformarse en una ola masiva de manifestaciones y luego decaer.
-          <strong>¿Qué responde la simulación?</strong> Euler, Heun y RK4 deben producir trayectorias similares; las diferencias revelan el error de discretización. Si Euler se desvía visiblemente de RK4, significa que el paso h es demasiado grande. El segundo gráfico del escenario social compara M(t) entre los tres métodos, mostrando cuándo el paso h es suficientemente fino.
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioB">
+          <div class="accordion-item border-primary">
+            <h2 class="accordion-header" id="headingEscenarioB">
+              <button class="accordion-button bg-primary-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioB" aria-expanded="true" aria-controls="collapseEscenarioB">
+                📖 Escenario B: Vaciado crítico de reservas de carburantes
+              </button>
+            </h2>
+            <div id="collapseEscenarioB" class="accordion-collapse collapse show" aria-labelledby="headingEscenarioB" data-bs-parent="#accordionEscenarioB">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>La Planta de Senkata almacena combustible para abastecer una ciudad. Debido a problemas logísticos y retrasos, el ingreso diario de combustible (6.000 L/día) es menor que el consumo diario (10.000 L/día). La empresa desea conocer cuánto durarán las reservas, cuándo se alcanzará un nivel crítico (20.000 L) y cómo afecta un aumento de demanda o reducción de oferta.</p>
+                
+                <h6 class="fw-bold text-dark mt-3">Modelo Matemático (EDO de 1er Orden)</h6>
+                <p>La reserva cambia según el balance de entradas y salidas: <strong>R'(t) = Entrada - Salida</strong>.</p>
+                <ul>
+                  <li><strong>Reserva Inicial:</strong> R(0) = 100.000 litros.</li>
+                  <li><strong>Escenario Normal:</strong> R'(t) = 6000 - 10000 = <strong>-4000</strong>.</li>
+                  <li><strong>Pánico de Compra (Consumo a 14000 L):</strong> R'(t) = 6000 - 14000 = <strong>-8000</strong>.</li>
+                  <li><strong>Reducción Abastecimiento (Entrada a 3000 L):</strong> R'(t) = 3000 - 10000 = <strong>-7000</strong>.</li>
+                </ul>
+
+                <h6 class="fw-bold text-dark mt-3">Comparación de Métodos (Euler, Heun, RK4)</h6>
+                <ul>
+                  <li><strong>Euler (O(h)):</strong> Usa una sola pendiente (la inicial). Dado que nuestra EDO es lineal con pendiente constante (-4000), el error es bajo.</li>
+                  <li><strong>Heun (O(h²)):</strong> Promedia la pendiente inicial y final. Aquí produce exactamente los mismos valores que Euler.</li>
+                  <li><strong>Runge-Kutta 4 (O(h⁴)):</strong> Calcula 4 pendientes intermedias. Ofrece la solución exacta. RK4 es el método más estable y preciso.</li>
+                </ul>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis del Negocio</h6>
+                <ul>
+                  <li><strong>¿En cuántos días la reserva llega a un nivel crítico?</strong> En el escenario normal, el crítico (20.000 L) se alcanza en <strong>20 días</strong> exactos.</li>
+                  <li><strong>¿Qué pasa si aumenta el consumo diario?</strong> La reserva crítica se alcanza en solo <strong>10 días</strong>. Se agota el doble de rápido.</li>
+                  <li><strong>¿Qué pasa si se reduce el abastecimiento?</strong> La reserva crítica se alcanza en <strong>11.43 días</strong>. Las reservas caen mucho más rápido.</li>
+                </ul>
+                
+                <div class="alert alert-info mt-3 mb-0 p-2 border-0">
+                  <strong class="text-dark">Contexto Adicional (Conflicto Social):</strong> También incluye un sistema acoplado (N-M-D) para simular cómo una pequeña chispa de protesta (M₀ = 10) puede transformarse en una ola masiva de manifestaciones y luego decaer a medida que ocurren detenciones.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row gy-4">
@@ -196,20 +234,30 @@
                         onclick="EcuacionesDiferenciales.simular()">
                   Simular
                 </button>
-                <div class="row g-2">
-                  <div class="col-6">
+                <div class="row g-2 mb-2">
+                  <div class="col-4">
                     <button class="btn btn-warning w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioReservasCritico()">
-                      Reservas críticas
+                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('normal')">
+                      Reserva Normal
                     </button>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <button class="btn btn-danger w-100 btn-sm"
-                            onclick="EcuacionesDiferenciales.escenarioConflictoSocial()">
-                      Conflicto social
+                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('panico')">
+                      Pánico
+                    </button>
+                  </div>
+                  <div class="col-4">
+                    <button class="btn btn-secondary w-100 btn-sm"
+                            onclick="EcuacionesDiferenciales.escenarioReservasCritico('reduccion')">
+                      Reducción
                     </button>
                   </div>
                 </div>
+                <button class="btn btn-outline-danger w-100 btn-sm"
+                        onclick="EcuacionesDiferenciales.escenarioConflictoSocial()">
+                  Simular Conflicto Social
+                </button>
 
               </div>
             </div>

@@ -83,9 +83,13 @@ const SistemasLineales = (function () {
      CARGAR EJEMPLOS
      ══════════════════════════════════════════════ */
   function cargarEjemploAbastecimiento() {
-    // 3×3 diagonalmente dominante — modela flujos planta→zona en una red de distribución
-    const A = [[10, 2, 1], [1, 5, 1], [2, 3, 10]];
-    const b = [7, -8, 6];
+    // 3×3 diagonalmente dominante — modela sistema reducido del Escenario A
+    const A = [
+      [10, 2,  1],
+      [ 1, 12, 2],
+      [ 2, 1, 15]
+    ];
+    const b = [7000, 11000, 12000];
     _cambiarTamanoYCargar(3, A, b);
   }
 

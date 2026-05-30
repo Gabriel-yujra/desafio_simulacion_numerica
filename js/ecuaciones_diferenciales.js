@@ -198,15 +198,35 @@ const EcuacionesDiferenciales = (function () {
      ESCENARIOS PREFIJADOS
      ══════════════════════════════════════════════ */
 
-  /**
-   * Reservas críticas: R'(t) = -(0.05 + 0.008·t)·R
-   * Con R₀=1000, la solución analítica es R(t) = 1000·e^(−0.05t−0.004t²).
-   * En t=30: R(30) ≈ 6.1 (vaciado casi completo).
-   */
-  function escenarioReservasCritico() {
+  function escenarioReservasCritico(tipo = 'normal') {
     _set('edo-escenario', 'reservas');
     cambiarEscenario();
     _set('edo-method', 'todos');
+    
+    // Escenario B
+    _set('edo-y0', '100000');
+    _set('edo-t0', '0');
+    _set('edo-h',  '1');
+    
+    let expr = '-4000';
+    let tf = '25';
+    let hint = 'Escenario Normal: R\'(t) = 6000 - 10000 = -4000. Crítico (20k) en t=20.';
+    
+    if (tipo === 'panico') {
+      expr = '-8000';
+      tf = '12';
+      hint = 'Pánico de Compra: R\'(t) = 6000 - 14000 = -8000. Crítico (20k) en t=10.';
+    } else if (tipo === 'reduccion') {
+      expr = '-7000';
+      tf = '14';
+      hint = 'Reducción Abastecimiento: R\'(t) = 3000 - 10000 = -7000. Crítico (20k) en t=11.43.';
+    }
+    
+    _set('edo-dy', expr);
+    _set('edo-tf', tf);
+    const hintEl = document.getElementById('edo-hint');
+    if (hintEl) hintEl.textContent = hint;
+
     simular();
   }
 
@@ -317,7 +337,7 @@ const EcuacionesDiferenciales = (function () {
     const ref = rk4Res || heunRes || eulerRes;
     if (!ref) return;
 
-    const headers = ['t'];
+    const headers = ['t (días)'];
     if (eulerRes) headers.push('R(t) — Euler');
     if (heunRes)  headers.push('R(t) — Heun');
     if (rk4Res)   headers.push('R(t) — RK4');
@@ -330,7 +350,34 @@ const EcuacionesDiferenciales = (function () {
       return fila;
     });
 
-    el.innerHTML = SimNum.generarTablaHTML(headers, rows, 30);
+    let html = SimNum.generarTablaHTML(headers, rows, 30);
+    
+    // Conclusión automática para Escenario B
+    const exprDY = document.getElementById('edo-dy')?.value?.trim();
+    if (exprDY === '-4000' || exprDY === '-8000' || exprDY === '-7000') {
+      const y0 = parseFloat(document.getElementById('edo-y0')?.value);
+      const pendiente = parseFloat(exprDY);
+      let diasCritico = (20000 - y0) / pendiente;
+      
+      let escenarioTexto = '';
+      if (exprDY === '-4000') escenarioTexto = 'una entrada diaria de 6.000 litros y un consumo de 10.000 litros';
+      else if (exprDY === '-8000') escenarioTexto = 'una entrada diaria de 6.000 litros y un consumo disparado a 14.000 litros (Pánico de Compra)';
+      else if (exprDY === '-7000') escenarioTexto = 'una entrada reducida a 3.000 litros y un consumo de 10.000 litros (Reducción de Abastecimiento)';
+
+      html = `
+        <div class="alert alert-success mb-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática</h6>
+          <p class="mb-0 small text-muted">
+            Con una reserva inicial de ${y0.toLocaleString()} litros, ${escenarioTexto}, 
+            la planta alcanza el nivel crítico de 20.000 litros en aproximadamente <strong>${SimNum.redondear(diasCritico, 2)} días</strong>. 
+            Si la demanda aumenta o el abastecimiento disminuye, el tiempo de seguridad se reduce significativamente, 
+            evidenciando la importancia de mantener un equilibrio entre reposición y consumo.
+          </p>
+        </div>
+      ` + html;
+    }
+
+    el.innerHTML = html;
   }
 
   function _mostrarTabla3D({ eulerRes, heunRes, rk4Res }) {
