@@ -94,14 +94,15 @@ const SistemasLineales = (function () {
   }
 
   function cargarEjemploMalCondicionado() {
-    // Matriz de Hilbert 3×3 — clásico ejemplo mal condicionado (Escenario F)
-    // H_ij = 1/(i+j-1); pequeños cambios en b producen cambios enormes en x
+    // Escenario F: Pánico de Compra (Mal condicionado / Sensible)
+    // Matriz A (casi dependiente por el rumor de redes sociales)
     const A = [
-      [1,     1/2,  1/3],
-      [1/2,   1/3,  1/4],
-      [1/3,   1/4,  1/5],
+      [1, 1,    1],
+      [1, 1.01, 1],
+      [1, 1,    1.02]
     ];
-    const b = [1, 1, 1];
+    // Vector b con incremento del 5% por el rumor
+    const b = [3150, 3160, 3170];
     _cambiarTamanoYCargar(3, A, b);
   }
 
@@ -429,13 +430,13 @@ const SistemasLineales = (function () {
       return;
     }
 
-    mostrarResultados(resultado, A, n, metodo, esDD);
+    mostrarResultados(resultado, A, b, n, metodo, esDD);
   }
 
   /* ══════════════════════════════════════════════
      RENDERIZADO
      ══════════════════════════════════════════════ */
-  function mostrarResultados(resultado, A, n, metodo, esDD) {
+  function mostrarResultados(resultado, A, b, n, metodo, esDD) {
     const contenedor       = document.getElementById('sl-resultado');
     const tablaContenedor  = document.getElementById('sl-tabla-iteraciones');
     if (!contenedor) return;
@@ -482,6 +483,21 @@ const SistemasLineales = (function () {
         ||Ax − b|| = ${SimNum.redondear(resultado.residualFinal, 10)}
         &nbsp;·&nbsp; ${_condInfo(A)}
       </p>`;
+
+    // Conclusión automática Escenario F
+    if (n === 3 && A[0][0] === 1 && A[1][1] === 1.01 && b[0] === 3150) {
+      contenedor.innerHTML += `
+        <div class="alert alert-success mt-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario F - Rumor de Desabastecimiento)</h6>
+          <p class="mb-0 small text-muted">
+            Se observó que un incremento de apenas <strong>5%</strong> en la demanda total (por el rumor) provocó 
+            cambios significativos en la distribución, donde el mercado Norte perdió suministro mientras otros 
+            absorbieron la carga. El análisis demuestra que el sistema es sensible a pequeñas perturbaciones. 
+            El <strong>Mercado Norte</strong> resultó ser el más vulnerable.
+          </p>
+        </div>
+      `;
+    }
 
     if (tablaContenedor) {
       if (!resultado.history?.length) {

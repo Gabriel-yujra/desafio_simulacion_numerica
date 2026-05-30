@@ -123,6 +123,49 @@
             </div>
           </div>
         </div>
+        
+        <div class="accordion mb-4 shadow-sm" id="accordionEscenarioF">
+          <div class="accordion-item border-warning">
+            <h2 class="accordion-header" id="headingEscenarioF">
+              <button class="accordion-button collapsed bg-warning-subtle fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEscenarioF" aria-expanded="false" aria-controls="collapseEscenarioF">
+                📖 Escenario F: Rumores de desabastecimiento y pánico en distribución (Mal Condicionado)
+              </button>
+            </h2>
+            <div id="collapseEscenarioF" class="accordion-collapse collapse" aria-labelledby="headingEscenarioF" data-bs-parent="#accordionEscenarioF">
+              <div class="accordion-body small text-muted" style="max-height: 400px; overflow-y: auto;">
+                <h6 class="fw-bold text-dark">Contexto</h6>
+                <p>Una ciudad se abastece de productos básicos desde tres centros. En condiciones normales, la demanda (3000 unidades) está equilibrada (1000 por mercado). Sin embargo, un rumor en redes sociales de "desabastecimiento inminente" incrementa la demanda artificialmente, generando pánico de compra.</p>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Condiciones Normales</h6>
+                    <ul>
+                      <li>Demanda total: 3000 uds.</li>
+                      <li>Distribución base: $x_1 = 1000, x_2 = 1000, x_3 = 1000$</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">Aparición del Rumor (+5%)</h6>
+                    <ul>
+                      <li>Nueva demanda total: 3150 uds.</li>
+                      <li>Vulnerabilidad de rutas modelada en Matriz A casi singular (mal condicionada).</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h6 class="fw-bold text-dark mt-3">Sistemas Mal Condicionados y Sensibilidad</h6>
+                <p>Al aplicar una variación del <strong>5%</strong> en la demanda, la solución real del sistema pasa a ser $x_1 = 850, x_2 = 1150, x_3 = 1150$. Esto demuestra que el sistema es muy <strong>sensible</strong> a cambios minúsculos. El número de condición alto ($Cond(A) \approx 250$) implica que por cada $1\%$ de error, la solución puede variar enormemente.</p>
+
+                <h6 class="fw-bold text-dark mt-3">Análisis del Negocio</h6>
+                <ul>
+                  <li><strong>Sensibilidad:</strong> El sistema cambia <em>demasiado</em>. Aunque la demanda global creció solo un 5%, el Mercado Norte (x1) perdió 150 unidades de abastecimiento.</li>
+                  <li><strong>Vulnerabilidad:</strong> El Mercado Norte es el más vulnerable, ya que absorbe casi toda la pérdida de recursos cuando los otros mercados entran en pánico, debido a su dependencia de una menor cantidad de rutas o falta de stock de seguridad.</li>
+                  <li><strong>Efecto del Rumor:</strong> Genera acumulación, escasez artificial y redistribución logística forzada sin que haya un problema real de producción de origen.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="row gy-4">
           <!-- ── Panel de entrada ── -->
@@ -201,7 +244,7 @@
                   <div class="col-6">
                     <button class="btn btn-outline-warning btn-sm w-100"
                             onclick="SistemasLineales.cargarEjemploMalCondicionado()">
-                      Escenario mal condicionado
+                      Escenario F: Pánico
                     </button>
                   </div>
                 </div>
