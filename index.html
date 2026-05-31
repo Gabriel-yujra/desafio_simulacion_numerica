@@ -37,9 +37,9 @@
 <body>
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg fixed-top">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
+      <a class="navbar-brand" href="index.html">
         <span class="brand-icon">⚙</span> SimNum
       </a>
       <button
@@ -74,27 +74,50 @@
     <!-- ───────────────── 1. INICIO ───────────────── -->
     <section id="inicio" class="section-block section-hero">
       <div class="container-xl">
-        <div class="row align-items-center gy-4">
-          <div class="col-lg-8">
-            <span class="badge bg-secondary mb-2">Trabajo final · Métodos Numéricos</span>
-            <h1 class="display-5 fw-bold text-primary">
+
+        <!-- Cabecera tipo paper -->
+        <div class="row gy-4 align-items-start">
+          <div class="col-lg-7">
+            <span class="hero-label">Trabajo final · Métodos Numéricos</span>
+            <h1 class="hero-title">
               Simulación numérica de abastecimiento, precios y conflicto social
             </h1>
-            <p class="lead text-muted">
+            <p class="hero-lead">
               Herramienta académica interactiva para modelar escenarios de crisis mediante
               métodos numéricos clásicos: sistemas lineales, raíces de ecuaciones,
               interpolación, integración y ecuaciones diferenciales ordinarias.
             </p>
+
+            <ul class="hero-objectives">
+              <li>Sistemas lineales — flujos en redes de transporte (LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado)</li>
+              <li>Raíces de ecuaciones — umbrales críticos de precio (Bisección, Newton-Raphson, Secante)</li>
+              <li>Interpolación — reconstrucción de curvas de costo (Lagrange, Newton, Spline cúbico)</li>
+              <li>Integración numérica — costo acumulado y poder adquisitivo (Trapecio, Simpson 1/3, 3/8)</li>
+              <li>Ecuaciones diferenciales — dinámica de reservas y descontento social (Euler, Heun, RK4)</li>
+            </ul>
           </div>
-          <div class="col-lg-4">
-            <div class="card border-warning shadow-sm">
-              <div class="card-body">
-                <h6 class="card-title text-warning fw-bold">⚠ Aviso académico</h6>
-                <p class="card-text small text-muted mb-0">
-                  Esta herramienta tiene fines exclusivamente educativos. Los datos, modelos
-                  y resultados son ficticios o simplificados. No representan situaciones
-                  reales, ni posiciones políticas de ningún tipo.
-                </p>
+
+          <div class="col-lg-5">
+            <!-- Aviso académico discreto -->
+            <div class="academic-notice mb-4">
+              <strong>⚠ Aviso académico</strong>
+              Esta herramienta tiene fines exclusivamente educativos. Los datos, modelos
+              y resultados son ficticios o simplificados. No representan situaciones
+              reales ni posiciones políticas de ningún tipo.
+            </div>
+
+            <!-- Cobertura de rúbrica -->
+            <div class="card card-chart">
+              <div class="card-header">Cobertura del desafío final</div>
+              <div class="card-body py-2 px-3">
+                <ul class="mb-0 rubrica-checklist list-unstyled">
+                  <li>✅ <strong>Sistemas lineales</strong> — LU, Jacobi, Gauss-Seidel, SOR, Grad. Conjugado</li>
+                  <li>✅ <strong>Raíces</strong> — Bisección, Newton-Raphson, Secante</li>
+                  <li>✅ <strong>Interpolación</strong> — Lagrange, Newton, Spline cúbico natural</li>
+                  <li>✅ <strong>Integración</strong> — Trapecio, Simpson 1/3, Simpson 3/8</li>
+                  <li>✅ <strong>EDOs</strong> — Euler, Heun, RK4 · reservas y conflicto social</li>
+                  <li>✅ <strong>Interactividad</strong> — formularios, tablas de iteraciones, Chart.js</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -102,10 +125,10 @@
 
         <hr class="my-4" />
 
-        <!-- Contexto -->
-        <div class="row gy-3">
-          <div class="col-md-12">
-            <h4 class="fw-semibold">Contexto del problema</h4>
+        <!-- Contexto del problema -->
+        <div class="row">
+          <div class="col-lg-8">
+            <h4 style="font-size:1.05rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; margin-bottom:0.75rem; color:var(--c-heading);">Contexto del problema</h4>
             <p>
               Las crisis de abastecimiento, la volatilidad en los precios de productos básicos
               y la erosión del poder adquisitivo constituyen fenómenos complejos que pueden
@@ -123,53 +146,28 @@
               la evolución temporal del descontento social.
             </p>
           </div>
-        </div>
 
-        <!-- Objetivos -->
-        <div class="row gy-3 mt-2">
-          <div class="col-md-6">
-            <div class="card h-100 border-primary shadow-sm">
-              <div class="card-header bg-primary text-white fw-semibold">Objetivo general</div>
+          <div class="col-lg-4">
+            <!-- Objetivos -->
+            <div class="card card-input h-100">
+              <div class="card-header">Objetivo general</div>
               <div class="card-body">
-                <p class="mb-0">
+                <p class="mb-3" style="font-size:0.875rem;">
                   Aplicar métodos numéricos computacionales para construir simulaciones
                   interactivas que permitan analizar escenarios de abastecimiento, variación
                   de precios y dinámica social, evaluando la precisión, convergencia y
                   utilidad práctica de cada método.
                 </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card h-100 border-0 bg-light shadow-sm">
-              <div class="card-header bg-secondary text-white fw-semibold">Objetivos específicos</div>
-              <div class="card-body">
-                <ul class="mb-0 small">
-                  <li>Resolver sistemas de ecuaciones lineales para modelar flujos en redes de transporte.</li>
-                  <li>Encontrar raíces de ecuaciones para identificar umbrales y puntos de equilibrio.</li>
-                  <li>Aplicar interpolación para reconstruir curvas de precios a partir de datos históricos.</li>
-                  <li>Calcular integrales numéricas para estimar costos acumulados y pérdida de poder adquisitivo.</li>
-                  <li>Resolver EDOs para simular el vaciado de reservas y la difusión del descontento social.</li>
+                <div class="card-header" style="margin: 0 -1.25rem -0.25rem; border-top:1px solid var(--c-border); border-bottom:none; color:var(--c-success);">Objetivos específicos</div>
+                <ul class="mb-0 mt-2" style="font-size:0.83rem; padding-left:1.1rem;">
+                  <li>Resolver sistemas lineales para modelar flujos en redes de transporte.</li>
+                  <li>Encontrar raíces para identificar umbrales y puntos de equilibrio.</li>
+                  <li>Interpolación para reconstruir curvas de precios históricos.</li>
+                  <li>Integración numérica para estimar costos acumulados.</li>
+                  <li>EDOs para simular vaciado de reservas y difusión del descontento.</li>
                 </ul>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Checklist de cobertura de la rúbrica -->
-        <div class="card border-success shadow-sm mt-4">
-          <div class="card-header bg-success text-white fw-semibold small py-2">
-            Cobertura del desafío final — Métodos Numéricos
-          </div>
-          <div class="card-body py-2">
-            <ul class="mb-0 rubrica-checklist list-unstyled">
-              <li>✅ <strong>Sistemas de ecuaciones lineales</strong> — LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado</li>
-              <li>✅ <strong>Raíces de ecuaciones</strong> — Bisección, Newton-Raphson, Secante</li>
-              <li>✅ <strong>Interpolación</strong> — Lagrange, Newton (diferencias divididas), Spline cúbico natural</li>
-              <li>✅ <strong>Integración numérica</strong> — Trapecio compuesto, Simpson 1/3, Simpson 3/8</li>
-              <li>✅ <strong>Ecuaciones diferenciales</strong> — Euler, Heun (predictor-corrector), RK4 — escenarios reservas y conflicto social</li>
-              <li>✅ <strong>Página interactiva</strong> — formularios, botones, tablas de iteraciones y gráficos Chart.js en cada módulo</li>
-            </ul>
           </div>
         </div>
 

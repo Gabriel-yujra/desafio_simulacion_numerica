@@ -168,6 +168,31 @@ document.addEventListener('DOMContentLoaded', () => {
   console.info('[SimNum] Página cargada correctamente.');
   console.info('[SimNum] Módulos disponibles: SistemasLineales, Raices, Interpolacion, Integracion, EDO');
 
+  // ── Chart.js – tema "Scientific Journal / ink mínimo" ──
+  if (typeof Chart !== 'undefined') {
+    const cs = getComputedStyle(document.documentElement);
+    const chartText = cs.getPropertyValue('--chart-text').trim() || '#666666';
+    const chartGrid = cs.getPropertyValue('--chart-grid').trim() || 'rgba(0,0,0,0.07)';
+
+    Chart.defaults.font.family                         = "'Plus Jakarta Sans', system-ui, sans-serif";
+    Chart.defaults.font.size                           = 11;
+    Chart.defaults.color                               = chartText;
+    Chart.defaults.elements.line.borderWidth           = 1.5;
+    Chart.defaults.elements.line.tension               = 0.25;
+    Chart.defaults.elements.line.fill                  = false;
+    Chart.defaults.elements.point.radius               = 2.5;
+    Chart.defaults.elements.point.hoverRadius          = 4;
+    Chart.defaults.elements.point.borderWidth          = 1;
+    Chart.defaults.plugins.legend.labels.boxWidth      = 8;
+    Chart.defaults.plugins.legend.labels.padding       = 14;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.font          = { size: 11 };
+    Chart.defaults.scale.grid.color                    = chartGrid;
+    Chart.defaults.scale.grid.lineWidth                = 0.7;
+    Chart.defaults.scale.ticks.font                    = { size: 10 };
+    Chart.defaults.scale.ticks.maxTicksLimit           = 6;
+  }
+
   // Llamar a inicializaciones individuales de cada módulo si están cargados
   if (typeof SistemasLineales !== 'undefined' && typeof SistemasLineales.init === 'function') SistemasLineales.init();
   if (typeof Raices !== 'undefined' && typeof Raices.init === 'function')            Raices.init();
