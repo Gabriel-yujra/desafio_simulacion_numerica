@@ -2,13 +2,53 @@
  * main.js — Lógica global de SimNum
  *
  * Responsabilidades:
- *  - Scroll-spy: resaltar el enlace del navbar correspondiente a la sección visible.
+ *  - Tema claro/oscuro (localStorage, clase en <body>, toggle en navbar).
+ *  - Activación del enlace activo del navbar por URL.
  *  - Cerrar el menú móvil al hacer clic en un enlace.
- *  - Utilidades compartidas por todos los módulos.
+ *  - Utilidades compartidas por todos los módulos (SimNum.*).
  */
 
 /* ══════════════════════════════════════════════
-   1. ACTIVACIÓN DE ENLACE DE NAVBAR POR URL
+   1. TEMA CLARO / OSCURO
+   ══════════════════════════════════════════════ */
+(function initTheme() {
+  const STORAGE_KEY = 'simnum-theme';
+  const ICONS = { 'theme-light': '☀', 'theme-dark': '🌙' };
+
+  function applyTheme(theme) {
+    document.body.classList.remove('theme-light', 'theme-dark');
+    document.body.classList.add(theme);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = ICONS[theme] || '☀';
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  // Leer preferencia guardada; si no existe, respetar prefers-color-scheme
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved === 'theme-dark' || saved === 'theme-light') {
+    applyTheme(saved);
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark ? 'theme-dark' : 'theme-light');
+  }
+
+  // Wiring del botón (puede no existir aún en el DOM si el script corre antes)
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    // Sincronizar ícono
+    const current = document.body.classList.contains('theme-dark') ? 'theme-dark' : 'theme-light';
+    btn.textContent = ICONS[current];
+    btn.addEventListener('click', () => {
+      const next = document.body.classList.contains('theme-dark') ? 'theme-light' : 'theme-dark';
+      applyTheme(next);
+    });
+  });
+})();
+
+
+/* ══════════════════════════════════════════════
+   2. ACTIVACIÓN DE ENLACE DE NAVBAR POR URL
    ══════════════════════════════════════════════ */
 (function initActiveNavLink() {
   const navLinks = document.querySelectorAll('#navbarMain .nav-link');
@@ -27,7 +67,7 @@
 
 
 /* ══════════════════════════════════════════════
-   2. CERRAR MENÚ MÓVIL AL NAVEGAR
+   3. CERRAR MENÚ MÓVIL AL NAVEGAR
    ══════════════════════════════════════════════ */
 (function initMobileMenuClose() {
   const navLinks  = document.querySelectorAll('#navMenu .nav-link');
@@ -45,7 +85,7 @@
 
 
 /* ══════════════════════════════════════════════
-   3. UTILIDADES GLOBALES
+   4. UTILIDADES GLOBALES
    Disponibles en todos los módulos vía SimNum.*
    ══════════════════════════════════════════════ */
 const SimNum = (function () {
@@ -162,7 +202,7 @@ const SimNum = (function () {
 
 
 /* ══════════════════════════════════════════════
-   4. INICIALIZACIÓN GLOBAL AL CARGAR DOM
+   5. INICIALIZACIÓN GLOBAL AL CARGAR DOM
    ══════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   console.info('[SimNum] Página cargada correctamente.');
