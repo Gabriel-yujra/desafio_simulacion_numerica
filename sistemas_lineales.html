@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistemas de Ecuaciones Lineales - SimNum</title>
+  <title>Sistemas de Ecuaciones Lineales - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -34,13 +34,13 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="theme-light">
+<body class="theme-dark">
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
-        <span class="brand-icon">⚙</span> SimNum
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
         class="navbar-toggler"
@@ -55,323 +55,196 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-1">
+        <ul class="navbar-nav ms-auto gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="sistemas_lineales.html">Sist. Lineales</a></li>
           <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
           <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
           <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
           <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
         </ul>
-        <button id="theme-toggle" class="ms-3" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">☀</button>
       </div>
     </div>
   </nav>
 
   <!-- ═══════════════════ MAIN ═══════════════════ -->
-  <main class="main-content">
+  <main class="main-content container-fluid px-4 pb-4 animate-fade-in">
 
-    <section id="sistemas-lineales" class="section-block section-alt">
-      <div class="container-xl">
-        <div class="section-header">
-          <span class="section-number">01</span>
+    <!-- Header Panel -->
+    <div class="card border-0 mb-4 bg-light shadow-sm">
+      <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="section-number">01</div>
           <div>
-            <h2 class="section-title">Sistemas de Ecuaciones Lineales</h2>
-            <p class="section-subtitle">Abastecimiento y red de transporte</p>
+            <h2 class="h4 fw-bold text-primary mb-1">Sistemas de Ecuaciones Lineales</h2>
+            <p class="small text-muted mb-0">Optimización de redes de distribución, flujos de carburantes y análisis de sensibilidad social ($Ax = b$).</p>
           </div>
         </div>
-
-        <p class="lead text-muted mb-4">
-          Una red de distribución de bienes puede representarse como un sistema de ecuaciones lineales $Ax = b$, donde cada ecuación expresa el balance de flujo en un nodo. Guiado por los siguientes pasos, comprenderás y simularás el comportamiento de dos situaciones críticas del país.
-        </p>
-
-        <div class="flujo-pasos">
-
-          <!-- PASO 1: EL PROBLEMA -->
-          <div class="paso-guia paso-contexto">
-            <div class="paso-badge">1</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">①</span> El Problema: Crisis y Distribución de Recursos
-              </h3>
-              <p class="text-muted small">
-                Analizamos dos escenarios reales que ilustran cómo los sistemas de ecuaciones modelan la distribución y el pánico en situaciones de crisis:
-              </p>
-              <div class="row g-3 mt-1">
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border border-primary-subtle h-100">
-                    <h5 class="h6 fw-bold text-primary"><i class="bi bi-truck"></i> Escenario A: Abastecimiento de Carburantes</h5>
-                    <p class="small mb-0 text-muted">
-                      La Asociación Nacional de Distribución de Combustibles debe abastecer tres zonas clave de una ciudad (Norte, Centro, Sur) desde tres plantas de almacenamiento (El Alto, Viacha, Senkata). Con bloqueos y alta demanda, se busca calcular los flujos óptimos para evitar desabastecimiento.
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border border-warning-subtle h-100">
-                    <h5 class="h6 fw-bold text-warning"><i class="bi bi-exclamation-triangle"></i> Escenario F: Rumores y Pánico de Compra</h5>
-                    <p class="small mb-0 text-muted">
-                      Un rumor falso de desabastecimiento inminente en redes sociales altera el comportamiento social, provocando compras nerviosas de aceite, arroz y azúcar en tres mercados. La demanda global sube un 5%, tensionando al máximo el sistema de distribución.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 2: LOS DATOS -->
-          <div class="paso-guia paso-datos">
-            <div class="paso-badge">2</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">②</span> Los Datos Iniciales de Partida
-              </h3>
-              <p class="text-muted small">
-                Las capacidades y demandas observadas se cuantifican de la siguiente manera:
-              </p>
-              <div class="row g-3">
-                <!-- Datos Escenario A -->
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Escenario A: Carburantes</h5>
-                    <div class="table-responsive">
-                      <table class="table table-sm table-bordered bg-white text-muted mb-0" style="font-size: 0.8rem;">
-                        <thead>
-                          <tr>
-                            <th>Planta / Capacidad</th>
-                            <th>Zona / Demanda</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>El Alto: 8.000 L/d</td>
-                            <td>Z. Norte: 7.000 L/d</td>
-                          </tr>
-                          <tr>
-                            <td>Viacha: 10.000 L/d</td>
-                            <td>Z. Centro: 11.000 L/d</td>
-                          </tr>
-                          <tr>
-                            <td>Senkata: 12.000 L/d</td>
-                            <td>Z. Sur: 12.000 L/d</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <span class="badge bg-success mt-2">Total Balanceado: 30.000 Litros/día</span>
-                  </div>
-                </div>
-                <!-- Datos Escenario F -->
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark mb-2">Datos - Escenario F: Pánico de Compra</h5>
-                    <ul class="small text-muted mb-0 ps-3">
-                      <li><strong>Condición Normal:</strong> Demanda de 3.000 unidades en equilibrio perfecto (1.000 por cada uno de los 3 mercados).</li>
-                      <li><strong>Pánico en Redes (+5%):</strong> Demanda global incrementa a 3.150 unidades.</li>
-                      <li><strong>Vulnerabilidad:</strong> Representada mediante coeficientes logísticos altamente acoplados.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 3: EL MODELO MATEMÁTICO -->
-          <div class="paso-guia paso-modelo">
-            <div class="paso-badge">3</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">③</span> El Modelo Matemático y su Estabilidad
-              </h3>
-              <p class="text-muted small">
-                Para resolver estos problemas logísticos, abstraemos los sistemas en ecuaciones matriciales del tipo $Ax = b$:
-              </p>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Modelo Escenario A (Diagonalmente Dominante)</h5>
-                    <pre class="bg-white p-2 rounded text-dark border font-monospace mb-2" style="font-size: 0.8rem;">
-10x +  2y +   z =  7000 (Norte)
-  x + 12y +  2z = 11000 (Centro)
- 2x +   y + 15z = 12000 (Sur)</pre>
-                    <p class="small text-muted mb-0">
-                      <strong>Estabilidad:</strong> Es un sistema estable. La dominancia diagonal de $A$ asegura que los métodos iterativos como Jacobi, Gauss-Seidel y SOR converjan eficientemente.
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Modelo Escenario F (Mal Condicionado)</h5>
-                    <pre class="bg-white p-2 rounded text-dark border font-monospace mb-2" style="font-size: 0.8rem;">
-x +    2y +    3z = 3000
-x + 1.01y + 2.02z = 1010  (Normal)
-2x +    y +     z = 3000</pre>
-                    <p class="small text-muted mb-0">
-                      <strong>Sensibilidad:</strong> El número de condición es muy alto ($Cond(A) \approx 250$). Un cambio de apenas 5% en la demanda (de 1010 a 1020 en la ecuación central) altera la distribución drásticamente, mostrando la fragilidad de la red ante rumores.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 4: SIMULÁ VOS MISMO -->
-          <div class="paso-guia paso-simulacion">
-            <div class="paso-badge">4</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">④</span> Simulá Vos Mismo los Escenarios
-              </h3>
-              <p class="text-muted small">
-                Carga uno de los ejemplos preconfigurados o edita los parámetros de la matriz y el vector de forma personalizada, y selecciona el método de resolución:
-              </p>
-
-              <div class="row g-3">
-                <div class="col-md-5">
-                  <div class="p-3 bg-light rounded border">
-                    <h5 class="h6 fw-bold text-dark mb-3">1. Cargar Preconfiguración</h5>
-                    <div class="row g-2 mb-3">
-                      <div class="col-12">
-                        <button class="btn btn-outline-success btn-sm w-100 py-2"
-                                onclick="SistemasLineales.cargarEjemploAbastecimiento()">
-                          📂 Cargar Escenario A (Abastecimiento)
-                        </button>
-                      </div>
-                      <div class="col-12">
-                        <button class="btn btn-outline-warning btn-sm w-100 py-2"
-                                onclick="SistemasLineales.cargarEjemploMalCondicionado()">
-                          ⚠️ Cargar Escenario F (Rumor/Pánico)
-                        </button>
-                      </div>
-                    </div>
-
-                    <h5 class="h6 fw-bold text-dark mb-3">2. Configurar Método</h5>
-                    <!-- Tamaño -->
-                    <div class="mb-2">
-                      <label for="sl-size" class="form-label mb-1">Tamaño del sistema (n × n)</label>
-                      <select id="sl-size" class="form-select form-select-sm">
-                        <option value="2">2 × 2</option>
-                        <option value="3" selected>3 × 3</option>
-                        <option value="4">4 × 4</option>
-                        <option value="5">5 × 5</option>
-                      </select>
-                    </div>
-
-                    <!-- Método -->
-                    <div class="mb-2">
-                      <label for="sl-method" class="form-label mb-1">Método Numérico</label>
-                      <select id="sl-method" class="form-select form-select-sm">
-                        <option value="lu">LU (Factorización directa)</option>
-                        <option value="jacobi">Jacobi</option>
-                        <option value="gauss-seidel" selected>Gauss-Seidel</option>
-                        <option value="sor">SOR (sobre-relajación)</option>
-                        <option value="gradiente-conjugado">Gradiente Conjugado</option>
-                      </select>
-                    </div>
-
-                    <!-- ω para SOR (oculto por defecto) -->
-                    <div id="sl-omega-container" class="mb-2" style="display:none">
-                      <label for="sl-omega" class="form-label mb-1">
-                        Parámetro ω <span class="text-muted small">(SOR, 0 – 2)</span>
-                      </label>
-                      <input type="number" id="sl-omega" class="form-control form-control-sm"
-                             value="1.2" step="0.05" min="0.05" max="1.99" />
-                    </div>
-
-                    <!-- Tolerancia e iteraciones -->
-                    <div class="row g-2 mb-3">
-                      <div class="col-6">
-                        <label for="sl-tol" class="form-label mb-1">Tolerancia</label>
-                        <input type="number" id="sl-tol" class="form-control form-control-sm"
-                               value="0.000001" step="0.000001" min="0" />
-                      </div>
-                      <div class="col-6">
-                        <label for="sl-maxiter" class="form-label mb-1">Iter. máx.</label>
-                        <input type="number" id="sl-maxiter" class="form-control form-control-sm"
-                               value="200" min="1" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-7">
-                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-between">
-                    <div>
-                      <h5 class="h6 fw-bold text-dark mb-2">3. Editar Matriz Ampliada [A | b]</h5>
-                      <p class="text-muted small mb-3">Modifica directamente los valores en los campos de entrada de abajo:</p>
-                      <div id="sl-matrix-container" class="matrix-inputs py-2">
-                        La matriz aparecerá aquí
-                      </div>
-                    </div>
-
-                    <div class="mt-3">
-                      <button class="btn btn-primary w-100 py-2 fw-bold" onclick="SistemasLineales.resolver()">
-                        🚀 Ejecutar Simulación Numérica
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 5: RESULTADOS E INTERPRETACIÓN -->
-          <div class="paso-guia paso-resultados">
-            <div class="paso-badge">5</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">⑤</span> Resultados e Interpretación Académica
-              </h3>
-              <p class="text-muted small">
-                Una vez resuelto el sistema, aquí se mostrará el análisis de convergencia y las conclusiones automáticas aplicadas al caso real:
-              </p>
-
-              <div class="row g-3">
-                <!-- Gráfico residuo / solución -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center py-2">
-                      Convergencia de Residuo
-                      <button class="btn btn-outline-secondary btn-sm px-2 py-0" style="font-size:0.75rem" onclick="SistemasLineales.limpiar()">Limpiar</button>
-                    </div>
-                    <div class="card-body d-flex align-items-center">
-                      <canvas id="sl-chart" height="220"></canvas>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Resultados textuales -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold py-2">Consola de Resultados y Conclusiones</div>
-                    <div class="card-body d-flex flex-column justify-content-between">
-                      <div id="sl-resultado" class="result-area mb-2" style="max-height: 250px; overflow-y: auto;">
-                        <p class="text-muted small">Ejecuta la simulación para visualizar la solución detallada y el análisis económico/social.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Tabla de Iteraciones (se insertará dinámicamente) -->
-                <div class="col-12 mt-2">
-                  <div id="sl-tabla-iteraciones"></div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div> <!-- /flujo-pasos -->
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-success btn-sm" onclick="SistemasLineales.cargarEjemploAbastecimiento()">
+            <i class="bi bi-truck"></i> Escenario A
+          </button>
+          <button class="btn btn-outline-warning btn-sm" onclick="SistemasLineales.cargarEjemploMalCondicionado()">
+            <i class="bi bi-exclamation-triangle"></i> Escenario F
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- main Layout Grid -->
+    <div class="row g-4">
+      
+      <!-- Left sidebar Panel: Config -->
+      <div class="col-lg-4 col-xl-3 animate-fade-up" style="animation-delay: 0.05s;">
+        <div class="card border-0 h-100 shadow-sm mb-4">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-sliders2"></i> Configuración
+          </div>
+          <div class="card-body d-flex flex-column justify-content-between p-4">
+            
+            <div class="d-flex flex-column gap-3 mb-4">
+              <!-- Grid Size Select -->
+              <div>
+                <label for="sl-size" class="form-label mb-1">Tamaño del sistema ($n \times n$)</label>
+                <select id="sl-size" class="form-select form-select-sm">
+                  <option value="2">2 × 2</option>
+                  <option value="3" selected>3 × 3</option>
+                  <option value="4">4 × 4</option>
+                  <option value="5">5 × 5</option>
+                </select>
+              </div>
+
+              <!-- Method Selection -->
+              <div>
+                <label for="sl-method" class="form-label mb-1">Método Numérico</label>
+                <select id="sl-method" class="form-select form-select-sm">
+                  <option value="lu">LU (Factorización directa)</option>
+                  <option value="jacobi">Jacobi</option>
+                  <option value="gauss-seidel" selected>Gauss-Seidel</option>
+                  <option value="sor">SOR (Sobre-relajación)</option>
+                  <option value="gradiente-conjugado">Gradiente Conjugado</option>
+                </select>
+              </div>
+
+              <!-- SOR parameter (omega) -->
+              <div id="sl-omega-container" style="display:none">
+                <label for="sl-omega" class="form-label mb-1">Parámetro $\omega$ (SOR)</label>
+                <input type="number" id="sl-omega" class="form-control form-control-sm"
+                       value="1.2" step="0.05" min="0.05" max="1.99" />
+              </div>
+
+              <!-- Numerical controls -->
+              <div class="row g-2">
+                <div class="col-6">
+                  <label for="sl-tol" class="form-label mb-1">Tolerancia</label>
+                  <input type="number" id="sl-tol" class="form-control form-control-sm font-monospace"
+                         value="0.000001" step="0.000001" min="0" />
+                </div>
+                <div class="col-6">
+                  <label for="sl-maxiter" class="form-label mb-1">Iter. máx.</label>
+                  <input type="number" id="sl-maxiter" class="form-control form-control-sm font-monospace"
+                         value="200" min="1" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Run Button -->
+            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="SistemasLineales.resolver()">
+              <i class="bi bi-play-fill fs-5"></i> Ejecutar Simulación
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Center column Panel: Matrix inputs -->
+      <div class="col-lg-8 col-xl-5 animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3 d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-grid-3x3"></i> Matriz Ampliada $[A \mid b]$</span>
+            <span class="badge bg-secondary">Datos de entrada</span>
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <p class="small text-muted mb-3">Modifica directamente las celdas del sistema $Ax=b$ para modelar flujos y balances de transporte.</p>
+            
+            <div id="sl-matrix-container" class="matrix-inputs my-3">
+              La matriz se cargará aquí
+            </div>
+
+            <div class="modulo-contexto mt-3 mb-0 py-2 px-3 text-muted" style="font-size: 0.8rem;">
+              <strong>Sugerencia:</strong> Puedes utilizar los botones <strong>Escenario A</strong> o <strong>Escenario F</strong> arriba para cargar datos preconfigurados rápidamente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column Panel: Graphic & Metrics -->
+      <div class="col-12 col-xl-4 animate-fade-up" style="animation-delay: 0.15s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-activity"></i> Convergencia del Residuo
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div class="chart-container py-3">
+              <canvas id="sl-chart" height="230"></canvas>
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-2">
+              <button class="btn btn-outline-secondary btn-sm px-3" onclick="SistemasLineales.limpiar()">
+                <i class="bi bi-eraser"></i> Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Panel: Results console & full step description -->
+    <div class="row g-4 mt-1">
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
+            <i class="bi bi-terminal"></i> Consola de Resultados e Insights
+          </div>
+          <div class="card-body p-4">
+            <div id="sl-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
+              <p class="text-muted small mb-0">Ejecuta la simulación para visualizar la solución detallada y el análisis económico/social.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.25s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-journal-text"></i> Detalles del Modelo Logístico
+          </div>
+          <div class="card-body p-4" style="font-size:0.9rem;">
+            <h6 class="fw-bold mb-2 text-primary">Contexto Técnico y Teórico</h6>
+            <p class="text-muted small">
+              Los sistemas de ecuaciones nos permiten representar balances de flujos en nodos logísticos:
+            </p>
+            <div class="p-3 bg-light rounded border border-light mb-3">
+              <ul class="mb-0 small text-muted ps-3 flex-column gap-1">
+                <li><strong>Estabilidad (Escenario A):</strong> Matriz con dominancia diagonal estricta asegura convergencia rápida de Jacobi y Gauss-Seidel.</li>
+                <li><strong>Sensibilidad a Rumores (Escenario F):</strong> Alta vulnerabilidad por mal condicionamiento ($Cond(A) \approx 250$), modelando inestabilidad extrema ante pánico social.</li>
+              </ul>
+            </div>
+            <div id="sl-tabla-iteraciones" class="mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Créditos -->
-    <div class="mt-5 text-center text-muted small pb-4">
+    <div class="mt-5 text-center text-muted small pb-4 animate-fade-in" style="animation-delay: 0.3s;">
       <hr />
-      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="fw-bold mb-1 text-primary" style="font-size:0.95rem">Integrantes</p>
       <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
       <p class="mb-0">Amilcar Josias Yujra Chipana</p>
-      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p class="mb-3 text-muted-2">Gabriel Yujra Machaca</p>
       <p>
         Trabajo final · Materia: Métodos Numéricos ·
         <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>

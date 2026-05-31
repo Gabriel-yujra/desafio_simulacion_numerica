@@ -8,43 +8,7 @@
  *  - Utilidades compartidas por todos los módulos (SimNum.*).
  */
 
-/* ══════════════════════════════════════════════
-   1. TEMA CLARO / OSCURO
-   ══════════════════════════════════════════════ */
-(function initTheme() {
-  const STORAGE_KEY = 'simnum-theme';
-  const ICONS = { 'theme-light': '☀', 'theme-dark': '🌙' };
 
-  function applyTheme(theme) {
-    document.body.classList.remove('theme-light', 'theme-dark');
-    document.body.classList.add(theme);
-    const btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = ICONS[theme] || '☀';
-    localStorage.setItem(STORAGE_KEY, theme);
-  }
-
-  // Leer preferencia guardada; si no existe, respetar prefers-color-scheme
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved === 'theme-dark' || saved === 'theme-light') {
-    applyTheme(saved);
-  } else {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(prefersDark ? 'theme-dark' : 'theme-light');
-  }
-
-  // Wiring del botón (puede no existir aún en el DOM si el script corre antes)
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    // Sincronizar ícono
-    const current = document.body.classList.contains('theme-dark') ? 'theme-dark' : 'theme-light';
-    btn.textContent = ICONS[current];
-    btn.addEventListener('click', () => {
-      const next = document.body.classList.contains('theme-dark') ? 'theme-light' : 'theme-dark';
-      applyTheme(next);
-    });
-  });
-})();
 
 
 /* ══════════════════════════════════════════════

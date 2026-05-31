@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conclusiones - SimNum</title>
+  <title>Conclusiones - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -34,13 +34,13 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="theme-light">
+<body class="theme-dark">
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
-        <span class="brand-icon">⚙</span> SimNum
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
         class="navbar-toggler"
@@ -55,112 +55,125 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-1">
+        <ul class="navbar-nav ms-auto gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
           <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
           <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
           <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
-          <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="conclusiones.html">Conclusiones</a></li>
         </ul>
-        <button id="theme-toggle" class="ms-3" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">☀</button>
       </div>
     </div>
   </nav>
 
   <!-- ═══════════════════ MAIN ═══════════════════ -->
-  <main class="main-content">
+  <main class="main-content container-fluid px-4 pb-4 animate-fade-in">
 
-    <section id="conclusiones" class="section-block">
-      <div class="container-xl">
-        <div class="section-header">
-          <span class="section-number">06</span>
-          <div>
-            <h2 class="section-title">Conclusiones</h2>
-            <p class="section-subtitle">Síntesis y reflexión académica</p>
-          </div>
+    <!-- Header Panel -->
+    <div class="card border-0 mb-4 bg-light shadow-sm">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div class="section-number">06</div>
+        <div>
+          <h2 class="h4 fw-bold text-primary mb-1">Conclusiones y Análisis</h2>
+          <p class="small text-muted mb-0">Resumen ejecutivo y hallazgos principales de la simulación numérica.</p>
         </div>
+      </div>
+    </div>
 
-        <div class="row gy-4">
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="fw-semibold text-primary">Aprendizajes obtenidos</h5>
-                <p>
-                  La implementación computacional de los cinco módulos demostró que los métodos
-                  numéricos permiten aproximar fenómenos socioeconómicos complejos con modelos
-                  matemáticos relativamente sencillos. La clave no es solo obtener un número,
-                  sino interpretar su significado en contexto: una raíz es un umbral crítico,
-                  un área es un costo acumulado, una trayectoria EDO es la evolución temporal de
-                  un sistema.
-                </p>
-                <p>
-                  Al comparar Euler, Heun y RK4 sobre el mismo modelo de reservas, se evidenció
-                  empíricamente la diferencia de orden entre los métodos: con h = 0.5, los tres
-                  producen trayectorias casi indistinguibles, pero con h = 5, Euler acumula
-                  errores visibles que RK4 evita. Este tipo de comparación es imposible de
-                  apreciar solo con la teoría.
-                </p>
-              </div>
-            </div>
+    <!-- conclusions Grid Layout -->
+    <div class="row g-4">
+      
+      <!-- Card 1: Aprendizajes -->
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.05s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-lightbulb"></i> Aprendizajes Obtenidos
           </div>
-
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="fw-semibold text-primary">Métodos más útiles por escenario</h5>
-                <ul>
-                  <li><strong>Redes de transporte:</strong> Gauss-Seidel (convergencia más rápida que Jacobi en sistemas bien condicionados).</li>
-                  <li><strong>Umbrales de precio:</strong> Newton-Raphson (convergencia cuadrática).</li>
-                  <li><strong>Curvas de precio:</strong> Interpolación de Newton (más estable numéricamente para muchos puntos).</li>
-                  <li><strong>Costo acumulado:</strong> Simpson 1/3 (mayor orden de exactitud con igual número de evaluaciones).</li>
-                  <li><strong>Dinámicas temporales:</strong> RK4 (equilibrio óptimo entre precisión y simplicidad de implementación).</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="fw-semibold text-warning">Limitaciones del modelo</h5>
-                <ul>
-                  <li>Los modelos asumen comportamientos ideales (linealidad, continuidad) que raramente se cumplen en sistemas económicos reales.</li>
-                  <li>Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas oficiales validadas.</li>
-                  <li>El modelo N–M–D de conflicto social no captura heterogeneidad poblacional, efectos geográficos ni políticas de respuesta dinámica.</li>
-                  <li>La interpolación asume que el comportamiento entre dos mediciones es suave; en mercados volátiles puede haber saltos bruscos que ningún polinomio reproduce bien.</li>
-                  <li>Los métodos iterativos de álgebra lineal son sensibles al condicionamiento de la matriz; sistemas mal condicionados (como el de Hilbert) convergen muy lentamente o divergen.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="fw-semibold text-success">Ideas de mejoras futuras</h5>
-                <ul>
-                  <li>Integrar datos reales de organismos estadísticos (INE, Banco Central) para validar los modelos contra series históricas.</li>
-                  <li>Ampliar el modelo de EDOs con ecuaciones acopladas entre reservas y precios: cuando las reservas caen, el precio sube, lo que retroalimenta el descontento.</li>
-                  <li>Incorporar análisis de sensibilidad automático: variar parámetros (tasa de inflación, capacidad de red) y graficar cómo cambian los resultados.</li>
-                  <li>Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo y la presentación al tribunal.</li>
-                  <li>Implementar cuadratura adaptativa (Gauss-Legendre) para integrales con discontinuidades o picos agudos.</li>
-                </ul>
-              </div>
-            </div>
+          <div class="card-body p-4">
+            <p class="text-muted" style="line-height: 1.7;">
+              La implementación computacional de los cinco módulos demostró que los métodos
+              numéricos permiten aproximar fenómenos socioeconómicos complejos con modelos
+              matemáticos relativamente sencillos. La clave no es solo obtener un número,
+              sino interpretar su significado en contexto: una raíz es un umbral crítico,
+              un área es un costo acumulado, una trayectoria EDO es la evolución temporal de
+              un sistema.
+            </p>
+            <p class="text-muted" style="line-height: 1.7; margin-bottom: 0;">
+              Al comparar Euler, Heun y RK4 sobre el mismo modelo de reservas, se evidenció
+              empíricamente la diferencia de orden entre los métodos: con h = 0.5, los tres
+              producen trayectorias casi indistinguibles, pero con h = 5, Euler acumula
+              errores visibles que RK4 evita. Este tipo de comparación es imposible de
+              apreciar solo con la teoría.
+            </p>
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- Card 2: Metodos utiles -->
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
+            <i class="bi bi-star"></i> Métodos más Útiles por Escenario
+          </div>
+          <div class="card-body p-4">
+            <ul class="d-flex flex-column gap-3 ps-3 text-muted" style="line-height: 1.6; margin-bottom: 0;">
+              <li><strong>Redes de transporte:</strong> Gauss-Seidel (convergencia más rápida que Jacobi en sistemas bien condicionados).</li>
+              <li><strong>Umbrales de precio:</strong> Newton-Raphson (convergencia cuadrática).</li>
+              <li><strong>Curvas de precio:</strong> Interpolación de Newton (más estable numéricamente para muchos puntos).</li>
+              <li><strong>Costo acumulado:</strong> Simpson 1/3 (mayor orden de exactitud con igual número de evaluaciones).</li>
+              <li><strong>Dinámicas temporales:</strong> RK4 (equilibrio óptimo entre precisión y simplicidad de implementación).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Limitaciones -->
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.15s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-warning fw-bold border-bottom py-3">
+            <i class="bi bi-exclamation-octagon"></i> Limitaciones del Modelo
+          </div>
+          <div class="card-body p-4">
+            <ul class="d-flex flex-column gap-2 ps-3 text-muted" style="line-height: 1.5; margin-bottom: 0; font-size: 0.9rem;">
+              <li>Los modelos asumen comportamientos ideales (linealidad, continuidad) que raramente se cumplen en sistemas económicos reales.</li>
+              <li>Los datos utilizados son sintéticos o ilustrativos; una aplicación real requeriría series estadísticas oficiales validadas.</li>
+              <li>El modelo N–M–D de conflicto social no captura heterogeneidad poblacional, efectos geográficos ni políticas de respuesta dinámica.</li>
+              <li>La interpolación asume que el comportamiento entre dos mediciones es suave; en mercados volátiles puede haber saltos bruscos que ningún polinomio reproduce bien.</li>
+              <li>Los métodos iterativos de álgebra lineal son sensibles al condicionamiento de la matriz; sistemas mal condicionados (como el de Hilbert) convergen muy lentamente o divergen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Mejoras -->
+      <div class="col-md-6 animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-info fw-bold border-bottom py-3">
+            <i class="bi bi-arrow-up-right-circle"></i> Ideas de Mejoras Futuras
+          </div>
+          <div class="card-body p-4">
+            <ul class="d-flex flex-column gap-2 ps-3 text-muted" style="line-height: 1.5; margin-bottom: 0; font-size: 0.9rem;">
+              <li>Integrar datos reales de organismos estadísticos (INE, Banco Central) para validar los modelos contra series históricas.</li>
+              <li>Ampliar el modelo de EDOs con ecuaciones acopladas entre reservas y precios: cuando las reservas caen, el precio sube, lo que retroalimenta el descontento.</li>
+              <li>Incorporar análisis de sensibilidad automático: variar parámetros (tasa de inflación, capacidad de red) y graficar cómo cambian los resultados.</li>
+              <li>Añadir exportación de resultados en CSV o PDF para facilitar el análisis externo y la presentación al tribunal.</li>
+              <li>Implementar cuadratura adaptativa (Gauss-Legendre) para integrales con discontinuidades o picos agudos.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <!-- Créditos -->
-    <div class="mt-5 text-center text-muted small pb-4">
+    <div class="mt-5 text-center text-muted small pb-4 animate-fade-in" style="animation-delay: 0.25s;">
       <hr />
-      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="fw-bold mb-1 text-primary" style="font-size:0.95rem">Integrantes</p>
       <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
       <p class="mb-0">Amilcar Josias Yujra Chipana</p>
-      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p class="mb-3 text-muted-2">Gabriel Yujra Machaca</p>
       <p>
         Trabajo final · Materia: Métodos Numéricos ·
         <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>

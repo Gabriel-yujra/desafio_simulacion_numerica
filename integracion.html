@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Integración Numérica - SimNum</title>
+  <title>Integración Numérica - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -34,13 +34,13 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="theme-light">
+<body class="theme-dark">
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
-        <span class="brand-icon">⚙</span> SimNum
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
         class="navbar-toggler"
@@ -55,284 +55,168 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-1">
+        <ul class="navbar-nav ms-auto gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
           <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
           <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
-          <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
           <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
         </ul>
-        <button id="theme-toggle" class="ms-3" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">☀</button>
       </div>
     </div>
   </nav>
 
   <!-- ═══════════════════ MAIN ═══════════════════ -->
-  <main class="main-content">
+  <main class="main-content container-fluid px-4 pb-4 animate-fade-in">
 
-    <section id="integracion" class="section-block section-alt">
-      <div class="container-xl">
-        <div class="section-header">
-          <span class="section-number">04</span>
+    <!-- Header Panel -->
+    <div class="card border-0 mb-4 bg-light shadow-sm">
+      <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="section-number">04</div>
           <div>
-            <h2 class="section-title">Integración Numérica</h2>
-            <p class="section-subtitle">Costo acumulado y pérdida de poder adquisitivo</p>
+            <h2 class="h4 fw-bold text-primary mb-1">Integración Numérica</h2>
+            <p class="small text-muted mb-0">Cálculo de costos acumulados y estimación de pérdida del poder adquisitivo familiar (Área bajo la curva $\int_a^b f(x)dx$).</p>
           </div>
         </div>
-
-        <p class="lead text-muted mb-4">
-          La integración numérica nos permite calcular el área acumulada bajo una curva de precios. Sigue los pasos numerados abajo para analizar el impacto real de la inflación en el bolsillo de una familia.
-        </p>
-
-        <div class="flujo-pasos">
-
-          <!-- PASO 1: EL PROBLEMA -->
-          <div class="paso-guia paso-contexto">
-            <div class="paso-badge">1</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">①</span> El Problema: El Impacto de la Inflación Acumulada
-              </h3>
-              <p class="text-muted small">
-                Una familia realiza diariamente compras de una canasta básica (papa, arroz, aceite, azúcar). Debido al desabastecimiento provocado por bloqueos e incremento de costos de transporte, los precios suben día a día de forma acumulativa. El problema consiste en determinar cuánto dinero extra gasta realmente esta familia al final de un período mensual debido a la inflación, comparándolo con lo que habrían gastado si los precios permanecieran estables.
-              </p>
-            </div>
-          </div>
-
-          <!-- PASO 2: LOS DATOS -->
-          <div class="paso-guia paso-datos">
-            <div class="paso-badge">2</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">②</span> Datos del Costo Diario Observado
-              </h3>
-              <p class="text-muted small">
-                Se recolectan datos históricos discretos de lo que costaría la canasta básica cada 5 días a lo largo del mes (30 días):
-              </p>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark mb-2">Tabla de Costos de Canasta Básica</h5>
-                    <div class="table-responsive" style="max-width: 320px;">
-                      <table class="table table-sm table-bordered bg-white text-muted mb-0" style="font-size:0.8rem;">
-                        <thead>
-                          <tr class="table-light"><th>Día del mes</th><th>Costo de la Canasta (Bs)</th></tr>
-                        </thead>
-                        <tbody>
-                          <tr><td>Día 0</td><td>100.0 Bs</td></tr>
-                          <tr><td>Día 5</td><td>105.0 Bs</td></tr>
-                          <tr><td>Día 10</td><td>112.0 Bs</td></tr>
-                          <tr><td>Día 15</td><td>120.0 Bs</td></tr>
-                          <tr><td>Día 20</td><td>128.0 Bs</td></tr>
-                          <tr><td>Día 25</td><td>137.0 Bs</td></tr>
-                          <tr><td>Día 30</td><td>145.0 Bs</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-center">
-                    <h5 class="h6 fw-bold text-dark mb-2">Hipótesis Inflacionaria</h5>
-                    <p class="small text-muted mb-2">
-                      Si el precio se mantuviera en equilibrio a 100 Bs por día, el gasto total del mes sería de:
-                      $$100 \text{ Bs/día} \times 30 \text{ días} = 3000 \text{ Bs}$$
-                    </p>
-                    <p class="small text-muted mb-0">
-                      Cualquier gasto por encima de esa cifra representa una **pérdida directa del poder adquisitivo** del núcleo familiar.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 3: EL MODELO MATEMÁTICO -->
-          <div class="paso-guia paso-modelo">
-            <div class="paso-badge">3</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">③</span> El Modelo Matemático: Área Bajo la Curva
-              </h3>
-              <p class="text-muted small">
-                El gasto acumulado total corresponde a la suma continua de los costos diarios, modelado como la integral definida:
-                $$\text{Gasto Acumulado} = \int_{a}^{b} C(t) \, dt$$
-                Como no conocemos la función analítica exacta y dependemos de datos muestreados, aplicamos tres aproximaciones numéricas clásicas:
-              </p>
-              <div class="row g-3">
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Regla del Trapecio</h5>
-                    <p class="small text-muted mb-0">
-                      Aproxima el área bajo la curva uniendo los puntos mediante segmentos rectilíneos. Es muy sencillo pero menos exacto ante curvas pronunciadas.
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border border-primary-subtle h-100">
-                    <h5 class="h6 fw-bold text-primary">Regla de Simpson 1/3</h5>
-                    <p class="small text-muted mb-0">
-                      Aproxima el área ajustando parábolas de segundo grado para grupos de tres puntos consecutivos. Requiere que el número de subintervalos $n$ sea par.
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Regla de Simpson 3/8</h5>
-                    <p class="small text-muted mb-0">
-                      Utiliza polinomios de tercer grado para ajustar grupos de cuatro puntos. Requiere que el número de subintervalos $n$ sea múltiplo de 3.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 4: SIMULÁ VOS MISMO -->
-          <div class="paso-guia paso-simulacion">
-            <div class="paso-badge">4</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">④</span> Configura y Simula la Integración
-              </h3>
-              <p class="text-muted small">
-                Carga el escenario de inflación de la canasta básica o ingresa una función matemática personalizada y pulsa Calcular:
-              </p>
-
-              <div class="row g-3">
-                <!-- Parámetros del Formulario -->
-                <div class="col-md-5">
-                  <div class="p-3 bg-light rounded border">
-                    <h5 class="h6 fw-bold text-dark mb-3">1. Escenarios Rápidos</h5>
-                    <div class="row g-2 mb-3">
-                      <div class="col-6">
-                        <button class="btn btn-outline-warning btn-sm w-100 py-2" onclick="Integracion.escenarioInflacion()">
-                          📈 Inflación Real
-                        </button>
-                      </div>
-                      <div class="col-6">
-                        <button class="btn btn-outline-success btn-sm w-100 py-2" onclick="Integracion.escenarioSinInflacion()">
-                          ⚖️ Precios Fijos
-                        </button>
-                      </div>
-                    </div>
-
-                    <h5 class="h6 fw-bold text-dark mb-3">2. Configuración</h5>
-                    <!-- Función f(x) -->
-                    <div class="mb-2">
-                      <label for="int-funcion" class="form-label mb-1">Función f(x) <span class="text-muted small">(JS)</span></label>
-                      <input type="text" id="int-funcion" class="form-control form-control-sm font-monospace"
-                        value="100 * Math.exp(0.05 * x)" />
-                    </div>
-
-                    <!-- Límites -->
-                    <div class="row g-2 mb-2">
-                      <div class="col-6">
-                        <label for="int-a" class="form-label mb-1">Límite inferior a</label>
-                        <input type="number" id="int-a" class="form-control form-control-sm" value="0" />
-                      </div>
-                      <div class="col-6">
-                        <label for="int-b" class="form-label mb-1">Límite superior b</label>
-                        <input type="number" id="int-b" class="form-control form-control-sm" value="30" />
-                      </div>
-                    </div>
-
-                    <!-- Subintervalos -->
-                    <div class="mb-3">
-                      <label for="int-n" class="form-label mb-1">Subintervalos (n)</label>
-                      <input type="number" id="int-n" class="form-control form-control-sm" value="6" min="2" />
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Métodos y Acción -->
-                <div class="col-md-7">
-                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-between">
-                    <div>
-                      <h5 class="h6 fw-bold text-dark mb-3">3. Métodos Numéricos a Comparar</h5>
-                      <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="int-trapecio" checked />
-                        <label class="form-check-label text-muted small" for="int-trapecio">Regla del Trapecio</label>
-                      </div>
-                      <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="int-simpson13" checked />
-                        <label class="form-check-label text-muted small" for="int-simpson13">Simpson 1/3 (n par)</label>
-                      </div>
-                      <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="int-simpson38" checked />
-                        <label class="form-check-label text-muted small" for="int-simpson38">Simpson 3/8 (n múltiplo de 3)</label>
-                      </div>
-                    </div>
-
-                    <div>
-                      <button class="btn btn-primary w-100 py-2 fw-bold" onclick="Integracion.calcular()">
-                        🚀 Calcular Gasto Acumulado
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 5: RESULTADOS E INTERPRETACIÓN -->
-          <div class="paso-guia paso-resultados">
-            <div class="paso-badge">5</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">⑤</span> Resultados de Gasto y Poder Adquisitivo
-              </h3>
-              <p class="text-muted small">
-                Compara los resultados del área bajo la curva obtenidos en la gráfica y la consola comparativa:
-              </p>
-
-              <div class="row g-3">
-                <!-- Gráfico del área -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center py-2">
-                      Visualización del Área Acumulada
-                      <button class="btn btn-outline-secondary btn-sm px-2 py-0" style="font-size:0.75rem" onclick="Integracion.limpiar()">Limpiar</button>
-                    </div>
-                    <div class="card-body d-flex align-items-center">
-                      <canvas id="integracion-chart" height="220"></canvas>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Comparativa textual -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold py-2">Consola y Pérdida de Poder Adquisitivo</div>
-                    <div class="card-body d-flex flex-column justify-content-between">
-                      <div id="int-resultado" class="result-area mb-2" style="max-height: 250px; overflow-y: auto;">
-                        <p class="text-muted small">Haz clic en Calcular para ejecutar el análisis económico de la inflación.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Div de comparativa dinámica (tablas adicionales) -->
-                <div class="col-12 mt-2">
-                  <div id="int-comparacion"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div> <!-- /flujo-pasos -->
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-success btn-sm" onclick="Integracion.escenarioInflacion()">
+            <i class="bi bi-graph-up"></i> Con Inflación
+          </button>
+          <button class="btn btn-outline-warning btn-sm" onclick="Integracion.escenarioSinInflacion()">
+            <i class="bi bi-graph-down"></i> Pérdida Adquisitiva (Comparativa)
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- main Layout Grid -->
+    <div class="row g-4">
+      
+      <!-- Left sidebar Panel: Config -->
+      <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-sliders2"></i> Parámetros de Integración
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            
+            <div class="d-flex flex-column gap-3 mb-4">
+              <!-- f(x) Expression -->
+              <div>
+                <label for="int-funcion" class="form-label mb-1">Función $f(x)$ / Datos Tabulares <span class="text-muted small">(Sintaxis JS)</span></label>
+                <input type="text" id="int-funcion"
+                       class="form-control form-control-sm font-monospace text-primary fw-semibold"
+                       value="[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]" />
+              </div>
+
+              <!-- Limits a and b -->
+              <div class="row g-2">
+                <div class="col-6">
+                  <label for="int-a" class="form-label mb-1">Límite inferior $a$</label>
+                  <input type="number" id="int-a" class="form-control form-control-sm font-monospace" value="0" step="any" />
+                </div>
+                <div class="col-6">
+                  <label for="int-b" class="form-label mb-1">Límite superior $b$</label>
+                  <input type="number" id="int-b" class="form-control form-control-sm font-monospace" value="30" step="any" />
+                </div>
+              </div>
+
+              <!-- Subintervals -->
+              <div>
+                <label for="int-n" class="form-label mb-1">Subintervalos ($n$)</label>
+                <input type="number" id="int-n" class="form-control form-control-sm font-monospace" value="6" min="2" />
+              </div>
+
+              <!-- Methods Checkboxes -->
+              <div>
+                <label class="form-label mb-2 d-block">Métodos a Evaluar</label>
+                <div class="d-flex flex-column gap-2 p-3 bg-light rounded border border-light">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-trapecio" checked />
+                    <label class="form-check-label small" for="int-trapecio">Trapecio Compuesto</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson13" checked />
+                    <label class="form-check-label small" for="int-simpson13">Simpson 1/3 Compuesto</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="int-simpson38" checked />
+                    <label class="form-check-label small" for="int-simpson38">Simpson 3/8 Compuesto</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Solve Button -->
+            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Integracion.calcular()">
+              <i class="bi bi-calculator"></i> Calcular Costo Acumulado
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column Panel: Graph -->
+      <div class="col-lg-7 col-xl-8 animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-graph-up"></i> Área bajo la Curva de Precios (Costo Acumulado)
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div class="chart-container py-3">
+              <canvas id="integracion-chart" height="230"></canvas>
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-2">
+              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Integracion.limpiar()">
+                <i class="bi bi-eraser"></i> Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Panel: Results & Comparative dynamic card -->
+    <div class="row g-4 mt-1">
+      <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.15s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
+            <i class="bi bi-terminal"></i> Resultados y Métodos de Precisión
+          </div>
+          <div class="card-body p-4">
+            <div id="int-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
+              <p class="text-muted small mb-0">Los resultados de integración se mostrarán aquí.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-piggy-bank"></i> Comparativa de Poder Adquisitivo
+          </div>
+          <div class="card-body p-4">
+            <div id="int-comparacion">
+              <p class="text-muted small mb-0">Para evaluar la pérdida adquisitiva, presione el botón <strong>Pérdida Adquisitiva (Comparativa)</strong> en el panel de arriba.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Créditos -->
-    <div class="mt-5 text-center text-muted small pb-4">
+    <div class="mt-5 text-center text-muted small pb-4 animate-fade-in" style="animation-delay: 0.25s;">
       <hr />
-      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="fw-bold mb-1 text-primary" style="font-size:0.95rem">Integrantes</p>
       <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
       <p class="mb-0">Amilcar Josias Yujra Chipana</p>
-      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p class="mb-3 text-muted-2">Gabriel Yujra Machaca</p>
       <p>
         Trabajo final · Materia: Métodos Numéricos ·
         <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>

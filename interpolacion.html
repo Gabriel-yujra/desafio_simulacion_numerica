@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interpolación - SimNum</title>
+  <title>Interpolación de Precios - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -34,13 +34,13 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="theme-light">
+<body class="theme-dark">
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
-        <span class="brand-icon">⚙</span> SimNum
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
         class="navbar-toggler"
@@ -55,267 +55,170 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-1">
+        <ul class="navbar-nav ms-auto gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
           <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
-          <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="interpolacion.html">Interpolación</a></li>
           <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
           <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
         </ul>
-        <button id="theme-toggle" class="ms-3" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">☀</button>
       </div>
     </div>
   </nav>
 
   <!-- ═══════════════════ MAIN ═══════════════════ -->
-  <main class="main-content">
+  <main class="main-content container-fluid px-4 pb-4 animate-fade-in">
 
-    <section id="interpolacion" class="section-block section-alt">
-      <div class="container-xl">
-        <div class="section-header">
-          <span class="section-number">03</span>
+    <!-- Header Panel -->
+    <div class="card border-0 mb-4 bg-light shadow-sm">
+      <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="section-number">03</div>
           <div>
-            <h2 class="section-title">Interpolación Numérica</h2>
-            <p class="section-subtitle">Reconstrucción de curvas de precios</p>
+            <h2 class="h4 fw-bold text-primary mb-1">Interpolación de Precios</h2>
+            <p class="small text-muted mb-0">Reconstrucción de curvas continuas de volatilidad en alimentos a partir de datos dispersos.</p>
           </div>
         </div>
-
-        <p class="lead text-muted mb-4">
-          La interpolación matemática permite estimar valores intermedios a partir de observaciones históricas discretas. Sigue este flujo paso a paso para reconstruir la curva continua de inflación alimentaria.
-        </p>
-
-        <div class="flujo-pasos">
-
-          <!-- PASO 1: EL PROBLEMA -->
-          <div class="paso-guia paso-contexto">
-            <div class="paso-badge">1</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">①</span> El Problema: Datos Dispersos en Tiempos de Crisis
-              </h3>
-              <p class="text-muted small">
-                Durante las crisis de abastecimiento, los precios de los productos básicos fluctúan a diario. Los mercados oficiales solo reportan precios algunos días específicos del mes, dejando vacíos de información. El objetivo es modelar la trayectoria continua de los precios (especialmente de la papa en Bs/kg) para entender el comportamiento de la canasta alimenticia.
-              </p>
-            </div>
-          </div>
-
-          <!-- PASO 2: LOS DATOS -->
-          <div class="paso-guia paso-datos">
-            <div class="paso-badge">2</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">②</span> Datos Históricos Registrados
-              </h3>
-              <p class="text-muted small">
-                Estos son los registros observados en los mercados durante el mes de crisis para el precio de la papa (Bs/kg):
-              </p>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark mb-2">Tabla de Precios Observados (Papa)</h5>
-                    <div class="table-responsive" style="max-width: 320px;">
-                      <table class="table table-sm table-bordered bg-white text-muted mb-0" style="font-size:0.8rem;">
-                        <thead>
-                          <tr class="table-light"><th>Día del mes</th><th>Precio (Bs/Kg)</th></tr>
-                        </thead>
-                        <tbody>
-                          <tr><td>Día 1</td><td>8.0 Bs</td></tr>
-                          <tr><td>Día 5</td><td>10.0 Bs</td></tr>
-                          <tr><td>Día 10</td><td>13.0 Bs</td></tr>
-                          <tr><td>Día 15</td><td>16.0 Bs</td></tr>
-                          <tr><td>Día 20</td><td>19.0 Bs</td></tr>
-                          <tr><td>Día 30</td><td>22.0 Bs</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-center">
-                    <h5 class="h6 fw-bold text-dark mb-2">Desafío Analítico</h5>
-                    <p class="small text-muted mb-0">
-                      ¿Cómo estimar con rigor científico el precio del producto en los días donde el mercado no reportó datos (por ejemplo, el día 12 o el día 25)? Necesitamos una curva que pase exactamente por todos los puntos conocidos.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 3: EL MODELO MATEMÁTICO -->
-          <div class="paso-guia paso-modelo">
-            <div class="paso-badge">3</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">③</span> Comparación de Modelos de Interpolación
-              </h3>
-              <p class="text-muted small">
-                Podemos abordar la reconstrucción de la curva de precios mediante diferentes aproximaciones polinómicas:
-              </p>
-              <div class="row g-3">
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Lagrange</h5>
-                    <p class="small text-muted mb-0">
-                      Construye un polinomio global de grado $n-1$. Es matemáticamente exacto para los puntos dados, pero tiende a oscilar salvajemente en los extremos al agregar muchos puntos (Fenómeno de Runge).
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border h-100">
-                    <h5 class="h6 fw-bold text-dark">Diferencias Divididas (Newton)</h5>
-                    <p class="small text-muted mb-0">
-                      Genera el mismo polinomio que Lagrange, pero mediante un algoritmo iterativo que facilita añadir nuevos datos sin recalcular todo el sistema desde cero.
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 bg-light rounded border border-primary-subtle h-100">
-                    <h5 class="h6 fw-bold text-primary">Splines Cúbicos Naturales</h5>
-                    <p class="small text-muted mb-0">
-                      Construye tramos de curvas cúbicas independientes entre cada par de puntos vecinos, exigiendo continuidad de la primera y segunda derivada ($C^2$). Ofrece el trazado más natural y realista de precios.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 4: SIMULÁ VOS MISMO -->
-          <div class="paso-guia paso-simulacion">
-            <div class="paso-badge">4</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">④</span> Configura y Simula la Interpolación
-              </h3>
-              <p class="text-muted small">
-                Modifica los puntos de la tabla, selecciona el método numérico de tu preferencia e ingresa el día en el cual deseas estimar el precio:
-              </p>
-
-              <div class="row g-3">
-                <!-- Formulario de Configuración -->
-                <div class="col-md-5">
-                  <div class="p-3 bg-light rounded border">
-                    <h5 class="h6 fw-bold text-dark mb-3">1. Método Numérico</h5>
-                    <div class="mb-3">
-                      <select id="interp-method" class="form-select form-select-sm">
-                        <option value="lagrange">Lagrange</option>
-                        <option value="newton">Newton (Diferencias Divididas)</option>
-                        <option value="spline" selected>Spline Cúbico Natural</option>
-                      </select>
-                    </div>
-
-                    <h5 class="h6 fw-bold text-dark mb-3">2. Estimación de Precio</h5>
-                    <div class="mb-3">
-                      <label for="interp-xeval" class="form-label mb-1">Estimar precio en el día x =</label>
-                      <input type="number" id="interp-xeval" class="form-control form-control-sm" value="12" step="any" />
-                      <div class="form-text">Día del mes para calcular.</div>
-                    </div>
-
-                    <button class="btn btn-primary w-100 py-2 fw-bold" onclick="Interpolacion.interpolar()">
-                      🚀 Calcular Interpolación
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Tabla Dinámica de Puntos -->
-                <div class="col-md-7">
-                  <div class="p-3 bg-light rounded border h-100 d-flex flex-column justify-content-between">
-                    <div>
-                      <h5 class="h6 fw-bold text-dark mb-2">3. Puntos de Datos (Día vs Precio Bs)</h5>
-                      <p class="text-muted small mb-2">Modifica los valores o agrega/elimina filas según sea necesario:</p>
-                      
-                      <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
-                        <table class="table table-sm table-bordered bg-white text-muted mb-0">
-                          <thead>
-                            <tr class="table-primary">
-                              <th>Día (x)</th>
-                              <th>Precio Bs (y)</th>
-                            </tr>
-                          </thead>
-                          <tbody id="interp-tbody">
-                            <!-- Filas iniciales -->
-                            <tr><td><input type="number" class="form-control form-control-sm" value="1"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="8"  step="any" /></td></tr>
-                            <tr><td><input type="number" class="form-control form-control-sm" value="5"  step="any" /></td><td><input type="number" class="form-control form-control-sm" value="10" step="any" /></td></tr>
-                            <tr><td><input type="number" class="form-control form-control-sm" value="10" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="13" step="any" /></td></tr>
-                            <tr><td><input type="number" class="form-control form-control-sm" value="15" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="16" step="any" /></td></tr>
-                            <tr><td><input type="number" class="form-control form-control-sm" value="20" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="19" step="any" /></td></tr>
-                            <tr><td><input type="number" class="form-control form-control-sm" value="30" step="any" /></td><td><input type="number" class="form-control form-control-sm" value="22" step="any" /></td></tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div class="row g-2 mt-3">
-                      <div class="col-4">
-                        <button class="btn btn-outline-secondary btn-sm w-100" onclick="Interpolacion.agregarPunto()">➕ Fila</button>
-                      </div>
-                      <div class="col-4">
-                        <button class="btn btn-outline-danger btn-sm w-100" onclick="Interpolacion.quitarPunto()">➖ Fila</button>
-                      </div>
-                      <div class="col-4">
-                        <button class="btn btn-outline-success btn-sm w-100" onclick="Interpolacion.cargarEjemploPrecios()">🔄 Reiniciar</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 5: RESULTADOS E INTERPRETACIÓN -->
-          <div class="paso-guia paso-resultados">
-            <div class="paso-badge">5</div>
-            <div class="paso-contenido">
-              <h3 class="paso-titulo">
-                <span class="fs-5">⑤</span> Visualización de la Curva de Precios
-              </h3>
-              <p class="text-muted small">
-                El gráfico interactivo traza los puntos originales y la función continua ajustada. La consola detalla la estimación y el análisis:
-              </p>
-
-              <div class="row g-3">
-                <!-- Gráfico interactivo -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center py-2">
-                      Curva de Precios Reconstruida
-                      <button class="btn btn-outline-secondary btn-sm px-2 py-0" style="font-size:0.75rem" onclick="Interpolacion.limpiar()">Limpiar</button>
-                    </div>
-                    <div class="card-body d-flex align-items-center">
-                      <canvas id="interpolacion-chart" height="220"></canvas>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Consola de Resultados -->
-                <div class="col-md-6">
-                  <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold py-2">Resultado de la Estimación</div>
-                    <div class="card-body">
-                      <div id="interp-resultado" class="result-area" style="max-height: 250px; overflow-y: auto;">
-                        <p class="text-muted small">Haz clic en Calcular para visualizar el precio aproximado y el análisis inflacionario de la papa.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div> <!-- /flujo-pasos -->
+        <div>
+          <button class="btn btn-outline-success btn-sm" onclick="Interpolacion.cargarEjemploPrecios()">
+            <i class="bi bi-folder-fill"></i> Cargar Escenario C (Precio Papa)
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- main Layout Grid -->
+    <div class="row g-4">
+      
+      <!-- Left sidebar Panel: Config -->
+      <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-table"></i> Nodos de Interpolación
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            
+            <div>
+              <p class="small text-muted mb-3">Modifica o añade puntos para simular la variación del costo por día (Eje X: Día, Eje Y: Precio en Bs):</p>
+              
+              <!-- Points Table Inputs -->
+              <div class="table-responsive mb-3" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-sm mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 50%;">Día (x)</th>
+                      <th class="text-center" style="width: 50%;">Precio (y)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="interp-tbody">
+                    <!-- Dinámico -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Add/Remove Row Buttons -->
+              <div class="d-flex gap-2 mb-4">
+                <button class="btn btn-outline-secondary btn-sm w-50" onclick="Interpolacion.agregarPunto()">
+                  <i class="bi bi-plus-circle"></i> Añadir fila
+                </button>
+                <button class="btn btn-outline-secondary btn-sm w-50" onclick="Interpolacion.quitarPunto()">
+                  <i class="bi bi-dash-circle"></i> Quitar fila
+                </button>
+              </div>
+
+              <!-- Parameters -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label for="interp-xeval" class="form-label mb-1">Día a evaluar (x)</label>
+                  <input type="number" id="interp-xeval" class="form-control form-control-sm font-monospace" value="12" step="any" />
+                </div>
+                <div class="col-6">
+                  <label for="interp-method" class="form-label mb-1">Método</label>
+                  <select id="interp-method" class="form-select form-select-sm">
+                    <option value="lagrange">Lagrange</option>
+                    <option value="newton">Newton (DD)</option>
+                    <option value="spline" selected>Spline cúbico</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Run Button -->
+            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Interpolacion.interpolar()">
+              <i class="bi bi-graph-up-arrow"></i> Calcular Curva e Interpolar
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column Panel: Graph -->
+      <div class="col-lg-7 col-xl-8 animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-activity"></i> Visualización de la Curva de Interpolación
+          </div>
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div class="chart-container py-3">
+              <canvas id="interpolacion-chart" height="230"></canvas>
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-2">
+              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Interpolacion.limpiar()">
+                <i class="bi bi-eraser"></i> Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Panel: Results & Step details -->
+    <div class="row g-4 mt-1">
+      <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.15s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
+            <i class="bi bi-terminal"></i> Resultados y Análisis del Precio
+          </div>
+          <div class="card-body p-4">
+            <div id="interp-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
+              <p class="text-muted small mb-0">Los resultados detallados se calcularán aquí.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
+            <i class="bi bi-journal-text"></i> Detalles del Desafío C
+          </div>
+          <div class="card-body p-4" style="font-size:0.9rem;">
+            <h6 class="fw-bold mb-2 text-primary">Lagrange, Newton vs Spline Cúbico</h6>
+            <p class="text-muted small">
+              La interpolación reconstruye la dinámica de precios en el mercado local frente a la dispersión de datos semanales:
+            </p>
+            <div class="p-3 bg-light rounded border border-light mb-3 text-muted small">
+              <ul class="mb-0 ps-3 flex-column gap-2">
+                <li><strong>Fenómeno de Runge (Lagrange/Newton):</strong> Cuando hay un número elevado de puntos distribuidos equiespaciadamente, los polinomios globales oscilan fuertemente cerca de los extremos.</li>
+                <li><strong>Splines Cúbicos:</strong> Interpolan por intervalos con continuidad de primer y segundo orden ($C^2$), garantizando curvas suaves, muy estables y físicamente congruentes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Créditos -->
-    <div class="mt-5 text-center text-muted small pb-4">
+    <div class="mt-5 text-center text-muted small pb-4 animate-fade-in" style="animation-delay: 0.25s;">
       <hr />
-      <p class="fw-semibold mb-1" style="font-size:0.95rem">Integrantes</p>
+      <p class="fw-bold mb-1 text-primary" style="font-size:0.95rem">Integrantes</p>
       <p class="mb-0">Luis Alfredo Quispe Ortiz</p>
       <p class="mb-0">Amilcar Josias Yujra Chipana</p>
-      <p class="mb-2">Gabriel Yujra Machaca</p>
+      <p class="mb-3 text-muted-2">Gabriel Yujra Machaca</p>
       <p>
         Trabajo final · Materia: Métodos Numéricos ·
         <span class="text-primary fw-semibold">Simulación numérica de abastecimiento</span>
