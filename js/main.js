@@ -168,6 +168,26 @@ document.addEventListener('DOMContentLoaded', () => {
   console.info('[SimNum] Página cargada correctamente.');
   console.info('[SimNum] Módulos disponibles: SistemasLineales, Raices, Interpolacion, Integracion, EDO');
 
+  // ── Chart.js – tema "Analytics animado" ─────────
+  if (typeof Chart !== 'undefined') {
+    const cs = getComputedStyle(document.documentElement);
+    const chartText = cs.getPropertyValue('--chart-text').trim() || '#6b7280';
+    const chartGrid = cs.getPropertyValue('--chart-grid').trim() || 'rgba(107,114,128,0.12)';
+
+    Chart.defaults.font.family                       = "'Plus Jakarta Sans', system-ui, sans-serif";
+    Chart.defaults.font.size                         = 12;
+    Chart.defaults.color                             = chartText;
+    Chart.defaults.elements.line.borderWidth         = 2.5;
+    Chart.defaults.elements.line.tension             = 0.35;
+    Chart.defaults.elements.point.radius             = 3;
+    Chart.defaults.elements.point.hoverRadius        = 5;
+    Chart.defaults.plugins.legend.labels.boxWidth    = 10;
+    Chart.defaults.plugins.legend.labels.padding     = 16;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.scale.grid.color                  = chartGrid;
+    Chart.defaults.scale.ticks.font                  = { size: 11 };
+  }
+
   // Llamar a inicializaciones individuales de cada módulo si están cargados
   if (typeof SistemasLineales !== 'undefined' && typeof SistemasLineales.init === 'function') SistemasLineales.init();
   if (typeof Raices !== 'undefined' && typeof Raices.init === 'function')            Raices.init();
