@@ -37,9 +37,9 @@
 <body>
 
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <nav id="navbarMain" class="navbar navbar-expand-lg fixed-top">
     <div class="container-xl">
-      <a class="navbar-brand fw-bold" href="index.html">
+      <a class="navbar-brand" href="index.html">
         <span class="brand-icon">⚙</span> SimNum
       </a>
       <button
@@ -73,39 +73,81 @@
 
     <!-- ───────────────── 1. INICIO ───────────────── -->
     <section id="inicio" class="section-block section-hero">
-      <div class="container-xl">
-        <div class="row align-items-center gy-4">
-          <div class="col-lg-8">
-            <span class="badge bg-secondary mb-2">Trabajo final · Métodos Numéricos</span>
-            <h1 class="display-5 fw-bold text-primary">
-              Simulación numérica de abastecimiento, precios y conflicto social
+
+      <!-- Blobs decorativos animados (no interactivos) -->
+      <div class="hero-blob hero-blob--1" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob--2" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob--3" aria-hidden="true"></div>
+
+      <div class="container-xl hero-container">
+        <div class="row align-items-center gy-5">
+
+          <!-- Col izquierda: título display + lead + chips -->
+          <div class="col-lg-6">
+            <div class="hero-eyebrow">Trabajo final · Métodos Numéricos</div>
+            <h1 class="hero-title">
+              <span class="grad-text">SimNum</span><br>
+              <span class="hero-title-sub">Crisis Lab</span>
             </h1>
-            <p class="lead text-muted">
+            <p class="hero-lead">
               Herramienta académica interactiva para modelar escenarios de crisis mediante
-              métodos numéricos clásicos: sistemas lineales, raíces de ecuaciones,
-              interpolación, integración y ecuaciones diferenciales ordinarias.
+              métodos numéricos clásicos: sistemas lineales, raíces, interpolación,
+              integración y ecuaciones diferenciales ordinarias.
             </p>
+            <div class="hero-chips">
+              <span class="hero-chip">Abastecimiento</span>
+              <span class="hero-chip">Precios</span>
+              <span class="hero-chip">Reservas</span>
+              <span class="hero-chip">Conflicto social</span>
+              <span class="hero-chip">Métodos numéricos</span>
+            </div>
           </div>
-          <div class="col-lg-4">
-            <div class="card border-warning shadow-sm">
+
+          <!-- Col derecha: panels glass -->
+          <div class="col-lg-6">
+            <div class="card card-glass mb-3">
               <div class="card-body">
-                <h6 class="card-title text-warning fw-bold">⚠ Aviso académico</h6>
-                <p class="card-text small text-muted mb-0">
+                <h6 class="fw-bold mb-2" style="color:#fbbf24;">⚠ Aviso académico</h6>
+                <p class="small mb-0" style="color:var(--c-text-muted);">
                   Esta herramienta tiene fines exclusivamente educativos. Los datos, modelos
                   y resultados son ficticios o simplificados. No representan situaciones
                   reales, ni posiciones políticas de ningún tipo.
                 </p>
               </div>
             </div>
+            <div class="card card-glass">
+              <div class="card-header">Cobertura del desafío final</div>
+              <div class="card-body py-2 px-3">
+                <ul class="mb-0 rubrica-checklist list-unstyled">
+                  <li>✅ <strong>Sistemas lineales</strong> — LU, Jacobi, Gauss-Seidel, SOR, Grad. Conjugado</li>
+                  <li>✅ <strong>Raíces</strong> — Bisección, Newton-Raphson, Secante</li>
+                  <li>✅ <strong>Interpolación</strong> — Lagrange, Newton, Spline cúbico natural</li>
+                  <li>✅ <strong>Integración</strong> — Trapecio compuesto, Simpson 1/3, Simpson 3/8</li>
+                  <li>✅ <strong>EDOs</strong> — Euler, Heun (predictor-corrector), RK4</li>
+                  <li>✅ <strong>Página interactiva</strong> — formularios, tablas, Chart.js en cada módulo</li>
+                </ul>
+              </div>
+            </div>
           </div>
+
+        </div><!-- /row -->
+
+        <!-- Indicador scroll -->
+        <div class="scroll-indicator" aria-hidden="true">
+          <span>Explorar</span>
+          <div class="scroll-arrow"></div>
         </div>
 
-        <hr class="my-4" />
+      </div><!-- /hero-container -->
+    </section>
 
-        <!-- Contexto -->
-        <div class="row gy-3">
+    <!-- ───────── CONTEXTO Y OBJETIVOS ───────── -->
+    <section class="section-block">
+      <div class="container-xl">
+
+        <div class="row gy-3 mb-4">
           <div class="col-md-12">
-            <h4 class="fw-semibold">Contexto del problema</h4>
+            <h4 class="fw-semibold" style="color:var(--c-heading);">Contexto del problema</h4>
             <p>
               Las crisis de abastecimiento, la volatilidad en los precios de productos básicos
               y la erosión del poder adquisitivo constituyen fenómenos complejos que pueden
@@ -125,10 +167,9 @@
           </div>
         </div>
 
-        <!-- Objetivos -->
-        <div class="row gy-3 mt-2">
+        <div class="row gy-3">
           <div class="col-md-6">
-            <div class="card h-100 border-primary shadow-sm">
+            <div class="card h-100 card-input">
               <div class="card-header bg-primary text-white fw-semibold">Objetivo general</div>
               <div class="card-body">
                 <p class="mb-0">
@@ -141,8 +182,8 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card h-100 border-0 bg-light shadow-sm">
-              <div class="card-header bg-secondary text-white fw-semibold">Objetivos específicos</div>
+            <div class="card h-100 card-chart">
+              <div class="card-header bg-secondary fw-semibold">Objetivos específicos</div>
               <div class="card-body">
                 <ul class="mb-0 small">
                   <li>Resolver sistemas de ecuaciones lineales para modelar flujos en redes de transporte.</li>
@@ -153,23 +194,6 @@
                 </ul>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Checklist de cobertura de la rúbrica -->
-        <div class="card border-success shadow-sm mt-4">
-          <div class="card-header bg-success text-white fw-semibold small py-2">
-            Cobertura del desafío final — Métodos Numéricos
-          </div>
-          <div class="card-body py-2">
-            <ul class="mb-0 rubrica-checklist list-unstyled">
-              <li>✅ <strong>Sistemas de ecuaciones lineales</strong> — LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado</li>
-              <li>✅ <strong>Raíces de ecuaciones</strong> — Bisección, Newton-Raphson, Secante</li>
-              <li>✅ <strong>Interpolación</strong> — Lagrange, Newton (diferencias divididas), Spline cúbico natural</li>
-              <li>✅ <strong>Integración numérica</strong> — Trapecio compuesto, Simpson 1/3, Simpson 3/8</li>
-              <li>✅ <strong>Ecuaciones diferenciales</strong> — Euler, Heun (predictor-corrector), RK4 — escenarios reservas y conflicto social</li>
-              <li>✅ <strong>Página interactiva</strong> — formularios, botones, tablas de iteraciones y gráficos Chart.js en cada módulo</li>
-            </ul>
           </div>
         </div>
 

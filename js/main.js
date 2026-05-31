@@ -168,6 +168,47 @@ document.addEventListener('DOMContentLoaded', () => {
   console.info('[SimNum] Página cargada correctamente.');
   console.info('[SimNum] Módulos disponibles: SistemasLineales, Raices, Interpolacion, Integracion, EDO');
 
+  // ── Chart.js – tema "Neo Gradient / neon técnico" ──
+  if (typeof Chart !== 'undefined') {
+    const cs        = getComputedStyle(document.documentElement);
+    const chartText = cs.getPropertyValue('--chart-text').trim() || '#94a3b8';
+    const chartGrid = cs.getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.06)';
+
+    Chart.defaults.font.family                         = "'Plus Jakarta Sans', system-ui, sans-serif";
+    Chart.defaults.font.size                           = 11;
+    Chart.defaults.color                               = chartText;
+    Chart.defaults.elements.line.borderWidth           = 2;
+    Chart.defaults.elements.line.tension               = 0.35;
+    Chart.defaults.elements.line.fill                  = false;
+    Chart.defaults.elements.point.radius               = 3;
+    Chart.defaults.elements.point.hoverRadius          = 5;
+    Chart.defaults.elements.point.borderWidth          = 0;
+    Chart.defaults.elements.point.hoverBorderWidth     = 2;
+    Chart.defaults.plugins.legend.labels.boxWidth      = 10;
+    Chart.defaults.plugins.legend.labels.padding       = 16;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.font          = { size: 11, weight: '600' };
+    Chart.defaults.scale.grid.color                    = chartGrid;
+    Chart.defaults.scale.grid.lineWidth                = 0.8;
+    Chart.defaults.scale.ticks.font                    = { size: 10 };
+    Chart.defaults.scale.ticks.maxTicksLimit           = 7;
+    Chart.defaults.plugins.tooltip.backgroundColor     = 'rgba(8,12,24,0.92)';
+    Chart.defaults.plugins.tooltip.borderColor         = 'rgba(124,58,237,0.45)';
+    Chart.defaults.plugins.tooltip.borderWidth         = 1;
+    Chart.defaults.plugins.tooltip.titleFont           = { size: 11, weight: '700' };
+    Chart.defaults.plugins.tooltip.bodyFont            = { size: 10 };
+    Chart.defaults.plugins.tooltip.padding             = 10;
+    Chart.defaults.plugins.tooltip.cornerRadius        = 8;
+  }
+
+  // ── Navbar: clase .scrolled al hacer scroll ──
+  const navbar = document.getElementById('navbarMain');
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 45);
+    }, { passive: true });
+  }
+
   // Llamar a inicializaciones individuales de cada módulo si están cargados
   if (typeof SistemasLineales !== 'undefined' && typeof SistemasLineales.init === 'function') SistemasLineales.init();
   if (typeof Raices !== 'undefined' && typeof Raices.init === 'function')            Raices.init();
