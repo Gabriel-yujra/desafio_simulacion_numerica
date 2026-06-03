@@ -92,6 +92,48 @@
       </div>
     </div>
 
+    <!-- Context Panel: visible on load, above the grid -->
+    <div class="card border-0 mb-4 shadow-sm animate-fade-up" style="animation-delay: 0.03s;">
+      <div class="card-body p-4">
+        <div class="row g-4">
+          <!-- Variables -->
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-diagram-3"></i> Modelo de Distribución</h6>
+            <p class="text-muted small mb-2">
+              Se resuelve el sistema $Ax = b$ que balancea los flujos de combustible/alimentos desde plantas de acopio hacia zonas de la ciudad.
+            </p>
+            <ul class="mb-0 small text-muted ps-3">
+              <li><strong>x₁</strong> — Flujo a la <span class="text-primary fw-semibold">Zona Norte</span></li>
+              <li><strong>x₂</strong> — Flujo a la <span class="text-primary fw-semibold">Zona Centro</span></li>
+              <li><strong>x₃</strong> — Flujo a la <span class="text-primary fw-semibold">Zona Sur</span></li>
+              <li class="text-muted fst-italic">x₄…xₙ — Nodos intermedios o reservas (si n &gt; 3)</li>
+            </ul>
+          </div>
+          <!-- Methods -->
+          <div class="col-md-5">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-cpu"></i> Qué significa cada método</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li><strong>LU</strong> — Plan estático ideal. Una pasada exacta; si falla hay ruta bloqueada.</li>
+              <li><strong>Jacobi</strong> — Ajuste simultáneo de todos los nodos usando datos del turno anterior.</li>
+              <li><strong>Gauss-Seidel</strong> — Igual que Jacobi pero cada nodo usa ya los datos recién actualizados → más rápido.</li>
+              <li><strong>SOR (ω)</strong> — Gauss-Seidel acelerado: $\omega &gt; 1$ "sobre-corrige" cada despacho para llegar antes al equilibrio.</li>
+              <li><strong>Grad. Conjugado</strong> — Minimiza el costo cuadrático de transporte en ≤ n pasos. Ideal para redes grandes.</li>
+            </ul>
+          </div>
+          <!-- Stability -->
+          <div class="col-md-3">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-shield-check"></i> Estabilidad</h6>
+            <div class="alert-resultado success mb-2" style="font-size:0.8rem;">
+              <strong>Escenario A:</strong> Dominancia diagonal fuerte → convergencia rápida y estable.
+            </div>
+            <div class="alert-resultado error" style="font-size:0.8rem;">
+              <strong>Escenario F:</strong> Mal condicionado ($\kappa \approx 250$) → 5% de pánico desabastece la Zona Norte.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- main Layout Grid -->
     <div class="row g-4">
       
@@ -187,8 +229,11 @@
           </div>
           <div class="card-body p-4 d-flex flex-column justify-content-between">
             <div class="chart-container py-3">
-              <canvas id="sl-chart" height="230"></canvas>
+              <canvas id="sl-chart" height="200"></canvas>
             </div>
+
+            <!-- Dynamic chart explanation injected by JS after simulation -->
+            <div id="sl-chart-explanation" class="mt-2" style="font-size:0.82rem;"></div>
             
             <div class="d-flex justify-content-end gap-2 mt-2">
               <button class="btn btn-outline-secondary btn-sm px-3" onclick="SistemasLineales.limpiar()">
@@ -201,7 +246,7 @@
 
     </div>
 
-    <!-- Bottom Panel: Results console & full step description -->
+    <!-- Bottom Panel: Results console & iteration table -->
     <div class="row g-4 mt-1">
       <div class="col-md-6 animate-fade-up" style="animation-delay: 0.2s;">
         <div class="card border-0 h-100 shadow-sm">
@@ -219,20 +264,12 @@
       <div class="col-md-6 animate-fade-up" style="animation-delay: 0.25s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-journal-text"></i> Detalles del Modelo Logístico
+            <i class="bi bi-table"></i> Tabla de Iteraciones
           </div>
-          <div class="card-body p-4" style="font-size:0.9rem;">
-            <h6 class="fw-bold mb-2 text-primary">Contexto Técnico y Teórico</h6>
-            <p class="text-muted small">
-              Los sistemas de ecuaciones nos permiten representar balances de flujos en nodos logísticos:
-            </p>
-            <div class="p-3 bg-light rounded border border-light mb-3">
-              <ul class="mb-0 small text-muted ps-3 flex-column gap-1">
-                <li><strong>Estabilidad (Escenario A):</strong> Matriz con dominancia diagonal estricta asegura convergencia rápida de Jacobi y Gauss-Seidel.</li>
-                <li><strong>Sensibilidad a Rumores (Escenario F):</strong> Alta vulnerabilidad por mal condicionamiento ($Cond(A) \approx 250$), modelando inestabilidad extrema ante pánico social.</li>
-              </ul>
+          <div class="card-body p-4" style="font-size:0.9rem; max-height: 420px; overflow-y: auto;">
+            <div id="sl-tabla-iteraciones">
+              <p class="text-muted small mb-0">La tabla de convergencia por iteración aparecerá aquí tras ejecutar un método iterativo.</p>
             </div>
-            <div id="sl-tabla-iteraciones" class="mt-2"></div>
           </div>
         </div>
       </div>

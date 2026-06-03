@@ -437,8 +437,8 @@ const SistemasLineales = (function () {
      RENDERIZADO
      ══════════════════════════════════════════════ */
   function mostrarResultados(resultado, A, b, n, metodo, esDD) {
-    const contenedor       = document.getElementById('sl-resultado');
-    const tablaContenedor  = document.getElementById('sl-tabla-iteraciones');
+    const contenedor      = document.getElementById('sl-resultado');
+    const tablaContenedor = document.getElementById('sl-tabla-iteraciones');
     if (!contenedor) return;
 
     const nombres = {
@@ -451,18 +451,17 @@ const SistemasLineales = (function () {
     const nombre = nombres[metodo] || metodo;
     const tipo   = resultado.convergio ? 'success' : 'info';
 
-    const getContextoVar = (i, dim) => {
-      const contexto = {
-        2: ['Flujo Planta → Zona A', 'Flujo Planta → Zona B'],
-        3: ['Flujo a Zona A', 'Flujo a Zona B', 'Flujo a Zona C'],
-        4: ['Planta → Nodo 1', 'Planta → Nodo 2', 'Nodo 1 → Zona A', 'Nodo 2 → Zona B'],
-        5: ['Planta 1 → Nodo A', 'Planta 2 → Nodo B', 'Nodo A → Sur', 'Nodo B → Norte', 'Reserva → Centro']
-      };
-      return (contexto[dim] && contexto[dim][i]) ? ` <span class="text-muted small">(${contexto[dim][i]})</span>` : '';
+    // Labels de zona según dimensión
+    const zonaLabels = {
+      2: ['Zona Norte (A)', 'Zona Centro (B)'],
+      3: ['Zona Norte (A)', 'Zona Centro (B)', 'Zona Sur (C)'],
+      4: ['Zona Norte (A)', 'Zona Centro (B)', 'Zona Sur (C)', 'Reserva/Nodo'],
+      5: ['Zona Norte (A)', 'Zona Centro (B)', 'Zona Sur (C)', 'Nodo Norte', 'Reserva Centro'],
     };
+    const labels = zonaLabels[n] || Array.from({ length: n }, (_, i) => `Variable ${i + 1}`);
 
     const xStr = resultado.x.map((v, i) =>
-      `<strong>x<sub>${i + 1}</sub></strong> = ${SimNum.redondear(v, 6)}${getContextoVar(i, n)}`
+      `<strong>x<sub>${i + 1}</sub></strong> = <span class="text-primary fw-bold">${SimNum.redondear(v, 4)}</span> <span class="text-muted small">(${labels[i] || 'Nodo ' + (i+1)})</span>`
     ).join('<br/>');
 
     let advertencia = '';
@@ -478,40 +477,159 @@ const SistemasLineales = (function () {
       <div class="alert-resultado ${tipo} mb-2">
         <strong>${nombre}</strong> — ${resultado.mensaje}
       </div>
-      <p class="mb-1"><strong>Solución:</strong> ${xStr}</p>
+      <p class="mb-1"><strong>Solución:</strong><br/>${xStr}</p>
       <p class="mb-1 small text-muted">
         ||Ax − b|| = ${SimNum.redondear(resultado.residualFinal, 10)}
         &nbsp;·&nbsp; ${_condInfo(A)}
       </p>`;
 
-    // Conclusión automática Escenario F
-    if (n === 3 && A[0][0] === 1 && A[1][1] === 1.01 && b[0] === 3150) {
-      contenedor.innerHTML += `
-        <div class="alert alert-success mt-3 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
-          <h6 class="fw-bold text-success mb-2">Conclusión Automática (Escenario F - Rumor de Desabastecimiento)</h6>
-          <p class="mb-0 small text-muted">
-            Se observó que un incremento de apenas <strong>5%</strong> en la demanda total (por el rumor) provocó 
-            cambios significativos en la distribución, donde el mercado Norte perdió suministro mientras otros 
-            absorbieron la carga. El análisis demuestra que el sistema es sensible a pequeñas perturbaciones. 
-            El <strong>Mercado Norte</strong> resultó ser el más vulnerable.
-          </p>
-        </div>
-      `;
-    }
+    // Interpretación contextual de los resultados
+    contenedor.innerHTML += _interpretarSolucion(resultado.x, n, A, b, labels);
 
     if (tablaContenedor) {
       if (!resultado.history?.length) {
-        tablaContenedor.innerHTML = '';
+        tablaContenedor.innerHTML = '<p class="text-muted small mb-0">LU no genera tabla de iteraciones: resuelve en una sola pasada exacta.</p>';
       } else {
         const headers = ['Iter.', ...Array.from({ length: n }, (_, i) => `x${i + 1}`), '||Residuo||'];
         const rows = resultado.history.map(it => [it.iter, ...it.valores, it.residual]);
         tablaContenedor.innerHTML =
-          `<h6 class="mt-3 mb-2 fw-semibold">Tabla de iteraciones</h6>` +
+          `<h6 class="mt-0 mb-2 fw-semibold text-primary">Tabla de iteraciones</h6>` +
           SimNum.generarTablaHTML(headers, rows, 50);
       }
     }
 
     dibujarGrafico(resultado.history, resultado.x, n);
+
+    // Inject dynamic chart explanation
+    const expEl = document.getElementById('sl-chart-explanation');
+    if (expEl) expEl.innerHTML = _explicacionGrafico(metodo, resultado, esDD);
+  }
+
+  /**
+   * Genera una interpretación contextual de la solución obtenida.
+   * Responde las preguntas del Escenario A: cuánto se envía a cada zona,
+   * qué zona recibe más/menos, y si hay alertas de desabastecimiento.
+   */
+  function _interpretarSolucion(x, n, A, b, labels) {
+    const total = x.reduce((s, v) => s + v, 0);
+    const maxVal = Math.max(...x);
+    const minVal = Math.min(...x);
+    const maxIdx = x.indexOf(maxVal);
+    const minIdx = x.indexOf(minVal);
+
+    // Detectar escenario F (sistema mal condicionado de rumores)
+    const esEscenarioF = n === 3 && Math.abs(A[0][0] - 1) < 0.01 && Math.abs(A[1][1] - 1.01) < 0.01 && Math.abs(b[0] - 3150) < 1;
+    // Detectar escenario A (preconfigurado con b grandes: abastecimiento)
+    const esEscenarioA = n === 3 && b[0] > 100 && !esEscenarioF;
+
+    // Filas de interpretación por variable
+    let filas = x.map((v, i) => {
+      const pct = total !== 0 ? ((v / total) * 100).toFixed(1) : '0.0';
+      const demanda = b[i];
+      const diferencia = v - demanda;
+      let estadoClase = 'text-success';
+      let estadoTexto = '✔ Abastecida correctamente';
+
+      if (Math.abs(diferencia) > Math.abs(demanda) * 0.1) {
+        // Si la diferencia es >10% de la demanda, es significativa
+        if (diferencia < 0) {
+          estadoClase = 'text-danger';
+          estadoTexto = `✗ Déficit de ${SimNum.redondear(Math.abs(diferencia), 2)} unidades`;
+        } else {
+          estadoClase = 'text-warning';
+          estadoTexto = `⚠ Excedente de ${SimNum.redondear(diferencia, 2)} unidades`;
+        }
+      }
+
+      return `<tr>
+        <td class="fw-bold text-primary">x<sub>${i+1}</sub></td>
+        <td>${labels[i] || 'Zona ' + (i+1)}</td>
+        <td class="text-primary fw-bold">${SimNum.redondear(v, 4)}</td>
+        <td>${pct}%</td>
+        <td class="${estadoClase}" style="font-size:0.8rem;">${estadoTexto}</td>
+      </tr>`;
+    }).join('');
+
+    // Conclusión general
+    let conclusion = '';
+
+    if (esEscenarioF) {
+      // Calcular zona más afectada (mayor desvío respecto a distribución uniforme)
+      const promedio = total / n;
+      const masAfectada = x.reduce((prev, v, i) =>
+        Math.abs(v - promedio) > Math.abs(x[prev] - promedio) ? i : prev, 0);
+
+      conclusion = `
+        <div class="alert-resultado error mt-3">
+          <div>
+            <strong class="d-block mb-1">⚠ Escenario F — Análisis de Sensibilidad por Rumor Social</strong>
+            <span class="text-muted" style="font-size:0.85rem;">
+              La demanda aumentó un <strong>5%</strong> a causa de un rumor de desabastecimiento.
+              Aunque el incremento parece pequeño, el mal condicionamiento de la matriz
+              (<strong>κ ≈ 250</strong>) amplifica mínimas variaciones en la demanda y las convierte en
+              redistribuciones drásticas del flujo.<br><br>
+              La zona más impactada es <strong>${labels[masAfectada]}</strong>, que recibe
+              ${SimNum.redondear(x[masAfectada], 4)} unidades (${((x[masAfectada]/total)*100).toFixed(1)}% del total).
+              La zona mejor abastecida es <strong>${labels[maxIdx]}</strong> con ${SimNum.redondear(maxVal, 4)} unidades.<br><br>
+              <em>Conclusión:</em> el sistema <strong>no es robusto</strong> frente a perturbaciones sociales.
+              Un sistema bien diseñado debería tener redundancia de rutas y reservas estratégicas para evitar este colapso.
+            </span>
+          </div>
+        </div>`;
+
+    } else if (esEscenarioA) {
+      const totalStr = SimNum.redondear(total, 2);
+      conclusion = `
+        <div class="alert-resultado success mt-3">
+          <div>
+            <strong class="d-block mb-1">✔ Escenario A — Distribución Óptima de Abastecimiento</strong>
+            <span class="text-muted" style="font-size:0.85rem;">
+              El sistema distribuyó un total de <strong>${totalStr}</strong> unidades entre las ${n} zonas.
+              La zona con mayor asignación es <strong>${labels[maxIdx]}</strong>
+              (${SimNum.redondear(maxVal, 4)} unidades · ${((maxVal/total)*100).toFixed(1)}% del total),
+              lo que refleja su mayor demanda o capacidad de ruta.<br><br>
+              La zona con menor suministro es <strong>${labels[minIdx]}</strong>
+              (${SimNum.redondear(minVal, 4)} unidades · ${((minVal/total)*100).toFixed(1)}% del total).
+              Si esta zona experimenta un pico de demanda, podría convertirse en el punto vulnerable de la red.<br><br>
+              <em>Conclusión:</em> el sistema es <strong>estable y bien condicionado</strong>.
+              La dominancia diagonal fuerte garantiza que pequeños cambios en la demanda
+              no alteran significativamente la distribución.
+            </span>
+          </div>
+        </div>`;
+
+    } else {
+      // Caso genérico para cualquier matriz personalizada
+      conclusion = `
+        <div class="alert-resultado info mt-3">
+          <div>
+            <strong class="d-block mb-1">📊 Interpretación de la Solución</strong>
+            <span class="text-muted" style="font-size:0.85rem;">
+              El total distribuido es <strong>${SimNum.redondear(total, 4)}</strong> unidades.
+              La variable dominante es <strong>x<sub>${maxIdx+1}</sub></strong> (${labels[maxIdx]})
+              con ${SimNum.redondear(maxVal, 4)} unidades (${((maxVal/total)*100).toFixed(1)}% del flujo total).
+              Modifica los valores de la matriz para simular bloqueos de rutas (poniendo 0 en la columna correspondiente)
+              o incrementos de demanda en el vector <strong>b</strong>.
+            </span>
+          </div>
+        </div>`;
+    }
+
+    return `
+      <div class="mt-3">
+        <strong class="small text-primary d-block mb-1"><i class="bi bi-table"></i> Distribución por zona:</strong>
+        <div class="table-responsive">
+          <table class="table table-sm mb-1">
+            <thead>
+              <tr>
+                <th>Var.</th><th>Zona</th><th>Flujo</th><th>% Total</th><th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>${filas}</tbody>
+          </table>
+        </div>
+        ${conclusion}
+      </div>`;
   }
 
   /** Indicador heurístico de condicionamiento (informativo, no es número de condición exacto) */
@@ -526,6 +644,72 @@ const SistemasLineales = (function () {
     if (r < 0.3) return 'Sistema <strong class="text-success">bien condicionado</strong>.';
     if (r < 0.8) return 'Condicionamiento <strong class="text-warning">moderado</strong>.';
     return 'Sistema posiblemente <strong class="text-danger">mal condicionado</strong> — resultados sensibles a perturbaciones.';
+  }
+
+  /**
+   * Genera HTML explicando qué muestra el gráfico y por qué tiene ese comportamiento,
+   * adaptado al método y al estado de convergencia.
+   */
+  function _explicacionGrafico(metodo, resultado, esDD) {
+    const iters = resultado.iteraciones;
+    const convergio = resultado.convergio;
+
+    const textos = {
+      'lu': {
+        titulo: 'Gráfico de barras — Solución directa LU',
+        cuerpo: `Cada barra representa el valor exacto de una variable <strong>x<sub>i</sub></strong> (flujo hacia cada zona).
+          La factorización LU descompone <strong>A = L·U</strong> y resuelve en dos sustituciones (hacia adelante y hacia atrás)
+          sin iterar, por eso <em>no hay curva de convergencia</em>: el resultado es exacto desde el primer paso.
+          ${!esDD ? '<br><span class="text-warning">⚠ Verifica que ningún pivote sea nulo o muy pequeño, lo que indicaría rutas bloqueadas.</span>' : ''}`,
+      },
+      'jacobi': {
+        titulo: 'Curva de convergencia — Método de Jacobi',
+        cuerpo: `El eje Y muestra <strong>log₁₀(||r||)</strong> donde <em>||r|| = ||Ax − b||</em> es el residuo:
+          cuánto le falta al flujo calculado para satisfacer el balance exacto.
+          Cada punto es una iteración en que <em>todos</em> los despachos se actualizan <strong>simultáneamente</strong> usando valores del turno anterior.
+          ${convergio
+            ? `<br><span class="text-success">✔ Convergió en <strong>${iters}</strong> iteraciones. La caída sostenida indica un sistema diagonalmente dominante y estable.</span>`
+            : `<br><span class="text-danger">✗ No convergió en ${iters} iteraciones. Considera reordenar ecuaciones para mejorar la dominancia diagonal.</span>`
+          }`,
+      },
+      'gauss-seidel': {
+        titulo: 'Curva de convergencia — Gauss-Seidel',
+        cuerpo: `Igual que Jacobi pero cada zona actualiza su flujo <strong>usando inmediatamente</strong> los valores recién calculados del mismo turno.
+          Esto hace que la curva caiga más empinada (menos iteraciones para el mismo error).
+          Logísticamente: es como si cada distribuidor ajustara su despacho en tiempo real sin esperar el cierre del día.
+          ${convergio
+            ? `<br><span class="text-success">✔ Convergió en <strong>${iters}</strong> iteraciones — típicamente ~50% menos que Jacobi en sistemas bien condicionados.</span>`
+            : `<br><span class="text-danger">✗ No convergió. El sistema puede estar mal condicionado o no ser diagonalmente dominante.</span>`
+          }`,
+      },
+      'sor': {
+        titulo: 'Curva de convergencia — SOR (Sobre-relajación)',
+        cuerpo: `SOR mezcla el valor anterior y el nuevo de Gauss-Seidel con el factor <strong>ω</strong>.
+          Con <em>ω &gt; 1</em> el algoritmo "sobre-corrige" cada despacho para acercarse al equilibrio más rápido.
+          Si ω está bien elegido, la curva cae más rápido que Gauss-Seidel.
+          ${convergio
+            ? `<br><span class="text-success">✔ SOR convergió en <strong>${iters}</strong> iteraciones con el ω configurado.</span>`
+            : `<br><span class="text-warning">⚠ No convergió. Un ω mal elegido (fuera de [1, 2)) puede hacer diverger el método. Prueba con ω más cercano a 1.</span>`
+          }`,
+      },
+      'gradiente-conjugado': {
+        titulo: 'Curva de convergencia — Gradiente Conjugado',
+        cuerpo: `Este método minimiza el error cuadrático <em>||Ax − b||²</em> moviéndose en direcciones conjugadas,
+          lo que garantiza convergencia en ≤ n pasos en aritmética exacta.
+          La curva puede caer de forma irregular (no monótona) pero alcanza la tolerancia en muy pocas iteraciones para sistemas simétricos.
+          ${convergio
+            ? `<br><span class="text-success">✔ Convergió en <strong>${iters}</strong> iteraciones. Eficiente para redes de distribución simétricas de gran escala.</span>`
+            : `<br><span class="text-danger">✗ No convergió. Asegúrate de que la matriz A sea simétrica y definida positiva.</span>`
+          }`,
+      },
+    };
+
+    const info = textos[metodo] || { titulo: 'Gráfico de resultados', cuerpo: 'Ejecuta la simulación para ver la interpretación.' };
+    return `
+      <div class="modulo-contexto mb-0 py-2 px-3" style="font-size:0.8rem;">
+        <strong class="text-primary d-block mb-1">${info.titulo}</strong>
+        <span class="text-muted">${info.cuerpo}</span>
+      </div>`;
   }
 
   /* ══════════════════════════════════════════════
@@ -605,7 +789,9 @@ const SistemasLineales = (function () {
   function limpiar() {
     SimNum.limpiarContenedor('sl-resultado');
     const tabla = document.getElementById('sl-tabla-iteraciones');
-    if (tabla) tabla.innerHTML = '';
+    if (tabla) tabla.innerHTML = '<p class="text-muted small mb-0">La tabla de convergencia por iteración aparecerá aquí tras ejecutar un método iterativo.</p>';
+    const expEl = document.getElementById('sl-chart-explanation');
+    if (expEl) expEl.innerHTML = '';
     const canvas = SimNum.prepararCanvas('sl-chart');
     if (canvas) {
       new Chart(canvas, {
