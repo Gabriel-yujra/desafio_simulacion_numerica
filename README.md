@@ -6,7 +6,7 @@ Trabajo final de la materia **Métodos Numéricos**.
 
 ## Descripción
 
-Herramienta web interactiva que modela distintos escenarios de crisis mediante cinco familias de métodos numéricos:
+Herramienta web interactiva que modela distintos escenarios de crisis mediante cinco familias de métodos numéricos. El caso de estudio se inspira en dinámicas de abastecimiento, precios y conflicto social observadas en ciudades altiplánicas como La Paz y El Alto (Bolivia); los valores numéricos son enteramente simulados con fines pedagógicos.
 
 - Redes de distribución de bienes (sistemas de ecuaciones lineales)
 - Umbrales críticos de precio y equilibrio de mercado (raíces de ecuaciones)
