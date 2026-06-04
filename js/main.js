@@ -9,6 +9,35 @@
  */
 
 
+/* ══════════════════════════════════════════════
+   1. TEMA CLARO / OSCURO
+   ══════════════════════════════════════════════ */
+(function initTheme() {
+  const STORAGE_KEY = 'simnum-theme';
+  const savedTheme = localStorage.getItem(STORAGE_KEY) || 'dark';
+
+  function applyTheme(theme) {
+    document.body.classList.remove('theme-dark', 'theme-light');
+    document.body.classList.add('theme-' + theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+    const icon = document.getElementById('theme-icon');
+    if (icon) {
+      icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+    }
+  }
+
+  // Aplica el tema inmediatamente (body ya existe al estar el script al fondo del body)
+  applyTheme(savedTheme);
+
+  // Conecta el botón una vez que el DOM está completamente cargado
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      applyTheme(document.body.classList.contains('theme-dark') ? 'light' : 'dark');
+    });
+  });
+})();
 
 
 /* ══════════════════════════════════════════════
