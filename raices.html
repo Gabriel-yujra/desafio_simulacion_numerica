@@ -92,9 +92,44 @@
       </div>
     </div>
 
+    <!-- Algorithm Explanation Panel -->
+    <div class="card border-0 mb-4 shadow-sm animate-fade-up" style="animation-delay: 0.03s;">
+      <div class="card-body p-4">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-scissors"></i> Bisección</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Toma un intervalo $[a,b]$ donde $f(a)\cdot f(b) &lt; 0$.</li>
+              <li>Divide el intervalo por la mitad y descarta la mitad sin cambio de signo.</li>
+              <li>Repite hasta que el intervalo es menor que la tolerancia.</li>
+              <li><strong>Converge siempre</strong>; velocidad lineal (~$\log_2$ iteraciones).</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-arrow-right-circle"></i> Newton-Raphson</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Desde $x_0$, traza la tangente a $f$ en ese punto.</li>
+              <li>La próxima estimación es donde la tangente cruza el eje $x$.</li>
+              <li>$x_{n+1} = x_n - f(x_n)/f'(x_n)$</li>
+              <li><strong>Orden cuadrático</strong> cerca de la raíz; puede divergir si $f'(x_0)\approx 0$.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-graph-up"></i> Secante</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Igual que Newton pero estima la pendiente con los dos puntos anteriores.</li>
+              <li>No requiere calcular $f'(x)$ analíticamente.</li>
+              <li>$x_{n+1} = x_n - f(x_n)\cdot(x_n - x_{n-1})/(f(x_n)-f(x_{n-1}))$</li>
+              <li><strong>Convergencia superlineal</strong> (~1.618); ideal cuando derivar es costoso.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- main Layout Grid -->
     <div class="row g-4">
-      
+
       <!-- Left sidebar Panel: Config -->
       <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
         <div class="card border-0 h-100 shadow-sm">

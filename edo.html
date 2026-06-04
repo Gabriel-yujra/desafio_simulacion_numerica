@@ -115,9 +115,44 @@
       </div>
     </div>
 
+    <!-- Algorithm Explanation Panel -->
+    <div class="card border-0 mb-4 shadow-sm animate-fade-up" style="animation-delay: 0.03s;">
+      <div class="card-body p-4">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-arrow-right-square"></i> Euler (1er orden)</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Usa la pendiente $f(t_n, y_n)$ en el punto actual para avanzar.</li>
+              <li>$y_{n+1} = y_n + h\cdot f(t_n, y_n)$</li>
+              <li>Simple de implementar; acumula error rápidamente con pasos grandes.</li>
+              <li>Error global $O(h)$; puede volverse inestable si $h$ es demasiado grande.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-arrow-repeat"></i> Heun (Predictor-Corrector, 2do orden)</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li><strong>Predice</strong> con un paso de Euler: $\tilde{y} = y_n + h\cdot f(t_n, y_n)$.</li>
+              <li><strong>Corrige</strong> promediando la pendiente inicial y la del punto predicho.</li>
+              <li>$y_{n+1} = y_n + \tfrac{h}{2}[f(t_n,y_n) + f(t_{n+1},\tilde{y})]$</li>
+              <li>Error global $O(h^2)$; mucho más estable que Euler con el mismo $h$.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-stars"></i> Runge-Kutta 4 (RK4)</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Evalúa la pendiente en cuatro puntos dentro del intervalo $[t_n, t_{n+1}]$.</li>
+              <li>Combina esas cuatro evaluaciones con pesos $1:2:2:1$ para el avance.</li>
+              <li>Error global $O(h^4)$; balance ideal entre precisión y costo computacional.</li>
+              <li><strong>Estándar de facto</strong> para EDOs cuando el paso $h$ es moderado.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- main Layout Grid -->
     <div class="row g-4">
-      
+
       <!-- Left sidebar Panel: Config -->
       <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
         <div class="card border-0 h-100 shadow-sm">
