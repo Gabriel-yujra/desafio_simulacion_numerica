@@ -89,9 +89,44 @@
       </div>
     </div>
 
+    <!-- Algorithm Explanation Panel -->
+    <div class="card border-0 mb-4 shadow-sm animate-fade-up" style="animation-delay: 0.03s;">
+      <div class="card-body p-4">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-node-plus"></i> Lagrange</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Construye un polinomio de grado $n-1$ que pasa por los $n$ puntos exactamente.</li>
+              <li>Cada punto aporta un polinomio base $L_i(x)$: vale 1 en $x_i$, 0 en los demás.</li>
+              <li>La solución es $P(x) = \sum y_i L_i(x)$.</li>
+              <li><strong>Sencillo de formular</strong>; recalcula todo si se añade un punto.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-table"></i> Newton (Diferencias Divididas)</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Construye el mismo polinomio que Lagrange de forma incremental.</li>
+              <li>Calcula una tabla de diferencias divididas y las usa como coeficientes.</li>
+              <li>Añadir un nuevo punto solo extiende la tabla sin recalcular todo.</li>
+              <li><strong>Eficiente</strong> para actualizar nodos; misma curva que Lagrange.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-bezier2"></i> Spline Cúbico Natural</h6>
+            <ul class="mb-0 small text-muted ps-3">
+              <li>Ajusta un polinomio cúbico en cada par de puntos consecutivos.</li>
+              <li>Impone continuidad de función, primera y segunda derivada ($C^2$).</li>
+              <li>Resuelve un sistema tridiagonal para obtener los coeficientes.</li>
+              <li><strong>Evita oscilaciones</strong> de Runge; curvas suaves y físicamente congruentes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- main Layout Grid -->
     <div class="row g-4">
-      
+
       <!-- Left sidebar Panel: Config -->
       <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
         <div class="card border-0 h-100 shadow-sm">

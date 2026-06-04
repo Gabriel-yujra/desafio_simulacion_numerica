@@ -742,6 +742,18 @@ body.theme-light .alert-resultado.info {
   color: var(--color-primary);
 }
 
+.modulo-algoritmo {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.modulo-algoritmo strong {
+  color: var(--color-accent);
+}
+
 /* Checklist */
 .rubrica-checklist li {
   padding: 0.4rem 0;
