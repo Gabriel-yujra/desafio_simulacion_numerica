@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Integración Numérica - SimNum Platform</title>
+  <title>Raíces de Ecuaciones - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
   <!-- Estilos propios -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
 
   <!-- MathJax para fórmulas matemáticas hermosas -->
   <script>
@@ -39,7 +39,7 @@
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
   <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="../index.html">
         <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
@@ -56,11 +56,11 @@
 
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto gap-2">
-          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
-          <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="raices.html">Raíces</a></li>
           <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
-          <li class="nav-item"><a class="nav-link text-white active" href="integracion.html">Integración</a></li>
+          <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
           <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
         </ul>
@@ -80,18 +80,18 @@
     <div class="card border-0 mb-4 bg-light shadow-sm">
       <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
-          <div class="section-number">04</div>
+          <div class="section-number">02</div>
           <div>
-            <h2 class="h4 fw-bold text-primary mb-1">Integración Numérica</h2>
-            <p class="small text-muted mb-0">Cálculo de costos acumulados y estimación de pérdida del poder adquisitivo familiar (Área bajo la curva $\int_a^b f(x)dx$). El intervalo $[0, 30]$ representa un mes calendario; los precios preconfigurados son aproximaciones a la variación de una canasta básica familiar en el contexto boliviano, comparada con un ingreso mensual de referencia próximo al salario mínimo nacional.</p>
+            <h2 class="h4 fw-bold text-primary mb-1">Raíces de Ecuaciones</h2>
+            <p class="small text-muted mb-0">Determinación de umbrales críticos de precio y límites de capacidad en planta ($f(x) = 0$).</p>
           </div>
         </div>
         <div class="d-flex gap-2">
-          <button class="btn btn-outline-success btn-sm" onclick="Integracion.escenarioInflacion()">
-            <i class="bi bi-graph-up"></i> Con Inflación
+          <button class="btn btn-outline-success btn-sm" onclick="Raices.cargarEjemploUmbral()">
+            <i class="bi bi-wallet2"></i> Escenario E (Costo/Ingreso)
           </button>
-          <button class="btn btn-outline-warning btn-sm" onclick="Integracion.escenarioSinInflacion()">
-            <i class="bi bi-graph-down"></i> Pérdida Adquisitiva (Comparativa)
+          <button class="btn btn-outline-warning btn-sm" onclick="Raices.cargarEjemploReposicion()">
+            <i class="bi bi-droplet-half"></i> Umbral Logístico
           </button>
         </div>
       </div>
@@ -102,30 +102,30 @@
       <div class="card-body p-4">
         <div class="row g-4">
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-bar-chart-steps"></i> Trapecio Compuesto</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-scissors"></i> Bisección</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Divide $[a,b]$ en $n$ subintervalos iguales de ancho $h = (b-a)/n$.</li>
-              <li>Aproxima el área de cada subintervalo con un trapecio (línea recta entre extremos).</li>
-              <li>Suma todas las áreas para estimar $\int_a^b f\,dx$.</li>
-              <li>Error $O(h^2)$; duplicar $n$ divide el error por 4.</li>
+              <li>Toma un intervalo $[a,b]$ donde $f(a)\cdot f(b) &lt; 0$.</li>
+              <li>Divide el intervalo por la mitad y descarta la mitad sin cambio de signo.</li>
+              <li>Repite hasta que el intervalo es menor que la tolerancia.</li>
+              <li><strong>Converge siempre</strong>; velocidad lineal (~$\log_2$ iteraciones).</li>
             </ul>
           </div>
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-graph-up-arrow"></i> Simpson 1/3 Compuesto</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-arrow-right-circle"></i> Newton-Raphson</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Agrupa subintervalos de a pares y ajusta una parábola por cada trío de puntos.</li>
-              <li>La parábola captura mejor la curvatura de $f$ que una línea recta.</li>
-              <li>Error $O(h^4)$; requiere $n$ par.</li>
-              <li><strong>Más preciso</strong> que Trapecio con el mismo número de evaluaciones.</li>
+              <li>Desde $x_0$, traza la tangente a $f$ en ese punto.</li>
+              <li>La próxima estimación es donde la tangente cruza el eje $x$.</li>
+              <li>$x_{n+1} = x_n - f(x_n)/f'(x_n)$</li>
+              <li><strong>Orden cuadrático</strong> cerca de la raíz; puede divergir si $f'(x_0)\approx 0$.</li>
             </ul>
           </div>
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-activity"></i> Simpson 3/8 Compuesto</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-graph-up"></i> Secante</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Trabaja con grupos de tres subintervalos; ajusta un polinomio cúbico por cuarteto.</li>
-              <li>Misma precisión que Simpson 1/3 (error $O(h^4)$).</li>
-              <li>Requiere que $n$ sea múltiplo de 3.</li>
-              <li>Útil cuando $f$ tiene mayor variación en tramos específicos del dominio.</li>
+              <li>Igual que Newton pero estima la pendiente con los dos puntos anteriores.</li>
+              <li>No requiere calcular $f'(x)$ analíticamente.</li>
+              <li>$x_{n+1} = x_n - f(x_n)\cdot(x_n - x_{n-1})/(f(x_n)-f(x_{n-1}))$</li>
+              <li><strong>Convergencia superlineal</strong> (~1.618); ideal cuando derivar es costoso.</li>
             </ul>
           </div>
         </div>
@@ -139,60 +139,67 @@
       <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-sliders2"></i> Parámetros de Integración
+            <i class="bi bi-sliders2"></i> Parámetros de la Ecuación
           </div>
           <div class="card-body p-4 d-flex flex-column justify-content-between">
             
             <div class="d-flex flex-column gap-3 mb-4">
               <!-- f(x) Expression -->
               <div>
-                <label for="int-funcion" class="form-label mb-1">Función $f(x)$ / Datos Tabulares <span class="text-muted small">(Sintaxis JS)</span></label>
-                <input type="text" id="int-funcion"
+                <label for="r-funcion" class="form-label mb-1">Función $f(x)$ <span class="text-muted small">(Sintaxis JS)</span></label>
+                <input type="text" id="r-funcion"
                        class="form-control form-control-sm font-monospace text-primary fw-semibold"
-                       value="[100, 105, 112, 120, 128, 137, 145][Math.round(x/5)]" />
+                       value="2*Math.pow(x,2) + 50*x - 2500" />
               </div>
 
-              <!-- Limits a and b -->
+              <!-- Derivative (Newton only) -->
+              <div id="r-derivada-container" style="display:none">
+                <label for="r-derivada" class="form-label mb-1">Derivada $f'(x)$ <span class="text-muted small">(Opcional)</span></label>
+                <input type="text" id="r-derivada"
+                       class="form-control form-control-sm font-monospace"
+                       placeholder="4*x + 50" />
+              </div>
+
+              <!-- Method -->
+              <div>
+                <label for="r-method" class="form-label mb-1">Método Numérico</label>
+                <select id="r-method" class="form-select form-select-sm">
+                  <option value="biseccion" selected>Bisección</option>
+                  <option value="newton">Newton-Raphson</option>
+                  <option value="secante">Secante</option>
+                </select>
+              </div>
+
+              <!-- Parameters a and b -->
               <div class="row g-2">
                 <div class="col-6">
-                  <label for="int-a" class="form-label mb-1">Límite inferior $a$</label>
-                  <input type="number" id="int-a" class="form-control form-control-sm font-monospace" value="0" step="any" />
+                  <label id="r-label-a" for="r-a" class="form-label mb-1">Extremo a / $x_0$</label>
+                  <input type="number" id="r-a" class="form-control form-control-sm font-monospace" value="20" step="any" />
+                </div>
+                <div class="col-6" id="r-b-container">
+                  <label id="r-label-b" for="r-b" class="form-label mb-1">Extremo b / $x_1$</label>
+                  <input type="number" id="r-b" class="form-control form-control-sm font-monospace" value="25" step="any" />
+                </div>
+              </div>
+
+              <!-- Numerical controls -->
+              <div class="row g-2">
+                <div class="col-6">
+                  <label for="r-tol" class="form-label mb-1">Tolerancia</label>
+                  <input type="number" id="r-tol" class="form-control form-control-sm font-monospace"
+                         value="0.000001" step="0.000001" min="0" />
                 </div>
                 <div class="col-6">
-                  <label for="int-b" class="form-label mb-1">Límite superior $b$</label>
-                  <input type="number" id="int-b" class="form-control form-control-sm font-monospace" value="30" step="any" />
-                </div>
-              </div>
-
-              <!-- Subintervals -->
-              <div>
-                <label for="int-n" class="form-label mb-1">Subintervalos ($n$)</label>
-                <input type="number" id="int-n" class="form-control form-control-sm font-monospace" value="6" min="2" />
-              </div>
-
-              <!-- Methods Checkboxes -->
-              <div>
-                <label class="form-label mb-2 d-block">Métodos a Evaluar</label>
-                <div class="d-flex flex-column gap-2 p-3 bg-light rounded border border-light">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="int-trapecio" checked />
-                    <label class="form-check-label small" for="int-trapecio">Trapecio Compuesto</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="int-simpson13" checked />
-                    <label class="form-check-label small" for="int-simpson13">Simpson 1/3 Compuesto</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="int-simpson38" checked />
-                    <label class="form-check-label small" for="int-simpson38">Simpson 3/8 Compuesto</label>
-                  </div>
+                  <label for="r-maxiter" class="form-label mb-1">Iter. máx.</label>
+                  <input type="number" id="r-maxiter" class="form-control form-control-sm font-monospace"
+                         value="100" min="1" />
                 </div>
               </div>
             </div>
 
             <!-- Solve Button -->
-            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Integracion.calcular()">
-              <i class="bi bi-calculator"></i> Calcular Costo Acumulado
+            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Raices.resolver()">
+              <i class="bi bi-search"></i> Encontrar Raíz Crítica
             </button>
 
           </div>
@@ -203,15 +210,15 @@
       <div class="col-lg-7 col-xl-8 animate-fade-up" style="animation-delay: 0.1s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-graph-up"></i> Área bajo la Curva de Precios (Costo Acumulado)
+            <i class="bi bi-graph-up"></i> Curva de la Función y Raíz Encontrada
           </div>
           <div class="card-body p-4 d-flex flex-column justify-content-between">
             <div class="chart-container py-3">
-              <canvas id="integracion-chart" height="230"></canvas>
+              <canvas id="raices-chart" height="230"></canvas>
             </div>
             
             <div class="d-flex justify-content-end gap-2 mt-2">
-              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Integracion.limpiar()">
+              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Raices.limpiar()">
                 <i class="bi bi-eraser"></i> Limpiar
               </button>
             </div>
@@ -221,16 +228,16 @@
 
     </div>
 
-    <!-- Bottom Panel: Results & Comparative dynamic card -->
+    <!-- Bottom Panel: Results & Step details -->
     <div class="row g-4 mt-1">
       <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.15s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
-            <i class="bi bi-terminal"></i> Resultados y Métodos de Precisión
+            <i class="bi bi-terminal"></i> Resultados y Convergencia
           </div>
           <div class="card-body p-4">
-            <div id="int-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
-              <p class="text-muted small mb-0">Los resultados de integración se mostrarán aquí.</p>
+            <div id="raices-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
+              <p class="text-muted small mb-0">Los resultados detallados y la tabla de iteraciones se calcularán aquí al presionar "Encontrar Raíz Crítica".</p>
             </div>
           </div>
         </div>
@@ -239,11 +246,18 @@
       <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.2s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-piggy-bank"></i> Comparativa de Poder Adquisitivo
+            <i class="bi bi-journal-text"></i> Detalles del Modelo del Umbral
           </div>
-          <div class="card-body p-4">
-            <div id="int-comparacion">
-              <p class="text-muted small mb-0">Para evaluar la pérdida adquisitiva, presione el botón <strong>Pérdida Adquisitiva (Comparativa)</strong> en el panel de arriba.</p>
+          <div class="card-body p-4" style="font-size:0.9rem;">
+            <h6 class="fw-bold mb-2 text-primary">Modelación de Puntos de Quiebre</h6>
+            <p class="text-muted small">
+              Identificar la raíz $f(x)=0$ determina el momento exacto en el que cambian las condiciones de estabilidad del sistema:
+            </p>
+            <div class="p-3 bg-light rounded border border-light mb-3 text-muted small">
+              <ul class="mb-0 ps-3 flex-column gap-1">
+                <li><strong>Ingreso vs Gasto (Escenario E):</strong> La variable $x$ representa el día del mes. Hallamos el día exacto donde los costos acumulados de la canasta básica cruzan el umbral de 3.500 Bs — valor tomado como referencia al salario mínimo nacional boliviano — en un contexto de incremento no lineal de precios.</li>
+                <li><strong>Equilibrio Logístico:</strong> Hallamos la tasa mínima de reposición $r$ (litros/día) que equilibra el vaciado por consumo de carburantes en las plantas de almacenamiento, considerando una demanda elevada como la que se observa en episodios de desabastecimiento.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -278,7 +292,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
   <!-- Módulos numéricos -->
-  <script src="js/integracion.js"></script>
-  <script src="js/main.js"></script>
+  <script src="../js/raices.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>
