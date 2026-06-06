@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raíces de Ecuaciones - SimNum Platform</title>
+  <title>Interpolación de Precios - SimNum Platform</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
   <!-- Estilos propios -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
 
   <!-- MathJax para fórmulas matemáticas hermosas -->
   <script>
@@ -39,7 +39,7 @@
   <!-- ═══════════════════ NAVBAR ═══════════════════ -->
   <nav id="navbarMain" class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container-xl">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="../index.html">
         <span class="brand-icon"><i class="bi bi-cpu"></i></span> SimNum
       </a>
       <button
@@ -56,10 +56,10 @@
 
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto gap-2">
-          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="sistemas_lineales.html">Sist. Lineales</a></li>
-          <li class="nav-item"><a class="nav-link text-white active" href="raices.html">Raíces</a></li>
-          <li class="nav-item"><a class="nav-link" href="interpolacion.html">Interpolación</a></li>
+          <li class="nav-item"><a class="nav-link" href="raices.html">Raíces</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="interpolacion.html">Interpolación</a></li>
           <li class="nav-item"><a class="nav-link" href="integracion.html">Integración</a></li>
           <li class="nav-item"><a class="nav-link" href="edo.html">Ec. Diferenciales</a></li>
           <li class="nav-item"><a class="nav-link" href="conclusiones.html">Conclusiones</a></li>
@@ -80,18 +80,15 @@
     <div class="card border-0 mb-4 bg-light shadow-sm">
       <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
-          <div class="section-number">02</div>
+          <div class="section-number">03</div>
           <div>
-            <h2 class="h4 fw-bold text-primary mb-1">Raíces de Ecuaciones</h2>
-            <p class="small text-muted mb-0">Determinación de umbrales críticos de precio y límites de capacidad en planta ($f(x) = 0$).</p>
+            <h2 class="h4 fw-bold text-primary mb-1">Interpolación de Precios</h2>
+            <p class="small text-muted mb-0">Reconstrucción de curvas continuas de volatilidad de precios en alimentos a partir de datos dispersos, tomando como referencia variaciones de productos de primera necesidad en mercados de La Paz–Bolivia durante disrupciones logísticas.</p>
           </div>
         </div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-outline-success btn-sm" onclick="Raices.cargarEjemploUmbral()">
-            <i class="bi bi-wallet2"></i> Escenario E (Costo/Ingreso)
-          </button>
-          <button class="btn btn-outline-warning btn-sm" onclick="Raices.cargarEjemploReposicion()">
-            <i class="bi bi-droplet-half"></i> Umbral Logístico
+        <div>
+          <button class="btn btn-outline-success btn-sm" onclick="Interpolacion.cargarEjemploPrecios()">
+            <i class="bi bi-folder-fill"></i> Cargar Escenario C (Precio Papa)
           </button>
         </div>
       </div>
@@ -102,30 +99,30 @@
       <div class="card-body p-4">
         <div class="row g-4">
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-scissors"></i> Bisección</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-node-plus"></i> Lagrange</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Toma un intervalo $[a,b]$ donde $f(a)\cdot f(b) &lt; 0$.</li>
-              <li>Divide el intervalo por la mitad y descarta la mitad sin cambio de signo.</li>
-              <li>Repite hasta que el intervalo es menor que la tolerancia.</li>
-              <li><strong>Converge siempre</strong>; velocidad lineal (~$\log_2$ iteraciones).</li>
+              <li>Construye un polinomio de grado $n-1$ que pasa por los $n$ puntos exactamente.</li>
+              <li>Cada punto aporta un polinomio base $L_i(x)$: vale 1 en $x_i$, 0 en los demás.</li>
+              <li>La solución es $P(x) = \sum y_i L_i(x)$.</li>
+              <li><strong>Sencillo de formular</strong>; recalcula todo si se añade un punto.</li>
             </ul>
           </div>
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-arrow-right-circle"></i> Newton-Raphson</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-table"></i> Newton (Diferencias Divididas)</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Desde $x_0$, traza la tangente a $f$ en ese punto.</li>
-              <li>La próxima estimación es donde la tangente cruza el eje $x$.</li>
-              <li>$x_{n+1} = x_n - f(x_n)/f'(x_n)$</li>
-              <li><strong>Orden cuadrático</strong> cerca de la raíz; puede divergir si $f'(x_0)\approx 0$.</li>
+              <li>Construye el mismo polinomio que Lagrange de forma incremental.</li>
+              <li>Calcula una tabla de diferencias divididas y las usa como coeficientes.</li>
+              <li>Añadir un nuevo punto solo extiende la tabla sin recalcular todo.</li>
+              <li><strong>Eficiente</strong> para actualizar nodos; misma curva que Lagrange.</li>
             </ul>
           </div>
           <div class="col-md-4">
-            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-graph-up"></i> Secante</h6>
+            <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-bezier2"></i> Spline Cúbico Natural</h6>
             <ul class="mb-0 small text-muted ps-3">
-              <li>Igual que Newton pero estima la pendiente con los dos puntos anteriores.</li>
-              <li>No requiere calcular $f'(x)$ analíticamente.</li>
-              <li>$x_{n+1} = x_n - f(x_n)\cdot(x_n - x_{n-1})/(f(x_n)-f(x_{n-1}))$</li>
-              <li><strong>Convergencia superlineal</strong> (~1.618); ideal cuando derivar es costoso.</li>
+              <li>Ajusta un polinomio cúbico en cada par de puntos consecutivos.</li>
+              <li>Impone continuidad de función, primera y segunda derivada ($C^2$).</li>
+              <li>Resuelve un sistema tridiagonal para obtener los coeficientes.</li>
+              <li><strong>Evita oscilaciones</strong> de Runge; curvas suaves y físicamente congruentes.</li>
             </ul>
           </div>
         </div>
@@ -139,67 +136,58 @@
       <div class="col-lg-5 col-xl-4 animate-fade-up" style="animation-delay: 0.05s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-sliders2"></i> Parámetros de la Ecuación
+            <i class="bi bi-table"></i> Nodos de Interpolación
           </div>
           <div class="card-body p-4 d-flex flex-column justify-content-between">
             
-            <div class="d-flex flex-column gap-3 mb-4">
-              <!-- f(x) Expression -->
-              <div>
-                <label for="r-funcion" class="form-label mb-1">Función $f(x)$ <span class="text-muted small">(Sintaxis JS)</span></label>
-                <input type="text" id="r-funcion"
-                       class="form-control form-control-sm font-monospace text-primary fw-semibold"
-                       value="2*Math.pow(x,2) + 50*x - 2500" />
+            <div>
+              <p class="small text-muted mb-3">Modifica o añade puntos para simular la variación del precio por día (Eje X: Día, Eje Y: Precio en Bs). El ejemplo preconfigurado representa la evolución del precio de un producto básico (papa, aceite u otro bien de primera necesidad) en mercados paceños durante un mes de interrupción logística.</p>
+              
+              <!-- Points Table Inputs -->
+              <div class="table-responsive mb-3" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-sm mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 50%;">Día (x)</th>
+                      <th class="text-center" style="width: 50%;">Precio (y)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="interp-tbody">
+                    <!-- Dinámico -->
+                  </tbody>
+                </table>
               </div>
 
-              <!-- Derivative (Newton only) -->
-              <div id="r-derivada-container" style="display:none">
-                <label for="r-derivada" class="form-label mb-1">Derivada $f'(x)$ <span class="text-muted small">(Opcional)</span></label>
-                <input type="text" id="r-derivada"
-                       class="form-control form-control-sm font-monospace"
-                       placeholder="4*x + 50" />
+              <!-- Add/Remove Row Buttons -->
+              <div class="d-flex gap-2 mb-4">
+                <button class="btn btn-outline-secondary btn-sm w-50" onclick="Interpolacion.agregarPunto()">
+                  <i class="bi bi-plus-circle"></i> Añadir fila
+                </button>
+                <button class="btn btn-outline-secondary btn-sm w-50" onclick="Interpolacion.quitarPunto()">
+                  <i class="bi bi-dash-circle"></i> Quitar fila
+                </button>
               </div>
 
-              <!-- Method -->
-              <div>
-                <label for="r-method" class="form-label mb-1">Método Numérico</label>
-                <select id="r-method" class="form-select form-select-sm">
-                  <option value="biseccion" selected>Bisección</option>
-                  <option value="newton">Newton-Raphson</option>
-                  <option value="secante">Secante</option>
-                </select>
-              </div>
-
-              <!-- Parameters a and b -->
-              <div class="row g-2">
+              <!-- Parameters -->
+              <div class="row g-2 mb-3">
                 <div class="col-6">
-                  <label id="r-label-a" for="r-a" class="form-label mb-1">Extremo a / $x_0$</label>
-                  <input type="number" id="r-a" class="form-control form-control-sm font-monospace" value="20" step="any" />
-                </div>
-                <div class="col-6" id="r-b-container">
-                  <label id="r-label-b" for="r-b" class="form-label mb-1">Extremo b / $x_1$</label>
-                  <input type="number" id="r-b" class="form-control form-control-sm font-monospace" value="25" step="any" />
-                </div>
-              </div>
-
-              <!-- Numerical controls -->
-              <div class="row g-2">
-                <div class="col-6">
-                  <label for="r-tol" class="form-label mb-1">Tolerancia</label>
-                  <input type="number" id="r-tol" class="form-control form-control-sm font-monospace"
-                         value="0.000001" step="0.000001" min="0" />
+                  <label for="interp-xeval" class="form-label mb-1">Día a evaluar (x)</label>
+                  <input type="number" id="interp-xeval" class="form-control form-control-sm font-monospace" value="12" step="any" />
                 </div>
                 <div class="col-6">
-                  <label for="r-maxiter" class="form-label mb-1">Iter. máx.</label>
-                  <input type="number" id="r-maxiter" class="form-control form-control-sm font-monospace"
-                         value="100" min="1" />
+                  <label for="interp-method" class="form-label mb-1">Método</label>
+                  <select id="interp-method" class="form-select form-select-sm">
+                    <option value="lagrange">Lagrange</option>
+                    <option value="newton">Newton (DD)</option>
+                    <option value="spline" selected>Spline cúbico</option>
+                  </select>
                 </div>
               </div>
             </div>
 
-            <!-- Solve Button -->
-            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Raices.resolver()">
-              <i class="bi bi-search"></i> Encontrar Raíz Crítica
+            <!-- Run Button -->
+            <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm" onclick="Interpolacion.interpolar()">
+              <i class="bi bi-graph-up-arrow"></i> Calcular Curva e Interpolar
             </button>
 
           </div>
@@ -210,15 +198,15 @@
       <div class="col-lg-7 col-xl-8 animate-fade-up" style="animation-delay: 0.1s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-graph-up"></i> Curva de la Función y Raíz Encontrada
+            <i class="bi bi-activity"></i> Visualización de la Curva de Interpolación
           </div>
           <div class="card-body p-4 d-flex flex-column justify-content-between">
             <div class="chart-container py-3">
-              <canvas id="raices-chart" height="230"></canvas>
+              <canvas id="interpolacion-chart" height="230"></canvas>
             </div>
             
             <div class="d-flex justify-content-end gap-2 mt-2">
-              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Raices.limpiar()">
+              <button class="btn btn-outline-secondary btn-sm px-3" onclick="Interpolacion.limpiar()">
                 <i class="bi bi-eraser"></i> Limpiar
               </button>
             </div>
@@ -233,11 +221,11 @@
       <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.15s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-success fw-bold border-bottom py-3">
-            <i class="bi bi-terminal"></i> Resultados y Convergencia
+            <i class="bi bi-terminal"></i> Resultados y Análisis del Precio
           </div>
           <div class="card-body p-4">
-            <div id="raices-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
-              <p class="text-muted small mb-0">Los resultados detallados y la tabla de iteraciones se calcularán aquí al presionar "Encontrar Raíz Crítica".</p>
+            <div id="interp-resultado" class="result-area mb-0" style="max-height: 380px; overflow-y: auto;">
+              <p class="text-muted small mb-0">Los resultados detallados se calcularán aquí.</p>
             </div>
           </div>
         </div>
@@ -246,17 +234,17 @@
       <div class="col-lg-6 animate-fade-up" style="animation-delay: 0.2s;">
         <div class="card border-0 h-100 shadow-sm">
           <div class="card-header bg-transparent text-primary fw-bold border-bottom py-3">
-            <i class="bi bi-journal-text"></i> Detalles del Modelo del Umbral
+            <i class="bi bi-journal-text"></i> Detalles del Desafío C
           </div>
           <div class="card-body p-4" style="font-size:0.9rem;">
-            <h6 class="fw-bold mb-2 text-primary">Modelación de Puntos de Quiebre</h6>
+            <h6 class="fw-bold mb-2 text-primary">Lagrange, Newton vs Spline Cúbico</h6>
             <p class="text-muted small">
-              Identificar la raíz $f(x)=0$ determina el momento exacto en el que cambian las condiciones de estabilidad del sistema:
+              La interpolación reconstruye la dinámica de precios en el mercado local frente a la dispersión de datos semanales:
             </p>
             <div class="p-3 bg-light rounded border border-light mb-3 text-muted small">
-              <ul class="mb-0 ps-3 flex-column gap-1">
-                <li><strong>Ingreso vs Gasto (Escenario E):</strong> La variable $x$ representa el día del mes. Hallamos el día exacto donde los costos acumulados de la canasta básica cruzan el umbral de 3.500 Bs — valor tomado como referencia al salario mínimo nacional boliviano — en un contexto de incremento no lineal de precios.</li>
-                <li><strong>Equilibrio Logístico:</strong> Hallamos la tasa mínima de reposición $r$ (litros/día) que equilibra el vaciado por consumo de carburantes en las plantas de almacenamiento, considerando una demanda elevada como la que se observa en episodios de desabastecimiento.</li>
+              <ul class="mb-0 ps-3 flex-column gap-2">
+                <li><strong>Fenómeno de Runge (Lagrange/Newton):</strong> Cuando hay un número elevado de puntos distribuidos equiespaciadamente, los polinomios globales oscilan fuertemente cerca de los extremos.</li>
+                <li><strong>Splines Cúbicos:</strong> Interpolan por intervalos con continuidad de primer y segundo orden ($C^2$), garantizando curvas suaves, muy estables y físicamente congruentes.</li>
               </ul>
             </div>
           </div>
@@ -292,7 +280,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
   <!-- Módulos numéricos -->
-  <script src="js/raices.js"></script>
-  <script src="js/main.js"></script>
+  <script src="../js/interpolacion.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

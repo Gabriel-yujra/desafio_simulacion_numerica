@@ -47,10 +47,11 @@ Herramienta web interactiva que modela distintos escenarios de crisis mediante c
 
 | Recurso | Uso |
 |---|---|
-| HTML5 | Estructura semántica de la página |
-| CSS3 + Bootstrap 5.3.3 (CDN) | Diseño responsivo y componentes UI |
-| JavaScript ES6+ | Lógica de cálculo y manipulación del DOM |
-| Chart.js 4.4.3 (CDN) | Visualización de gráficos y curvas |
+| HTML5 | Estructura semántica multi-página |
+| CSS3 + Bootstrap 5.3.3 (CDN) | Diseño responsivo, componentes UI y sistema de temas claro/oscuro |
+| JavaScript ES6+ | Lógica de cálculo (IIFEs por módulo) y manipulación del DOM |
+| Chart.js 4.4.3 (CDN) | Visualización de gráficos y curvas de convergencia |
+| MathJax 3 (CDN) | Renderizado de fórmulas matemáticas en LaTeX |
 
 Sin backend. Página estática publicable directamente en GitHub Pages, Netlify o Vercel.
 
@@ -60,18 +61,28 @@ Sin backend. Página estática publicable directamente en GitHub Pages, Netlify 
 
 ```
 simulacion_numerica_de_abastecimiento/
-├── index.html                       ← Página principal (única)
+├── index.html                       ← Página de inicio (única en la raíz)
 ├── README.md
+├── CLAUDE.md
+├── pages/                           ← Páginas de módulos
+│   ├── sistemas_lineales.html       ← Módulo 1
+│   ├── raices.html                  ← Módulo 2
+│   ├── interpolacion.html           ← Módulo 3
+│   ├── integracion.html             ← Módulo 4
+│   ├── edo.html                     ← Módulo 5
+│   └── conclusiones.html
 ├── css/
-│   └── styles.css                   ← Estilos globales y responsivos
+│   └── styles.css                   ← Estilos globales y sistema de temas claro/oscuro
 └── js/
-    ├── main.js                      ← Inicialización, scroll-spy y utilidades SimNum
+    ├── main.js                      ← Inicialización de tema, navbar activo y utilidades SimNum
     ├── sistemas_lineales.js         ← LU, Jacobi, Gauss-Seidel, SOR, Gradiente Conjugado
     ├── raices.js                    ← Bisección, Newton-Raphson, Secante
     ├── interpolacion.js             ← Lagrange, Newton dif. divididas, Spline cúbico natural
     ├── integracion.js               ← Trapecio, Simpson 1/3, Simpson 3/8
-    └── ecuaciones_diferenciales.js  ← Euler, Heun, RK4 (1D y 3D)
+    └── ecuaciones_diferenciales.js  ← Euler, Heun, RK4 (modelos 1D reservas y 3D social N-M-D)
 ```
+
+Los archivos en `pages/` referencian los recursos con rutas relativas `../css/` y `../js/`. `index.html` enlaza a los módulos con rutas `pages/nombre.html`.
 
 Cada archivo JS de módulo expone un IIFE con métodos públicos (`init`, `resolver`/`calcular`/`simular`, `limpiar`) llamados directamente desde los botones del HTML. Las utilidades compartidas están en el objeto `SimNum` definido en `main.js`.
 
@@ -87,7 +98,7 @@ git clone https://github.com/Gabriel-yujra/simulacion_numerica_de_abastecimiento
 cd simulacion_numerica_de_abastecimiento
 ```
 
-Abrir `index.html` directamente en el navegador, o usar un servidor local para evitar restricciones CORS:
+Abrir `index.html` directamente en el navegador. Las páginas de módulos están en `pages/` y se navegan desde el navbar. Para evitar restricciones CORS al cargar scripts, se recomienda un servidor local:
 
 ```bash
 # Con Python 3
